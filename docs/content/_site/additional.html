@@ -1,0 +1,88 @@
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="#version"><code class="language-plaintext highlighter-rouge">version</code></a></td>
+      <td><code class="language-plaintext highlighter-rouge">site.github.latest_release.tag_name</code></td>
+    </tr>
+    <tr>
+      <td><a href="#automatic-page-titles"><code class="language-plaintext highlighter-rouge">auto_page_title</code></a></td>
+      <td><code class="language-plaintext highlighter-rouge">false</code></td>
+    </tr>
+    <tr>
+      <td><a href="#mermaid-enabled"><code class="language-plaintext highlighter-rouge">mermaid_enabled</code></a></td>
+      <td><code class="language-plaintext highlighter-rouge">true</code></td>
+    </tr>
+    <tr>
+      <td><a href="#mermaid-theme"><code class="language-plaintext highlighter-rouge">meraid_theme</code></a></td>
+      <td><code class="language-plaintext highlighter-rouge">forest</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="version">Version</h2>
+
+<p>The layout includes an updated timestamp in the footer by default, but can also include a version
+string.</p>
+
+<p>This will automatically pull the <code class="language-plaintext highlighter-rouge">tag_name</code> from the latest release of the repository on GitHub. If
+there is no latest release or tag name, then it will fall back to the <code class="language-plaintext highlighter-rouge">build_revision</code>, i.e. the
+git SHA, of the commit that triggered the page build.</p>
+
+<p>If you don’t want this behavior, you can explicitly set the <code class="language-plaintext highlighter-rouge">version</code> attribute in your
+<code class="language-plaintext highlighter-rouge">_config.yml</code> file and it’s value will be displayed in the footer next to the updated timestamp.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s">v1.2.3</span>
+</code></pre></div></div>
+
+<p>If you don’t want a version to be displayed at all, you can opt-out by setting <code class="language-plaintext highlighter-rouge">version</code> to `false.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="no">false</span>
+</code></pre></div></div>
+
+<h2 id="automatic-page-titles">Automatic Page Titles</h2>
+
+<p>The layout can automatically add a <code class="language-plaintext highlighter-rouge">&lt;h1&gt;</code> element at the top of the content containing the page’s
+title if it is present.</p>
+
+<p>To enable this, set <code class="language-plaintext highlighter-rouge">auto_page_title</code> to <code class="language-plaintext highlighter-rouge">true</code> in your <code class="language-plaintext highlighter-rouge">_config.yml</code> file.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">auto_page_title</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div></div>
+
+<h3 id="per-page-opt-out">Per-page Opt-out</h3>
+
+<p>If you don’t want this behavior on a specific page, you can add set <code class="language-plaintext highlighter-rouge">auto_title</code> to <code class="language-plaintext highlighter-rouge">false</code> in the
+<a href="https://docs.github.com/en/github/working-with-github-pages/about-github-pages-and-jekyll#front-matter">front matter</a>
+of the page.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+id: my-page
+title: My Title
+auto_title: false
+---
+
+# My explicit title here
+
+</code></pre></div></div>
+
+<h1 id="mermaid">Mermaid</h1>
+<p>This theme supports rendering of <a href="https://mermaid-js.github.io/">MermaidJS</a> diagrams. It does so in a way that maintains compatibility with the native Mermaid diagram rendering in the Github UI. For example:</p>
+
+<pre><code class="language-mermaid">graph TD;
+    A--&gt;B;
+    A--&gt;C;
+    B--&gt;D;
+    C--&gt;D;
+</code></pre>
+
+<h2 id="mermaid-enabled">Disabling Mermaid Support</h2>
+<p>If you don’t want to use Mermaid diagrams, you can set the <code class="language-plaintext highlighter-rouge">mermaid_enabled</code> option in your <code class="language-plaintext highlighter-rouge">_config.yml</code> file to <code class="language-plaintext highlighter-rouge">false</code>.</p>
+
+<h2 id="mermaid-theme">Customising the Mermaid theme</h2>
+<p>Mermaid supports a number of default themes. This can be configured using the <code class="language-plaintext highlighter-rouge">mermaid_theme</code> option in your <code class="language-plaintext highlighter-rouge">_config.yml</code> file. Note that this theme must be supported in the <a href="https://mermaid-js.github.io/mermaid/#/./Setup?id=theme">Mermaid configuration</a>.</p>

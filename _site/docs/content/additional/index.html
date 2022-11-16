@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Additional Config</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/css/rouge.css"
+    />
+    <script src="/assets/js/accordian.js"></script>
+    <script src="/assets/js/heading_links.js"></script>
+    
+    <script src="/assets/js/vendor/lunr.min.js"></script>
+    <script src="/assets/js/search.js"></script>
+    
+  </head>
+
+  <body>
+    <div class="chrome">
+      <div class="chrome:nav">
+      <img src="/assets/images/cloudera_logo_WHITE.png" alt="Link to GitHub Repository">
+  
+</div>
+
+      <div class="chrome:body">
+        <header class="chrome:header">
+  <div class="chrome:header_title">
+    <a href="/" class="text-grey-800 no-underline hover:no-underline focus:no-underline">
+      <span class="text-3xl">Cloudera Labs</span>
+    </a>
+  </div>
+   <div class="chrome:header_item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" focusable="false" viewBox="0 0 26 26">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+    <circle cx="11" cy="11" r="7"/>
+    <path d="M16 16l6 6"/>
+  </g>
+</svg>
+
+  <form id="search">
+    <input
+      type="text"
+      id="search_input"
+      name="search_query"
+      class="search_input"
+      placeholder="Search Cloudera Labs"
+      autocomplete="off"
+    />
+  </form>
+</div>
+ 
+</header>
+
+        <div class="chrome:content">
+          <div class="chrome:main">
+            
+            
+            <h1 id="additional-config">Additional Config</h1>
+            
+            
+            <table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="#version"><code class="language-plaintext highlighter-rouge">version</code></a></td>
+      <td><code class="language-plaintext highlighter-rouge">site.github.latest_release.tag_name</code></td>
+    </tr>
+    <tr>
+      <td><a href="#automatic-page-titles"><code class="language-plaintext highlighter-rouge">auto_page_title</code></a></td>
+      <td><code class="language-plaintext highlighter-rouge">false</code></td>
+    </tr>
+    <tr>
+      <td><a href="#mermaid-enabled"><code class="language-plaintext highlighter-rouge">mermaid_enabled</code></a></td>
+      <td><code class="language-plaintext highlighter-rouge">true</code></td>
+    </tr>
+    <tr>
+      <td><a href="#mermaid-theme"><code class="language-plaintext highlighter-rouge">meraid_theme</code></a></td>
+      <td><code class="language-plaintext highlighter-rouge">forest</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="version">Version</h2>
+
+<p>The layout includes an updated timestamp in the footer by default, but can also include a version
+string.</p>
+
+<p>This will automatically pull the <code class="language-plaintext highlighter-rouge">tag_name</code> from the latest release of the repository on GitHub. If
+there is no latest release or tag name, then it will fall back to the <code class="language-plaintext highlighter-rouge">build_revision</code>, i.e. the
+git SHA, of the commit that triggered the page build.</p>
+
+<p>If you don’t want this behavior, you can explicitly set the <code class="language-plaintext highlighter-rouge">version</code> attribute in your
+<code class="language-plaintext highlighter-rouge">_config.yml</code> file and it’s value will be displayed in the footer next to the updated timestamp.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s">v1.2.3</span>
+</code></pre></div></div>
+
+<p>If you don’t want a version to be displayed at all, you can opt-out by setting <code class="language-plaintext highlighter-rouge">version</code> to `false.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="no">false</span>
+</code></pre></div></div>
+
+<h2 id="automatic-page-titles">Automatic Page Titles</h2>
+
+<p>The layout can automatically add a <code class="language-plaintext highlighter-rouge">&lt;h1&gt;</code> element at the top of the content containing the page’s
+title if it is present.</p>
+
+<p>To enable this, set <code class="language-plaintext highlighter-rouge">auto_page_title</code> to <code class="language-plaintext highlighter-rouge">true</code> in your <code class="language-plaintext highlighter-rouge">_config.yml</code> file.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">auto_page_title</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div></div>
+
+<h3 id="per-page-opt-out">Per-page Opt-out</h3>
+
+<p>If you don’t want this behavior on a specific page, you can add set <code class="language-plaintext highlighter-rouge">auto_title</code> to <code class="language-plaintext highlighter-rouge">false</code> in the
+<a href="https://docs.github.com/en/github/working-with-github-pages/about-github-pages-and-jekyll#front-matter">front matter</a>
+of the page.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+id: my-page
+title: My Title
+auto_title: false
+---
+
+# My explicit title here
+
+</code></pre></div></div>
+
+<h1 id="mermaid">Mermaid</h1>
+<p>This theme supports rendering of <a href="https://mermaid-js.github.io/">MermaidJS</a> diagrams. It does so in a way that maintains compatibility with the native Mermaid diagram rendering in the Github UI. For example:</p>
+
+<pre><code class="language-mermaid">graph TD;
+    A--&gt;B;
+    A--&gt;C;
+    B--&gt;D;
+    C--&gt;D;
+</code></pre>
+
+<h2 id="mermaid-enabled">Disabling Mermaid Support</h2>
+<p>If you don’t want to use Mermaid diagrams, you can set the <code class="language-plaintext highlighter-rouge">mermaid_enabled</code> option in your <code class="language-plaintext highlighter-rouge">_config.yml</code> file to <code class="language-plaintext highlighter-rouge">false</code>.</p>
+
+<h2 id="mermaid-theme">Customising the Mermaid theme</h2>
+<p>Mermaid supports a number of default themes. This can be configured using the <code class="language-plaintext highlighter-rouge">mermaid_theme</code> option in your <code class="language-plaintext highlighter-rouge">_config.yml</code> file. Note that this theme must be supported in the <a href="https://mermaid-js.github.io/mermaid/#/./Setup?id=theme">Mermaid configuration</a>.</p>
+
+             <div class="pagination">
+  
+  <div class="pagination_item">
+    
+    
+    <a href="/docs/content/search/" class="text-lg">
+      &lsaquo; Search
+    </a>
+    
+  </div>
+  
+  
+  
+  <div class="pagination_gap"></div>
+  
+</div>
+ 
+          </div>
+           <div class="chrome:sidebar">
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:ansible foundry"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_collapsed"
+        onclick="toggleAccordian('sidebar_item:ansible foundry')"
+      >
+        <span class="chrome:sidebar_item_text">Ansible Foundry</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:ansible foundry:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_collapsed">
+        
+          
+          
+          
+          <a href="/docs/content/ansible_intro/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Introduction
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_developers/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Developers
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:cdp pvc data services"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_collapsed"
+        onclick="toggleAccordian('sidebar_item:cdp pvc data services')"
+      >
+        <span class="chrome:sidebar_item_text">CDP PvC Data Services</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:cdp pvc data services:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_collapsed">
+        
+          
+          
+          
+          <a href="/docs/content/ecs_env/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: Client
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_gpu/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: GPU
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <a href="/docs/development/" class="chrome:sidebar_item ">
+        <span class="chrome:sidebar_item_text">Coming Soon</span>
+      </a>
+      
+    
+  
+</div>
+ 
+        </div>
+        <footer class="chrome:footer"><div class="chrome:footer_item">
+    <span class="text-lg"
+      >Updated: 2022-11-16 16:58</span
+    >
+  </div>
+</footer>
+
+      </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        let theme = "forest";
+        mermaid.initialize({ startOnLoad: true, theme });
+        window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    </script>
+    
+  </body>
+</html>

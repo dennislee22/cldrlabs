@@ -1,0 +1,17 @@
+<p>Relative navigation links can be added at the end of the content for any page.</p>
+
+<p>In the <a href="https://docs.github.com/en/github/working-with-github-pages/about-github-pages-and-jekyll#front-matter">front matter</a>
+of any page, set <code class="language-plaintext highlighter-rouge">previous_page</code> or <code class="language-plaintext highlighter-rouge">next_page</code> to the <code class="language-plaintext highlighter-rouge">id</code> of the page to link to.</p>
+
+<p>The label will behave similar to the sidebar nav label. If <code class="language-plaintext highlighter-rouge">sidebar_label</code> is set, that will be
+used otherwise the <code class="language-plaintext highlighter-rouge">title</code> will be used.</p>
+
+<h4 id="example">Example</h4>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">id</span><span class="pi">:</span> <span class="s">page-2</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s">Page </span><span class="m">2</span>
+<span class="na">previous_page</span><span class="pi">:</span> <span class="s">page-1</span>
+<span class="na">next_page</span><span class="pi">:</span> <span class="s">page-3</span>
+<span class="nn">---</span>
+</code></pre></div></div>

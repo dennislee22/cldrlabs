@@ -1,0 +1,30 @@
+<p>Site search can be configured in your <code class="language-plaintext highlighter-rouge">_config.yml</code> by setting <code class="language-plaintext highlighter-rouge">search_enabled</code>.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">search_enabled</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div></div>
+
+<h3 id="indexing-pages">Indexing Pages</h3>
+
+<p>For a page to be indexed, it must meet two criteria:</p>
+
+<ol>
+  <li>
+    <p>It must produce HTML content.</p>
+
+    <p>This means markdown/text/etc… files are included while things like asset files are not.</p>
+  </li>
+  <li>
+    <p>The pages <a href="https://docs.github.com/en/github/working-with-github-pages/about-github-pages-and-jekyll#front-matter">front matter</a>
+must include a non-empty <code class="language-plaintext highlighter-rouge">title</code> property.</p>
+
+    <p><strong>Example</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+id: my-doc
+title: My Searchable Documenet
+---
+
+## My Document
+</code></pre></div>    </div>
+  </li>
+</ol>

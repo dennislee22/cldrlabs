@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Introduction and User-orientation</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/css/rouge.css"
+    />
+    <script src="/assets/js/accordian.js"></script>
+    <script src="/assets/js/heading_links.js"></script>
+    
+    <script src="/assets/js/vendor/lunr.min.js"></script>
+    <script src="/assets/js/search.js"></script>
+    
+  </head>
+
+  <body>
+    <div class="chrome">
+      <div class="chrome:nav">
+      <img src="/assets/images/cloudera_logo_WHITE.png" alt="Link to GitHub Repository">
+  
+</div>
+
+      <div class="chrome:body">
+        <header class="chrome:header">
+  <div class="chrome:header_title">
+    <a href="/" class="text-grey-800 no-underline hover:no-underline focus:no-underline">
+      <span class="text-3xl">Cloudera Labs</span>
+    </a>
+  </div>
+   <div class="chrome:header_item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" focusable="false" viewBox="0 0 26 26">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+    <circle cx="11" cy="11" r="7"/>
+    <path d="M16 16l6 6"/>
+  </g>
+</svg>
+
+  <form id="search">
+    <input
+      type="text"
+      id="search_input"
+      name="search_query"
+      class="search_input"
+      placeholder="Search Cloudera Labs"
+      autocomplete="off"
+    />
+  </form>
+</div>
+ 
+</header>
+
+        <div class="chrome:content">
+          <div class="chrome:main">
+            
+            
+            <h1 id="introduction-and-user-orientation">Introduction and User-orientation</h1>
+            
+            
+            <ul id="markdown-toc">
+  <li><a href="#ansible-automation-for-cloudera-products" id="markdown-toc-ansible-automation-for-cloudera-products">Ansible Automation for Cloudera Products</a></li>
+  <li><a href="#what-to-expect" id="markdown-toc-what-to-expect">What to Expect</a></li>
+  <li><a href="#what-is-cloudera-ansible-foundry" id="markdown-toc-what-is-cloudera-ansible-foundry">What is Cloudera Ansible Foundry</a></li>
+  <li><a href="#what-is-cloudera-deploy" id="markdown-toc-what-is-cloudera-deploy">What is Cloudera Deploy</a></li>
+  <li><a href="#licensing-warranties-and-restrictions" id="markdown-toc-licensing-warranties-and-restrictions">Licensing, Warranties and Restrictions</a></li>
+  <li><a href="#use-cases" id="markdown-toc-use-cases">Use Cases</a>    <ul>
+      <li><a href="#simple-use-cases" id="markdown-toc-simple-use-cases">Simple Use Cases</a></li>
+      <li><a href="#intermediate-use-cases" id="markdown-toc-intermediate-use-cases">Intermediate Use Cases</a></li>
+      <li><a href="#framework-components" id="markdown-toc-framework-components">Framework Components</a></li>
+      <li><a href="#cloudera-deploy" id="markdown-toc-cloudera-deploy">cloudera-deploy</a></li>
+      <li><a href="#cldr-runner" id="markdown-toc-cldr-runner">cldr-runner</a></li>
+      <li><a href="#cdpy" id="markdown-toc-cdpy">cdpy</a></li>
+      <li><a href="#cloudera-ansible-collections" id="markdown-toc-cloudera-ansible-collections">Cloudera Ansible Collections</a></li>
+      <li><a href="#example-deployment-definitions" id="markdown-toc-example-deployment-definitions">Example Deployment Definitions</a></li>
+    </ul>
+  </li>
+  <li><a href="#getting-started" id="markdown-toc-getting-started">Getting Started</a></li>
+  <li><a href="#prerequisites" id="markdown-toc-prerequisites">Prerequisites</a></li>
+  <li><a href="#understanding-the-skills-gap" id="markdown-toc-understanding-the-skills-gap">Understanding the Skills Gap</a>    <ul>
+      <li><a href="#personas" id="markdown-toc-personas">Personas</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="ansible-automation-for-cloudera-products">Ansible Automation for Cloudera Products</h2>
+<p>AKA: Cloudera Deploy | Cloudera AutoProv | Cloudera Ansible Foundry | Cloudera Playbooks</p>
+
+<h2 id="what-to-expect">What to Expect</h2>
+<p>These docs are for new users and power users alike to leverage Cloudera’s Ansible implementation for deployment and automation of Cloudera Products within the wider Hybrid Data Cloud ecosystem.</p>
+
+<p>It is generally broken into several sections:</p>
+
+<p>For all users:
+These introductory notes to orient new users</p>
+
+<p>– A discussion of Use Cases that the Framework supports</p>
+
+<p>– A Getting Started guide based around user goals and skill levels</p>
+
+<p>– An Overview of preparing Definitions for Deployment</p>
+
+<p>For Developers:
+– A History and guiding principles</p>
+
+<p>– A breakdown of Framework Components</p>
+
+<p>– An in-depth Setup Guide</p>
+
+<p>– Logical breakdowns of key Workflows within the Playbooks</p>
+
+<p>– A Reference guide to all Definition options</p>
+
+<h2 id="what-is-cloudera-ansible-foundry">What is Cloudera Ansible Foundry</h2>
+<p>This framework is generally called the Cloudera Ansible Foundry, and it wraps software dependencies, automation code, examples, and documentation into an integrated family.</p>
+
+<p>It further provides a consistent and portable toolkit for working in Python, Bash, Terraform, various CLIs, language clients, ad-hoc commands, and other commonly used tools in the Hybrid Cloud ecosystem.</p>
+
+<h2 id="what-is-cloudera-deploy">What is Cloudera Deploy</h2>
+<p>Cloudera Deploy is the name of the reference implementation in Ansible Playbooks for automating Cloudera Products.</p>
+
+<p>For most users, Cloudera-Deploy is the entrypoint and only component they need interact with, but underneath it there is an extensible framework of components for handling various scenarios for power-users.</p>
+
+<p>To that end, you can use Cloudera-Deploy itself directly, or use it as a starting point for your own implementation, or simply use the components within for your own purposes.</p>
+
+<h2 id="licensing-warranties-and-restrictions">Licensing, Warranties and Restrictions</h2>
+<p>Cloudera-Deploy and the underlying framework are all open source, mostly under the Apache 2.0 license or compatible licenses.</p>
+
+<p>The software is provided without Warranty or Guarantee of Support - it therefore differs from, and is complementary to, Software provided by Cloudera or other Vendors under commercial agreements.</p>
+
+<p>However, while we do not guarantee support, Cloudera use this software along with our partners and customers, and thus strive to maintain it to the same high standards of our other products in the best spirit of community and partnership.</p>
+
+<h2 id="use-cases">Use Cases</h2>
+<h3 id="simple-use-cases">Simple Use Cases</h3>
+<p>These simple use cases can be run from the Cloudera-Deploy Quickstart without requiring additional skills in advance beyond use of cmdline, docker, and cloud credentials</p>
+
+<p>– Deploy Reference Architectures for CDP Public on AWS, GCP, or Azure</p>
+
+<p>– Deploying from OSX, Windows10, or Linux machines</p>
+
+<p>– Leverage Ansible or Terraform for Cloud Infrastructure</p>
+
+<p>– Deploy CDP Base clusters to most supported OS targets</p>
+
+<p>– Deploy Applications on various CDP implementations</p>
+
+<p>– Teardown and other lifecycling task</p>
+
+<h3 id="intermediate-use-cases">Intermediate Use Cases</h3>
+<p>In these cases, we expect that you are a more experienced DevOps user with particular goals in mind and at a good working knowledge of the technologies in play</p>
+
+<p>– Deploy CDP Private Cloud on a Kubernetes Variant</p>
+
+<p>– Deploy Applications across multiple CDP Hybrid Cloud Environments</p>
+
+<p>– Integrate a 3rd party component into the Framework</p>
+
+<p>– Create a mirror of archive.cloudera.com or custom offline repo of parcels</p>
+
+<p>– Use the framework within Ansible Tower, or via CICD integration</p>
+
+<p>– Handle partial deployments or partial teardowns using run levels</p>
+
+<p>– Automate deployment to adopted infrastructure</p>
+
+<p>– Extend the Ansible Collections to handle additional cases</p>
+
+<p>– Force remove cloud infrastructure within a given namespace</p>
+
+<h3 id="framework-components">Framework Components</h3>
+<p>Here we will give more of a sense of what is in each of the repositories within the framework</p>
+
+<h3 id="cloudera-deploy">cloudera-deploy</h3>
+<p>This is the standard entry-point for most users, most of the time.</p>
+
+<p>It contains the main Ansible Playbooks, default User Profile, Definition handling, and Run initialization.</p>
+
+<p>It also usually contains other ease-of-use features for new users, like the current Dynamic Inventory implementation, until such time as they are matured into their own separate feature.</p>
+
+<h3 id="cldr-runner">cldr-runner</h3>
+<p>A Container image as a common Runner with all dependencies suitable for use locally, with Ansible Tower, against an IDE, or various other circumstances</p>
+
+<p>It is based in a centos8 image produced by the Ansible Community, known as ‘Ansible Runner’. We then resolve the difficulty of conflicting dependencies to layer in the various clients, python modules, utilities, and other bits and pieces that make it a useful shell or remote execution environment for working with Hybrid Cloud.</p>
+
+<p>You can also use this as a template for your own specific implementation, but we ask Users to adopt it as their default if they don’t have a reason not too for the simple benefit of not reinventing something that works well and reduces the burden of reproducing errors.</p>
+
+<h3 id="cdpy">cdpy</h3>
+<p>A Python client for the CDP Control Plane, both Public and Private.</p>
+
+<p>This is essentially a convenience wrapper for CDPCLI, which itself is based in a fork of AWSCLI and fully written in Python.</p>
+
+<p>cdpy contains a large number of helper methods which are reused throughout the cloudera.cloud modules, as well as well-structured Ansible-friendly error handling.</p>
+
+<h3 id="cloudera-ansible-collections">Cloudera Ansible Collections</h3>
+<p>cloudera.cloud
+This Collection is primarily un-opinionated modules for the CDP Control Plane in Public or Private Cloud.</p>
+
+<p>The point of keeping the modules unopinionated and solely covering the CDP Control Plane interactions is to minimise the dependencies and attack surface for users who aren’t using Public Cloud.</p>
+
+<p>cloudera.exe
+This Collection is highly opinionated Roles for most task sequences around achieving some run-level or dependency satisfaction.</p>
+
+<p>The concept of run-level deployments in cloudera.exe is explained later in the Architecture.</p>
+
+<p>cloudera.cluster
+This Collection is focused on Deploying &amp; Configuring Clusters via Cloudera Manager - usually traditional Cloudera clusters.</p>
+
+<p>It is backwards compatible with the Cloudera Playbooks written for Ansible &lt;2.9, whereas this Collection is for &gt;2.10</p>
+
+<h3 id="example-deployment-definitions">Example Deployment Definitions</h3>
+<p>Example Definitions for use with Cloudera-Deploy, presently bundled here</p>
+
+<p>We plan on publishing more examples soon.</p>
+
+<h2 id="getting-started">Getting Started</h2>
+<p>Cloudera-Deploy is designed for use both internally and externally by Cloudera Engineering, Testing, Education, Support, Field, Sales, Marketing and other staff, but also the same code and artefacts are used by Customers, Partners, Resellers, and our Community.</p>
+
+<p>As such, we have set it up so a new user can get started in as little as 3 steps, while not limiting Power Users from leveraging the full suite of capabilities.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+<p>While Cloudera-Deploy aims to remove as many complexities for the new user, there are still a few dependencies like authentication and runtimes required for it to work. The quickstart guide contains extra prerequisite steps that you are advised to follow if this is your first time using new credentials or tools such as AWS CLI.</p>
+
+<h2 id="understanding-the-skills-gap">Understanding the Skills Gap</h2>
+<p>We recognise there is a significant jump in the skills and knowledge required to go from using the pre-configured push-button examples in the ‘Simple’ section to more complex cases the ‘Intermediate’ section and beyond.</p>
+
+<p>There are several good introductory courses online for Ansible and Terraform use in Hybrid Cloud Architectures. Cloudera also offers a training program tailored to these tools to interested Customers and Partners.</p>
+
+<p>You can also reach out to your Cloudera contacts for assistance in these deployments at any time.</p>
+
+<h3 id="personas">Personas</h3>
+<p>New to Automation
+Using Cloudera-Deploy without modifying it only requires a couple of steps and some cloud credentials. It is designed to be extremely accessible to new users.</p>
+
+<p>If this is your first time, we suggest running the Cloudera-Deploy Quickstart using one of the prebuilt Definitions before diving in further.</p>
+
+<p>Skills required:
+commandline, editing text files, cloud credential management</p>
+
+<p>Create your own Definitions
+Crafting Definitions is just editing text files to declare what the Deployment should look like, and allowing Cloudera-Deploy to interpret and produce what you have described. The files are written in YAML with a simple structure.</p>
+
+<p>Once you have worked out how to run a basic Deployment via the Quickstart, you may wish to customise it to meet your requirements. A summary of editing Definitions is included in the Getting Started sections for CDP Public Cloud and CDP Private Cloud.</p>
+
+<p>There is also a detailed explanation of how Definitions work in the Deployments Reference in the Developer’s Guide, though reading the rest of these Docs and examining the other Definition examples may also be helpful.</p>
+
+<p>Additional skills required:
+YAML editing and formatting, Cloudera-Deploy Definitions management</p>
+
+<p>Create your own Playbooks
+Creating your own Playbooks requires a working understanding of authoring Ansible tasks and how to use Modules and Roles from Ansible Collections. It goes a step beyond editing YAML declarations into understanding the sequences of steps necessary to achieve a given outcome in a hopefully robust manner.</p>
+
+<p>We will soon be publishing more examples of Application Playbooks on top of Cloudera-Deploy, but you can review the Playbooks already included as a starting point.</p>
+
+<p>We suggest you start by fully reading this documentation including the Developer sections and how the existing Workflows are structured.</p>
+
+<p>Additional skills required:
+Ansible Task development, use of Ansible Collections, advanced use of Ansible Tags, experience with multi-tier automation abstractions</p>
+
+<p>Extend the Framework
+If you are familiar with Ansible and Cloudera Products, and are considering adding Ansible modules or Roles to the Collections, then you may wish to follow the Developer Setup to fork and checkout the Framework components so you can make (and perhaps contribute back) your own changes.</p>
+
+<p>Additional skills required:
+Python development, Ansible test frameworks and debugging, Docker Containers</p>
+
+            
+          </div>
+           <div class="chrome:sidebar">
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:ansible foundry"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_expanded"
+        onclick="toggleAccordian('sidebar_item:ansible foundry')"
+      >
+        <span class="chrome:sidebar_item_text">Ansible Foundry</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:ansible foundry:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_expanded">
+        
+          
+          
+          
+          <a href="/docs/content/ansible_intro/" class="chrome:sidebar_item text-sm chrome:active_sidebar_item chrome:sidebar_item_child">
+            Introduction
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_developers/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Developers
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:cdp pvc data services"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_collapsed"
+        onclick="toggleAccordian('sidebar_item:cdp pvc data services')"
+      >
+        <span class="chrome:sidebar_item_text">CDP PvC Data Services</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:cdp pvc data services:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_collapsed">
+        
+          
+          
+          
+          <a href="/docs/content/ecs_env/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: Client
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_gpu/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: GPU
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <a href="/docs/development/" class="chrome:sidebar_item ">
+        <span class="chrome:sidebar_item_text">Coming Soon</span>
+      </a>
+      
+    
+  
+</div>
+ 
+        </div>
+        <footer class="chrome:footer"><div class="chrome:footer_item">
+    <span class="text-lg"
+      >Updated: 2022-11-16 16:58</span
+    >
+  </div>
+</footer>
+
+      </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        let theme = "forest";
+        mermaid.initialize({ startOnLoad: true, theme });
+        window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    </script>
+    
+  </body>
+</html>

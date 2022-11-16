@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Search</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/css/rouge.css"
+    />
+    <script src="/assets/js/accordian.js"></script>
+    <script src="/assets/js/heading_links.js"></script>
+    
+    <script src="/assets/js/vendor/lunr.min.js"></script>
+    <script src="/assets/js/search.js"></script>
+    
+  </head>
+
+  <body>
+    <div class="chrome">
+      <div class="chrome:nav">
+      <img src="/assets/images/cloudera_logo_WHITE.png" alt="Link to GitHub Repository">
+  
+</div>
+
+      <div class="chrome:body">
+        <header class="chrome:header">
+  <div class="chrome:header_title">
+    <a href="/" class="text-grey-800 no-underline hover:no-underline focus:no-underline">
+      <span class="text-3xl">Cloudera Labs</span>
+    </a>
+  </div>
+   <div class="chrome:header_item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" focusable="false" viewBox="0 0 26 26">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+    <circle cx="11" cy="11" r="7"/>
+    <path d="M16 16l6 6"/>
+  </g>
+</svg>
+
+  <form id="search">
+    <input
+      type="text"
+      id="search_input"
+      name="search_query"
+      class="search_input"
+      placeholder="Search Cloudera Labs"
+      autocomplete="off"
+    />
+  </form>
+</div>
+ 
+</header>
+
+        <div class="chrome:content">
+          <div class="chrome:main">
+            
+            
+            <h1 id="search">Search</h1>
+            
+            
+            <p>Site search can be configured in your <code class="language-plaintext highlighter-rouge">_config.yml</code> by setting <code class="language-plaintext highlighter-rouge">search_enabled</code>.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">search_enabled</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div></div>
+
+<h3 id="indexing-pages">Indexing Pages</h3>
+
+<p>For a page to be indexed, it must meet two criteria:</p>
+
+<ol>
+  <li>
+    <p>It must produce HTML content.</p>
+
+    <p>This means markdown/text/etc… files are included while things like asset files are not.</p>
+  </li>
+  <li>
+    <p>The pages <a href="https://docs.github.com/en/github/working-with-github-pages/about-github-pages-and-jekyll#front-matter">front matter</a>
+must include a non-empty <code class="language-plaintext highlighter-rouge">title</code> property.</p>
+
+    <p><strong>Example</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+id: my-doc
+title: My Searchable Documenet
+---
+
+## My Document
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+             <div class="pagination">
+  
+  <div class="pagination_item">
+    
+    
+    <a href="/docs/content/sidebar/" class="text-lg">
+      &lsaquo; Sidebar Nav
+    </a>
+    
+  </div>
+  
+  
+  <div class="pagination_gap"></div>
+  
+  
+  <div class="pagination_item">
+    
+    
+    <a href="/docs/content/relative_nav/" class="text-lg">
+      Relative Navigation &rsaquo;
+    </a>
+    
+  </div>
+  
+</div>
+ 
+          </div>
+           <div class="chrome:sidebar">
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:ansible foundry"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_collapsed"
+        onclick="toggleAccordian('sidebar_item:ansible foundry')"
+      >
+        <span class="chrome:sidebar_item_text">Ansible Foundry</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:ansible foundry:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_collapsed">
+        
+          
+          
+          
+          <a href="/docs/content/ansible_intro/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Introduction
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_developers/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Developers
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:cdp pvc data services"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_collapsed"
+        onclick="toggleAccordian('sidebar_item:cdp pvc data services')"
+      >
+        <span class="chrome:sidebar_item_text">CDP PvC Data Services</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:cdp pvc data services:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_collapsed">
+        
+          
+          
+          
+          <a href="/docs/content/ecs_env/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: Client
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_gpu/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: GPU
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <a href="/docs/development/" class="chrome:sidebar_item ">
+        <span class="chrome:sidebar_item_text">Coming Soon</span>
+      </a>
+      
+    
+  
+</div>
+ 
+        </div>
+        <footer class="chrome:footer"><div class="chrome:footer_item">
+    <span class="text-lg"
+      >Updated: 2022-11-16 16:58</span
+    >
+  </div>
+</footer>
+
+      </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        let theme = "forest";
+        mermaid.initialize({ startOnLoad: true, theme });
+        window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    </script>
+    
+  </body>
+</html>

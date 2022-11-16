@@ -1,0 +1,13 @@
+title: Cloudera Labs
+remote_theme: zendesk/jekyll-theme-zendesk-garden@main
+
+baseurl: /cloudera-labs/docs
+
+search_enabled: true
+auto_page_title: true
+
+sidebar:
+  - label: CDP PvC Data Services
+    children:
+      - sidebar
+  - development
