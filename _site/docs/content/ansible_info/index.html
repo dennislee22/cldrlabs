@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Information-oriented References</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/style.css"
+    />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link
+      rel="stylesheet"
+      href="/assets/css/rouge.css"
+    />
+    <script src="/assets/js/accordian.js"></script>
+    <script src="/assets/js/heading_links.js"></script>
+    
+    <script src="/assets/js/vendor/lunr.min.js"></script>
+    <script src="/assets/js/search.js"></script>
+    
+  </head>
+
+  <body>
+    <div class="chrome">
+      <div class="chrome:nav">
+      <img src="/assets/images/cloudera_logo_WHITE.png" alt="Link to GitHub Repository">
+  
+</div>
+
+      <div class="chrome:body">
+        <header class="chrome:header">
+  <div class="chrome:header_title">
+    <a href="/" class="text-grey-800 no-underline hover:no-underline focus:no-underline">
+      <span class="text-3xl">Cloudera Labs</span>
+    </a>
+  </div>
+   <div class="chrome:header_item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" focusable="false" viewBox="0 0 26 26">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+    <circle cx="11" cy="11" r="7"/>
+    <path d="M16 16l6 6"/>
+  </g>
+</svg>
+
+  <form id="search">
+    <input
+      type="text"
+      id="search_input"
+      name="search_query"
+      class="search_input"
+      placeholder="Search Cloudera Labs"
+      autocomplete="off"
+    />
+  </form>
+</div>
+ 
+</header>
+
+        <div class="chrome:content">
+          <div class="chrome:main">
+            
+            
+            <h1 id="information-oriented-references">Information-oriented References</h1>
+            
+            
+            <ul id="markdown-toc">
+  <li><a href="#background" id="markdown-toc-background">Background</a>    <ul>
+      <li><a href="#guiding-principles" id="markdown-toc-guiding-principles">Guiding Principles</a></li>
+      <li><a href="#history" id="markdown-toc-history">History</a></li>
+      <li><a href="#declarative-vs-procedural" id="markdown-toc-declarative-vs-procedural">Declarative vs Procedural</a></li>
+      <li><a href="#implicit-with-defaults-vs-explicit" id="markdown-toc-implicit-with-defaults-vs-explicit">Implicit with defaults vs explicit</a></li>
+      <li><a href="#multi-tier-abstraction" id="markdown-toc-multi-tier-abstraction">Multi-tier abstraction</a></li>
+      <li><a href="#ansible-collections-and-the-handling-of-variables" id="markdown-toc-ansible-collections-and-the-handling-of-variables">Ansible Collections and the Handling of Variables</a></li>
+      <li><a href="#cloud-infrastructure-and-the-naming-of-objects" id="markdown-toc-cloud-infrastructure-and-the-naming-of-objects">Cloud Infrastructure and the Naming of Objects</a></li>
+    </ul>
+  </li>
+  <li><a href="#terminology" id="markdown-toc-terminology">Terminology</a></li>
+  <li><a href="#deployments-reference" id="markdown-toc-deployments-reference">Deployments Reference</a>    <ul>
+      <li><a href="#definition-structure" id="markdown-toc-definition-structure">Definition Structure</a></li>
+      <li><a href="#crafting-your-definition" id="markdown-toc-crafting-your-definition">Crafting your Definition</a></li>
+      <li><a href="#cdp-public-definitions" id="markdown-toc-cdp-public-definitions">CDP Public Definitions</a></li>
+    </ul>
+  </li>
+  <li><a href="#workflow-reference-guide" id="markdown-toc-workflow-reference-guide">Workflow Reference Guide</a>    <ul>
+      <li><a href="#quickstartsh" id="markdown-toc-quickstartsh">quickstart.sh</a></li>
+      <li><a href="#main-playbook-in-cloudera-deploy" id="markdown-toc-main-playbook-in-cloudera-deploy">Main Playbook in Cloudera-Deploy</a></li>
+      <li><a href="#cloud-deployment-sequencing" id="markdown-toc-cloud-deployment-sequencing">Cloud Deployment Sequencing</a></li>
+      <li><a href="#cluster-deployment-sequencing" id="markdown-toc-cluster-deployment-sequencing">Cluster Deployment Sequencing</a></li>
+      <li><a href="#dynamic-inventory" id="markdown-toc-dynamic-inventory">Dynamic Inventory</a></li>
+    </ul>
+  </li>
+  <li><a href="#definition-reference-guide" id="markdown-toc-definition-reference-guide">Definition Reference Guide</a>    <ul>
+      <li><a href="#profile" id="markdown-toc-profile">Profile</a></li>
+      <li><a href="#globals" id="markdown-toc-globals">Globals</a></li>
+      <li><a href="#infrastructure" id="markdown-toc-infrastructure">Infrastructure</a></li>
+      <li><a href="#environment" id="markdown-toc-environment">Environment</a></li>
+      <li><a href="#datahubs" id="markdown-toc-datahubs">Datahubs</a></li>
+      <li><a href="#data-engineering" id="markdown-toc-data-engineering">Data Engineering</a></li>
+      <li><a href="#data-flow" id="markdown-toc-data-flow">Data Flow</a></li>
+      <li><a href="#data-warehouse" id="markdown-toc-data-warehouse">Data Warehouse</a></li>
+      <li><a href="#machine-learning" id="markdown-toc-machine-learning">Machine Learning</a></li>
+      <li><a href="#operational-database" id="markdown-toc-operational-database">Operational Database</a></li>
+      <li><a href="#data-management" id="markdown-toc-data-management">Data Management</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="background">Background</h2>
+
+<p>In this section of the documentation we will attempt to collate answers to commonly asked questions about the Why and How things are built the way they are.</p>
+
+<p>In general, we try to include comments directly in the code to explain why some particular thing may be done a particular way. Please raise an <a href="https://github.com/cloudera-labs/cloudera-labs.github.io/issues">Issue</a> if there is some step in the tasks which you want more explanation on, or if you want some workflow to have an explanation in these docs.</p>
+
+<h3 id="guiding-principles">Guiding Principles</h3>
+
+<ol>
+  <li>Good Defaults don’t produce Bad Surprises</li>
+  <li>Least-worst is usually better than best</li>
+  <li>The needs of the many generally outweigh the needs of the few</li>
+  <li>It should work out of the box</li>
+  <li>It should be secure by default</li>
+  <li>Provide examples and as much freedom as possible</li>
+  <li>Fix it upstream if you can</li>
+</ol>
+
+<h3 id="history">History</h3>
+
+<p>This codebase is the 4th or 5th generation tooling for automating the Platform that, in the current incarnation, is called CDP or the Cloudera Data Platform.</p>
+
+<p>When Ambari and Cloudera Manager (amongst others) where early orchestrators-of-clusters, there were quickly deployers-of-orchestrators being published, such as <a href="https://github.com/seanorama/ambari-bootstrap">Ambari-Bootstrap</a> and many others. These early efforts were simple and effective, and typically in Bash or Perl.</p>
+
+<p>Later on, when management of deployment to IaaS was being developed in Director and Cloudbreak, Procedural management tooling like Saltstack, Puppet, Ansible and Chef were battling for adoption and dominance in deployment and configuration management.</p>
+
+<p>As cloud infrastructure APIs became more deterministic, and cloud standards more codified, Terraform rose to prominence with the Declarative IaC movement. Now you could combine declarative infrastructure with procedural deployments, and people started to appreciate the combination of Terraform and Ansible as powerful system tools.</p>
+
+<p>Around this time Cloudera first published our <a href="https://github.com/cloudera/cloudera-playbook">Ansible Playbooks</a> for deploying Cloudera Clusters. While we still also use other tools within our systems, we settled on Ansible as the most broadly adoptable and adaptable tool to work with our Customers when integrating our Platform with their extremely varied Environments.</p>
+
+<p>With the rise of Container Orchestration like Kubernetes, yet another maturity level in systems management became apparent - a stack building up to declarative applications with self-healing and auto-scaling possibilities. Now maturing valuable APIs for determinism and observability became more critical, while still offering suitable integration for users of varying modernity and maturity stages at the edge of the zone of control.</p>
+
+<p>So, today, Cloudera offers many entrypoints into integrating with our Hybrid Data Platform, from deploying legacy versions of our traditional cluster management software, to deploying real-time data streaming analytics on managed kubernetes in various cloud-native providers.</p>
+
+<p>We continue to provide Ansible as our general purpose Procedural automation framework, as it can generally be adapted to most situations as a good starting point. We wrap in Terraform as an option for Infrastructure, as the widely recognised industry standard, and provide the usual collection of SDKs and API specifications underneath.</p>
+
+<h3 id="declarative-vs-procedural">Declarative vs Procedural</h3>
+
+<p>We have taken the approach of implementing a much more Declarative approach to Ansible in this framework. It is not particularly traditional to use Ansible in this way prior to ~v2.10, and you might say why not use a built-for-purpose Declarative tool like Terraform instead.</p>
+
+<p>The main answer to this could be summarised as follows: Ansible is better at discovering and modifying deployments, whereas Terraform prefers to own and modify them. The difference is important as, in designing these automations, we cannot know whether a given user has full control of the deployment over time. It is quite easy to get your Terraform state into a bad place if people can unexpectedly edit the deployment directly (as often happens in complex tiered applications with shared-responsibility models), whereas Ansible is comfortable with taking things as it finds them.</p>
+
+<p>Secondly, we cannot know or support how 3rd party APIs and software versions may change over time with respect to a users’ deployment. There are too many permutations of possible deployments to support, and so we again need a framework that is more flexible and may be adapted by any given user to their circumstances.</p>
+
+<p>Thirdly, we find that the broad set of APIs and systems that CDP is integrated with have better coverage in Ansible Modules and Collections than Terraform Providers, and when that coverage isn’t available, it’s relatively easier to fall back to a CLI or API request implemented in Ansible.</p>
+
+<p>That is not to say Terraform is somehow bad or inappropriate - actually we strongly recommend that, if you have good authorization controls over your Infrastructure, Terraform is the best way to manage it. Our point is more that, if you have this you probably already have good DevOps skills and can gracefully adopt this Framework, whereas Ansible is going to be lower friction for everyone earlier in their journey.</p>
+
+<p>All that being said however, the more of your deployment you can manage declaratively <em>probably</em> the easier your life will be - the art of the science here is knowing when to switch tools and why.</p>
+
+<p>NOTE: Ansible and Terraform - Better Together</p>
+
+<h3 id="implicit-with-defaults-vs-explicit">Implicit with defaults vs explicit</h3>
+
+<p>This framework strives to have a clear and singular default value for as many of the variables in the platform as possible, and those default values should represent the balance between best practice secured deployments and working easily out-of-the-box for new users.</p>
+
+<p>The defaults should not produce results that surprise the User with Bad Things, like accidentally deleting data or secrets.</p>
+
+<p>All defaults should be able to be overridden without difficulty by users who know what they want.</p>
+
+<p>The purpose of this approach is primarily to enable new users to be productive with a minimum of front-loaded learning, through the means of deployments requiring a minimum of configuration, but allowing a maximum of explicit configurability as user skill and confidence grows.</p>
+
+<p>So, you can have a deployment from defaults with almost no fore-knowledge of how CDP works (like our Trial), but you can also use a 400 line declarative YAML file to describe your whole deployment (like our QE) and <em>both options are perfectly valid and use exactly the same tooling</em></p>
+
+<h3 id="multi-tier-abstraction">Multi-tier abstraction</h3>
+
+<p>In order to deliver on this more complex implementation, it is necessary to pay the cost of several layers of abstraction.</p>
+
+<p>Some of these are implemented directly here, but where possible we use upstream vendor implementations, e.g. cloud provider maintained Terraform Providers or Ansible Collections.</p>
+
+<ol>
+  <li>Base clients (CDPCLI, Azure CLI, AWS CLI, etc.)</li>
+  <li>Procedural clients (cdpy)</li>
+  <li>Declarative Modules (<code class="language-plaintext highlighter-rouge">cloudera.cloud</code>, <code class="language-plaintext highlighter-rouge">amazon.community</code>, etc.)</li>
+  <li>Sequential Tasklists (<code class="language-plaintext highlighter-rouge">cloudera.exe</code>, <code class="language-plaintext highlighter-rouge">geerlingguy.postgresql</code>)</li>
+  <li>Playbooks (cloudera-deploy)</li>
+  <li>Declarative Definitions (definitions)</li>
+</ol>
+
+<p>Generally we aim to push some complex task or piece of logic towards the best implementation point, for example, it is much easier to do a complex map or filter operation in Python within an Ansible Module than to express it within an Ansible Jinja template in a task within a Role.</p>
+
+<p>Most users will not need to bother themselves with any of this; they will craft Definitions, apply them with the Playbooks and satisfy their requirements. But for Developers, you will need to develop a sense of when something should be upstream in the Base Clients, put into cdpy or the Modules as reusable Python code, or be expressed in some Ansible Task within a particular sequence.</p>
+
+<p>Feel free to raise an Issue on the repositories for guidance in these cases.</p>
+
+<h3 id="ansible-collections-and-the-handling-of-variables">Ansible Collections and the Handling of Variables</h3>
+
+<p>Possibly the single most frustrating thing in Ansible is when you can’t figure out where a variable was defined, or why it isn’t the value you expect to be because someone has squashed it somewhere else.</p>
+
+<p>In this Framework, unless you can’t for reasons of backwards compatibility, all variable names should be prefixed.</p>
+
+<p>If the variable is local, and only not intended to be reused, then we follow the Python standard of a single or double underscore. This is particularly important in naming trivial variables such as those used in loops. They must be unique, and it is lazy not to do this, e.g. <code class="language-plaintext highlighter-rouge">__bag_of_holding_item</code></p>
+
+<p>If the variable is likely to be referenced elsewhere within that specific Role, assign the whole Role some short but obvious prefix followed by a double underscore to indicate ownership, and then uniquely name variables e.g. <code class="language-plaintext highlighter-rouge">hg__wingardium_leviosaaaa</code></p>
+
+<p>If the user defined variable is needed across multiple Roles in a Collection, then make a <code class="language-plaintext highlighter-rouge">common</code> Role in the Collection and have the other Roles pull the variables from the defaults part of this common Role. <code class="language-plaintext highlighter-rouge">cloudera.exe</code> makes extensive use of this, with the common defaults <a href="https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/common/defaults/main.yml">here</a>, and the infrastructure Role importing them <a href="https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/infrastructure/defaults/main.yml">here</a>.</p>
+
+<p>If the variable is discovered for a Role, such as checking whether a resource exists on a given cloud provider, then it should be discovered anew for each Role and variables from other Roles should not be assumed to exist. This allows the Roles to be used separately if desired, or skipped using <code class="language-plaintext highlighter-rouge">--skip-tags</code> for brevity of Runs.</p>
+
+<p>All significant variables in a Role that the end-user is likely to care about should be defined in defaults for that Role, using the prefixed names, and imported from common where necessary. In this way 99.9% of stupidly annoying variable issues may be avoided, and the rest can probably be blamed on Azure consistency errors.</p>
+
+<p>Full credit to Webster Mudge for this robust design.</p>
+
+<h3 id="cloud-infrastructure-and-the-naming-of-objects">Cloud Infrastructure and the Naming of Objects</h3>
+
+<p>Naming things is the second-hardest problem in DevOps.</p>
+
+<p>In this Framework we rely extensively on procedurally naming objects and complying with the various and varying restrictions on uniqueness, length, character sets, immutability, and other weird requirements that emerge from the world of Hybrid Cloud Infrastructure.</p>
+
+<p>In practical terms, we try to stick to a known-good intersection of requirements that work.</p>
+
+<p>As such, we have settled on assigning default <code class="language-plaintext highlighter-rouge">label</code> strings to most conceptual components, and <code class="language-plaintext highlighter-rouge">suffix</code> for most classes of objects to be created. When combined with the <code class="language-plaintext highlighter-rouge">name_prefix</code> for that Deployment, and some other sources of uniqueness like the <code class="language-plaintext highlighter-rouge">infra_type</code>, we find we can generate meaningful names for almost anything while still allowing the user to modify as they see fit.</p>
+
+<p>You can find most of these in the <a href="https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/common/defaults/main.yml">cloudera.exe.common</a> Role defaults.</p>
+
+<p>You can also statically assign names to almost anything, but then you are responsible for investigating the impact that might have.</p>
+
+<p>Generally shorter names are better, particularly when something might be used to construct a FQDN, which must generally be &lt;63 chars to be safe.</p>
+
+<p>Generally avoid punctuation, particularly at the start or end of a name, as we have found that different cloud providers and their subsystems will fail unexpectedly when they encounter a double underscore or double hyphen. In most cases a single hyphen or underscore that is not the first or last character are allowed.</p>
+
+<p>Starting a name with a number can also sometimes cause strange subsystem errors.</p>
+
+<p>Generally stick to basic UTF8 characters - while some systems will allow you to explore the exciting depths of UTF32, many others will fail terribly.</p>
+
+<p>Our guidance in these notes is there to help you avoid such difficult errors, please heed it.</p>
+
+<h2 id="terminology">Terminology</h2>
+<p>Some terms used herein have specific meaning, and are usually Capitalised in the document to indicate they are being used in that specific context.</p>
+
+<p><strong>Playbooks</strong>
+Are referring to Ansible Playbooks, and are generally the main entrypoint into Runs</p>
+
+<p><strong>Run</strong>
+Some execution of a Playbook</p>
+
+<p>NOTE: When using the Runner, Runs are automatically logged back to the user profile and use a collection of default settings known to be good in most situations</p>
+
+<p><strong>Controller</strong>
+The Controller, or Ansible Controller, refers to the machine where the <code class="language-plaintext highlighter-rouge">ansible</code> or <code class="language-plaintext highlighter-rouge">ansible-playbook</code> etc. commands are being executed, as distinct from the ‘Ansible Inventory’ which are the hosts that Ansible is connecting to.</p>
+
+<p><strong>Runner</strong>
+Refers to <a href="https://github.com/cloudera-labs/cldr-runner">cldr-runner</a>, a common Execution Environment. This is built from a Dockerfile maintained by the Ansible community, to which the various dependencies for CDP and Hybrid Cloud Architectures are added.</p>
+
+<p><strong>Definition</strong>
+A directory containing files expected by the Playbooks which describe the Deployment. The Definition directory also doubles as a working directory for artefacts produced in the Run. The files and details around composability will be explained later.</p>
+
+<p><strong>Deployment Definitions</strong>
+Refers to one or more of these Definition directories that may be provided by default with Cloudera-Deploy, created by the user, or some other process</p>
+
+<p><strong>Tags</strong>
+Tags is an overloaded term, and may be referring to:</p>
+
+<ul>
+  <li>‘Ansible Tags’, which control what actions will be executed within the Run based on the Definition. At the simplest level this is things like ‘deploy’ or ‘teardown’ but can provide a great deal of control with sophisticated use</li>
+  <li>‘Tags’ applied to cloud infrastructure, which is strongly recommended for all users</li>
+</ul>
+
+<p><strong>Profile</strong>
+Profile is an overloaded term and may refer to any of the following depending on context:</p>
+
+<ul>
+  <li>A profile specifically for Cloudera-Deploy which provides the lowest precedence of user defaults for things like Passwords. Usually found in <code class="language-plaintext highlighter-rouge">~/.config/cloudera-deploy/profiles</code> on Linux machines</li>
+  <li>A profile used with some external API, such as AWS, Azure, GCP or CDP, which usually specifies things like credentials, endpoints, regions, etc. Usually found in <code class="language-plaintext highlighter-rouge">~/.aws</code> or similar on Linux machines</li>
+  <li>Sometimes used to refer to your user home directory on your machine. When using the Runner, it mounts key User home directories such as your .ssh and .config folders in provide you access to those files with the various tools. Usually <code class="language-plaintext highlighter-rouge">/home/&lt;user&gt;</code> on Linux machines.</li>
+</ul>
+
+<p><strong>Subsystems</strong></p>
+
+<p>Modern Platforms are layers upon layers of different bits of Software and Infrastructure working together.</p>
+
+<p>When we refer to Subsystems, we may mean a Cloud Provider in general, or some specific API, or an Apache Project. It is not necessarily Software provided or written by Cloudera, but we will attempt to give you good information about it.</p>
+
+<p><strong>Workflows</strong></p>
+
+<p>There are many Processes within the Framework which touch on many levels of automation abstraction and may operate end-to-end over many files and subsystems. We refer to these as Workflows as a convenient label to indicate it’s a bit more complex than a simple Ansible Task list or Playbook, and Workflows have their own section in the Developer’s Guide.</p>
+
+<h2 id="deployments-reference">Deployments Reference</h2>
+
+<p>A ‘Definition’ is a directory containing one or more files, and may contain additional assets required by the user. The intention is that a single directory may contain all the necessary components to describe a Deployment suitable for configuration-as-code practices using version control.</p>
+
+<p>This also means that pre-defined Definitions are easy to create, and we include several for new users. See explanations in the sections for CDP Public Cloud and CDP Private Cloud.</p>
+
+<h3 id="definition-structure">Definition Structure</h3>
+
+<p><em><strong>The definition_path</strong></em></p>
+
+<p>Cloudera-Deploy will recognise and compose together several files during Initialization in order to determine what should be done in a run.</p>
+
+<p>The files have defaults set in <code class="language-plaintext highlighter-rouge">cloudera-deploy/roles/cloudera_deploy/defaults/main.yml</code> and the various Collections, which may be overridden by the Definition or with extra vars at runtime.</p>
+
+<p>The Definition directory also acts as a working directory during the run, and is the location where Definition-specific artefacts, such as dynamic inventory files, will be written back to. This differs from persistent records for the Runner like Logs and Profiles which are kept in <code class="language-plaintext highlighter-rouge">~/.config/cloudera-deploy</code> and thus written back to the Filesystem hosting the Runner.</p>
+
+<p>As such, the <code class="language-plaintext highlighter-rouge">definition_path</code> extra var is one of the few mandatory values required by the Playbook, and one of the first things checked for in a Run.</p>
+
+<p>It is expected that the user will have any persistent information from their profile, like ssh keys and cloud credentials and logs, mounted via bash expansion in <code class="language-plaintext highlighter-rouge">~/</code>, and any Code and Projects mounted for persistence to /runner/project. Pretty much all other areas of the Runner are presumed to be ephemeral storage.</p>
+
+<p><em><strong>Explaining the various Definition Files and Profiles</strong></em></p>
+
+<p>As said above, Cloudera-Deploy will read in and compose the facts for the run from a set of files found in the Definition path, then from an optional Profile file, and then from the Collections which hold defaults for the different kinds of deployments available.</p>
+
+<p>The various files and their override values are set during <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/roles/cloudera_deploy/tasks/init.yml">cloudera-deploy initialization</a>. We pull these values into multiple different files to give the user control of composing their deployments if desired - you may wish to recombine different profiles, definitions, and cluster specs according to your needs, but you can also just glob it all into a single <code class="language-plaintext highlighter-rouge">definition.yaml</code> file in most cases if you want.</p>
+
+<p>The Profile is drawn from the directory <code class="language-plaintext highlighter-rouge">~/.config/cloudera-deploy/profiles</code>. The default file collected is simply called <code class="language-plaintext highlighter-rouge">default</code> in this directory, and is automatically created from the <code class="language-plaintext highlighter-rouge">profile.yml</code> template in the cloudera-deploy repo.</p>
+
+<p>Then the user may choose to put all the rest of their definition details into the <code class="language-plaintext highlighter-rouge">definition.yml</code> file in their <code class="language-plaintext highlighter-rouge">definition_path</code>, they may also choose to split it across <code class="language-plaintext highlighter-rouge">definition.yml</code> and <code class="language-plaintext highlighter-rouge">cluster.yml</code>, for backwards compatibility with legacy Cloudera Playbooks.</p>
+
+<p>The dynamic_inventory files are explained in a later section.</p>
+
+<p><em><strong>Required Definition Files</strong></em></p>
+
+<p>There are 2 files that must be present in the definition path:</p>
+
+<ul>
+  <li>A Definition for the deployment, usually cluster.yml or definition.yml</li>
+  <li>a post-run playbook, with the name application.yml</li>
+</ul>
+
+<p>You may optionally supply other files recognised by the Definition parser, such as an inventory template or static ini file.</p>
+
+<p><em><strong>cluster.yml or definition.yml, or split between both</strong></em></p>
+
+<p>This file contains the variables that define:</p>
+
+<ul>
+  <li>The CDP Cluster(s) - which services, service configuration parameters, host templates &amp; Role allocation, external databases, runtime repositories, security</li>
+  <li>Cloudera Manager - cm repository, management services, CM configs</li>
+  <li>Host configurations - e.g. values set via CM -&gt; All Hosts -&gt; Configuration</li>
+  <li>Auth backends - e.g. ldap/ad</li>
+  <li>Any other vars required for the Plays in-scope (e.g. kdc, haproxy settings)</li>
+</ul>
+
+<p><em><strong>Application.yml</strong></em></p>
+
+<p>Used to describe additional deployment steps. Although this file must be present, it doesn’t have to do anything and you can simply copy the sample no-op Playbook from the examples/sandbox in Cloudera-Deploy.</p>
+
+<p><em><strong>Your Profile file(s)</strong></em></p>
+
+<p>If you take a look in the Profile.yml Template, you will see it is a collection of keys in YAML format, these are the keys most commonly personalised to a given user, such as passwords and naming prefixes.</p>
+
+<p>The main cloudera-deploy https://github.com/cloudera-labs/cloudera-deploy/blob/main/readme.adoc[readme] does a good job of explaining the different values in this file, and note that you can also set these keys in your definition or cluster files if you wish, but be aware of precedence if you have them set in multiple files.</p>
+
+<p><em><strong>definition.yml file</strong></em></p>
+
+<p>definition.yml is the main file the user is anticipated to modify in order to define what their Deployment should look like. This is then combined with the Ansible tags used at runtime in order to produce the expected result.</p>
+
+<p>For example, you could define a CML deployment in your definition.yml but use the ‘infra’ tag with Ansible to only create the Infrastructure dependencies for CML, but not actually deploy CML itself. This gives the user a great deal of flexibility and operational control.</p>
+
+<p>If you wish you may set all of your YAML into the definition.yml file and skip profile, cluster, etc. This may be useful for CICD deployments.</p>
+
+<p><em><strong>cluster.yml file</strong></em></p>
+
+<p>Although cluster.yml is usually provided externally to the Definition, it can also be included in the definition for two main reasons:</p>
+
+<p>Firstly, the v2 edition of the Cloudera Playbooks expects a cluster.yml definition file, so this provides convenient backwards compatibility and a point of comfortable continuity for existing users migrating to the v3 / Collections based approach.</p>
+
+<p>Secondarily, certain complex cluster definitions typically used with the v2 playbook depended upon advanced Ansible lazy-evaluation tricks in order to replace values within the configs, such as hostnames and service descriptors mid-deployment. cluster.yml is specifically lazy evaluated (unlike definition.yml, which is evaluated almost immediately) to allow these deployments to continue to work. We do not expect new users to need these tricks, so this feature is primarily for backwards compatibility.</p>
+
+<p>There is a basic cluster definition included in the cloudera-deploy https://github.com/cloudera-labs/cloudera-deploy/blob/main/roles/cloudera_deploy/defaults/basic_cluster.yml[defaults], you may instruct it to be included by setting the value <code class="language-plaintext highlighter-rouge">use_default_cluster_definition: yes</code> in your definition.yml, or you could copy it into your <code class="language-plaintext highlighter-rouge">definition.yml</code> or <code class="language-plaintext highlighter-rouge">cluster.yml</code> file in your Definition directory and then use it as a starting point to get going with customising your deployment.</p>
+
+<p><em><strong>Static_inventory.ini</strong></em></p>
+
+<p>You may also include a typical Ansible static inventory file within the Definition to be automatically loaded and used for the run, this is in addition to any inventory files in the default Ansible Inventory directory (which are typically empty).</p>
+
+<p>There is an example of a Static Inventory https://github.com/cloudera-labs/cloudera-deploy/blob/main/examples/sandbox/inventory_static.example[here], it is notable that the Dynamic Inventory option will generate a static inventory file for you as a part of the process, and tear it down along with the rest of the infrastructure if you use the ‘teardown’ tag.</p>
+
+<p>You may also wish to use traditional Ansible dynamic inventory implementations, or the built-in dynamic inventory generator for AWS documented xref:cdDynamicInventory[Dynamic Inventory]</p>
+
+<h3 id="crafting-your-definition">Crafting your Definition</h3>
+
+<p>In all simple cases, Cloudera-Deploy aims to have defaults for practically everything but your administrator password, allowing you to then only override any parameters that provide a specific change you want.</p>
+
+<p>We recommend, but do not require, that you also set the values in your default user profile as explained in the readme, because otherwise your infrastructure is unlikely to be uniquely tagged and named within the cloud infrastructure account (assuming you are using these features).</p>
+
+<p>However, once you have set those defaults, you will likely want to describe the actual deployment you require.</p>
+
+<p>There are several examples given within cloudera-deploy, such as the Sandbox, a CML Workshop, or all the Cloudera DataFlow services. These are all primarily public cloud examples, although the Sandbox does include a basic private cloud cluster as well.</p>
+
+<p>Generally, CDP Public cloud parameters follow a simple structure of some top-level key triggering a particular component to be deployed, along with whatever dependencies it needs, and then any child keys under that top-level key controlling some override of some default. These keys are explained in xref:cdSchemaReference[CDP Public Definition Keys].</p>
+
+<p>Generally, CDP Private Cloud is a more haphazard structure, simply because it is extremely configurable with nearly a decade of history and backwards compatibility, and therefore trying to constrain it to a pretty structure causes more problems than it fixes within the automation.</p>
+
+<h3 id="cdp-public-definitions">CDP Public Definitions</h3>
+
+<p><strong>Summary</strong></p>
+
+<p>We aim to keep a full dictionary of all the YAML structure in the <a href="https://github.com/cloudera-labs/cloudera.exe/blob/main/docs/configuration.yml">cloudera.exe docs</a>, there are literally hundreds of parameters that are defaulted and may be overridden, so in this section we will attempt to explain the key values to achieve common goals.</p>
+
+<p>Generally the structure is in dot notation within a collected set of default files, one to each Role. If you can find the parameter you are interested in, do a global search within that Role (preferably in your IDE, but also in the repo), and you will likely be able to quickly backtrace how it was generated and find the default.</p>
+
+<p>Defaults are usually in the Role which requires them, and will otherwise be moved up to <code class="language-plaintext highlighter-rouge">cloudera.exe.common</code> if more than one Role needs to use the same values. For example, we create the subnets in <code class="language-plaintext highlighter-rouge">cloudera.exe.infra</code>, but need to supply them to the <code class="language-plaintext highlighter-rouge">cloudera.exe.platform</code> and <code class="language-plaintext highlighter-rouge">cloudera.exe.runtime</code> Roles as well, so they are sourced from the common defaults.</p>
+
+<p>Defaults in <code class="language-plaintext highlighter-rouge">cloudera.exe.common</code> may also be overridden by values from whatever called it, via the <code class="language-plaintext highlighter-rouge">globals</code> mechanism. This can be observed within Cloudera-Deploy, which contains its own defaults, then reads in the User supplied Definition, then passes the values set down to the Collections.</p>
+
+<p>As another example, the key <code class="language-plaintext highlighter-rouge">infra.teardown.delete_data</code> occurs within the Infrastructure defaults in the <code class="language-plaintext highlighter-rouge">cloudera.exe.infrastructure</code> Role, and it is defaulted to <code class="language-plaintext highlighter-rouge">False</code>. If you set it to <code class="language-plaintext highlighter-rouge">True</code>, when you run a <code class="language-plaintext highlighter-rouge">teardown</code> cloudera-deploy will also clean the targeted storage. You include it in your definition by converting it to YAML:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra</span><span class="pi">:</span>
+  <span class="na">teardown</span><span class="pi">:</span>
+    <span class="na">delete_data</span><span class="pi">:</span> <span class="s">yes</span>
+</code></pre></div></div>
+
+<p>The second structure we typically use is nested dictionaries keyed by some common variable like Cloud Infrastructure Type, and contained in Ansible vars within Roles. This allows us to set defaults for each infrastructure provider and various types of things we might need, such as virtual machine sizes and disk types. A good example of this may be found in the <a href="https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/infrastructure/vars/main.yml">cloudera.exe.infrastructure</a> Role. Again, global searching for the parameters will show you how they are used within the deployment structure.</p>
+
+<p>What is important to note here is that we attempt to allow the user to define the least amount of information necessary to produce the target Deployment, something sometimes refered to as Goal Based Declarative Deployment. You can set as many overrides as you like, but you then take on responsibility for knowing how they will interact, whereas if you use the defaults they are already known to be best-practice.</p>
+
+<p><strong>Infrastructure</strong></p>
+
+<p>Controlled under the ‘infra’ key in all the underlying cloud infrastructure services you could need, most defaults are either in the <a href="https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/common/defaults/main.yml">cloudera.exe.common</a> or <a href="https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/infrastructure/defaults/main.yml">cloudera.exe.infra</a> defaults files. It is worth examining these defaults if you are interested in which subnet CIDRs, storage types, and other values are used in deployment.</p>
+
+<p>If you include the <code class="language-plaintext highlighter-rouge">infra</code> key in your definition without anything else, cloudera-deploy will create a base set of infrastructure (network, storage, security groups, etc.) on your chosen provider when you use one of the deployment triggering tags.</p>
+
+<p>.e.g. To create Infrastructure for CDP Public on Azure:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra_type</span><span class="pi">:</span> <span class="s">azure</span>
+<span class="na">infra</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>CDP Public Environment &amp; Datalake</strong></p>
+
+<p>This is the core CDP Public ‘platform’ to which the <code class="language-plaintext highlighter-rouge">plat</code> Ansible Tag refers, and is controlled by the top-level YAML key <code class="language-plaintext highlighter-rouge">env</code>. Apart from the common defaults mentioned earlier, there are platform specific defaults as well in https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/platform/defaults/main.yml[cloudera.exe.platform].</p>
+
+<p>As with other top level keys, if you include <code class="language-plaintext highlighter-rouge">env:</code> on its own, then cloudera-deploy will generate an infrastructure suitable for CDP Public and Private based on your Definition, Profile, and other defaults.</p>
+
+<p>There are a large number of defaults in this Role, you are advised to scroll through the defaults file above - we resist listing them all here to avoid additional maintenance burden.</p>
+
+<p>.e.g. To create a CDP Public Infrastructure on GCP with a Datalake pinned to a particular version:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra_type</span><span class="pi">:</span> <span class="s">gcp</span>
+<span class="na">env</span><span class="pi">:</span>
+  <span class="na">datalake</span><span class="pi">:</span>
+    <span class="na">version</span><span class="pi">:</span> <span class="s">7.2.12</span>
+</code></pre></div></div>
+
+<p><strong>Datahubs</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">datahub:</code> is the next key we look at, and the first that requires some child keys to work.</p>
+
+<p>As with env, if you have datahub in your definition file cloudera-deploy will ensure that the requisite Infrastructure and CDP Public Platform are deployed.</p>
+
+<p>For datahubs, you are required to submit a list of configurations, one for each datahub you want to be present. You have three options:</p>
+
+<ul>
+  <li>You may give the name of a definition to deploy it from defaults</li>
+  <li>You may refer to a jinja template</li>
+  <li>You may explicitly set the necessary values</li>
+</ul>
+
+<p>.e.g. To Create an OpDB Datahub, and a Kafka Datahub on AWS (default):</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">datahub</span><span class="pi">:</span>
+  <span class="na">definitions</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">definition</span><span class="pi">:</span> <span class="s">‘Operational Database with SQL for AWS’</span>
+      <span class="na">suffix</span><span class="pi">:</span> <span class="s">cod-dhub</span>
+    <span class="pi">-</span> <span class="na">include</span><span class="pi">:</span> <span class="s2">"</span><span class="s">datahub_streams_messaging_light.j2"</span>
+</code></pre></div></div>
+
+<p><strong>dw</strong>
+You can include the top-level key <code class="language-plaintext highlighter-rouge">dw:</code> in your definition to deploy a default CDW cluster</p>
+
+<p>More functionality for this service is coming soon</p>
+
+<p><strong>ml</strong>
+CML has a nice <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/examples/cml/definition.yml">example definition</a>, which is again a top level key <code class="language-plaintext highlighter-rouge">ml:</code> with a child key ‘definitions’ which is a list of workspaces to create, either from defaults or with specific parameters.</p>
+
+<p>If you include ‘ml’ without any child keys a single default workspace will be created.</p>
+
+<p><strong>df</strong>
+Like CML, CDF also has an <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/examples/cdf/definition.yml">example definition</a> which works in a similar fashion.</p>
+
+<p><strong>de</strong>
+Same as above, here is the <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/examples/cde/definition.yml">example definition</a>.</p>
+
+<p><strong>opdb</strong>
+Same as above, the example is coming soon.</p>
+
+<h2 id="workflow-reference-guide">Workflow Reference Guide</h2>
+
+<p>Many of these Architecture notes explain the sequence of steps in various parts of the codebase. It is not necessary to understand these processes in order to use Cloudera-Deploy for Deployments, but if you want to make your own processes they may be quite informative.</p>
+
+<h4 id="quickstartsh">quickstart.sh</h4>
+
+<p><a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/quickstart.sh">Quickstart.sh</a> is provided in the root of the Cloudera-Deploy repository, itself being the reference entrypoint to the tooling. It is intended to prepare and launch you into a shell running inside the Docker execution container where all the necessary software is already prepared for.</p>
+
+<p>You’ll know you are in this custom shell by the Orange coloured <code class="language-plaintext highlighter-rouge">cldr &lt;version&gt; #&gt;</code> prompt.</p>
+
+<p>When you invoke quickstart.sh in Cloudera-Deploy, here is the general sequence of steps</p>
+
+<ol>
+  <li>It determines the parent directory of quickstart.sh, and sets that as the Project directory unless the user has passed in a variable for this purpose</li>
+  <li>Checks if Docker is running</li>
+  <li>Runs ‘docker pull’ against the image if there is an updated image available</li>
+  <li>Creates the default local User Profile mount paths on the local machine if not present</li>
+  <li>Creates a default Cloudera Deploy Profile in the default path if not present</li>
+  <li>Checks if various development helper options are set:
+    <ul>
+      <li>If <code class="language-plaintext highlighter-rouge">CLDR_COLLECTION_PATH</code> is set, that path is put into the ANSIBLE_COLLECTIONS_PATH, and the user is instructed to use /runner/project as the base path instead of /opt/</li>
+      <li>If <code class="language-plaintext highlighter-rouge">CLDR_PYTHON_PATH</code> is set, then that path is added to the PYTHON_PATH in the internal container</li>
+    </ul>
+  </li>
+  <li>Checks if ssh-agent and ssh-auth-sock are running / available</li>
+  <li>Then:
+    <ul>
+      <li>If the Runner container is present and running, a new bash session is started</li>
+      <li>If the Runner container is present but stopped, it is removed</li>
+      <li>If the Runner container is not present or removed by the previous step, a new one is instantiated and a bash session started</li>
+    </ul>
+  </li>
+  <li>The current release version of cloudera-deploy is cloned into /opt/cloudera-deploy alongside the other Ansible Collection pieces</li>
+  <li>The user is given several notices and dropped into an orange coloured bash prompt in the /runner directory</li>
+</ol>
+
+<p>IMPORTANT: The only way to change the /runner/project directory mounted into the container is to stop the container and rerun the quickstart with a different path as the argument.</p>
+
+<p>NOTE: The Ansible Log is pointed at ~/.config/cloudera-deploy/log by the quickstart container launcher</p>
+
+<h3 id="main-playbook-in-cloudera-deploy">Main Playbook in Cloudera-Deploy</h3>
+
+<p>The <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/main.yml">main.yml</a> Playbook is also in the root of Cloudera-Deploy and is intended as the entrypoint that you would call with the <code class="language-plaintext highlighter-rouge">ansible-playbook</code> command in the orange bash prompt we provide you in the Quickstart.</p>
+
+<p>IMPORTANT: If you invoke Ansible in a directory other than /runner within cldr-runner, behavior will change as Ansible checks for particular directories relative to the execution path and uses that to find some defaults. Yes this is often annoying, they seem resistant to changing it.</p>
+
+<p>The main Playbook is generally invoked from one of two locations:</p>
+
+<p><code class="language-plaintext highlighter-rouge">/opt/cloudera-deploy/main.yml</code></p>
+
+<p>This is the current release version of Cloudera-Deploy baked into the Runner itself</p>
+
+<p><code class="language-plaintext highlighter-rouge">/runner/project/cloudera-deploy/main.yml</code></p>
+
+<p>If you have launched quickstart.sh following the usual process, then this is the version of Cloudera-Deploy you have checked out from Github on your local machine, as your Project directory is mounted to /runner/project, and thus cloudera-deploy will be in that project directory.</p>
+
+<p>If you are editing the Playbooks or Collections, you should launch from /runner/project to pick up your changes.</p>
+
+<p>Here is the general sequence of steps:</p>
+
+<ol>
+  <li>Ansible initialisation
+    <ul>
+      <li>/runner/env/envvars are loaded</li>
+      <li>Any Ansible Inventory in /runner/inventory is read</li>
+    </ul>
+  </li>
+  <li>The init Role is run
+    <ul>
+      <li>Run Metadata is immediately logged</li>
+      <li>The Definition Path and Files are validated</li>
+      <li>The User Profile is included, making it the lowest in Definition precedence</li>
+      <li>We validate that an Admin Password has been supplied</li>
+      <li>We examine the presence and controls around definition.yml and cluster.yml</li>
+      <li>definition.yml is included, making it the second in precedence</li>
+      <li>The selected cluster.yml is included (if present), making it third and highest in precedence for Definition files</li>
+      <li>‘globals’ is then generated from general top level facts found in files included thus far</li>
+      <li>‘globals’ is then updated by any values explicitly set as ‘globals’ from definition.yml, making this the highest definition authority only trumped by extra vars following the usual Ansible hierarchy</li>
+      <li>The Namespace is then validated and set
+        <ul>
+          <li>Note that this is not a namespace in the sense of Kubernetes, but the name_prefix that is used for all resources generated by Cloudera-Deploy</li>
+        </ul>
+      </li>
+      <li>SSH keys are then validated, if necessary created, and then set</li>
+      <li>If a Dynamic Inventory is found, it is then validated and parsed</li>
+      <li>If the Download Mirror has been requested and requirements are met, the prepare_download_mirror Role is then included</li>
+      <li>Temp directories, various Environment Variables for the Run, and other details are finally set before continuing</li>
+      <li>The Cloud Playbook is then imported</li>
+      <li>If Cloud actions are indicated in this Run, the Role <code class="language-plaintext highlighter-rouge">cloudera.exe.sequence</code> is imported</li>
+      <li>Any Dynamic Inventory result is persisted to Static Inventory artefact for later use</li>
+      <li>If the Download Mirror is in Play, it is then populated and the cached files then persisted to the Download Mirror cache file for later use</li>
+      <li>If a Teardown has been requested, the clean_dynamic_inventory Role is run</li>
+      <li>Then the preparation steps for a Cluster deployment are run if a Cluster definition was found during init’s parsing of the Definition
+        <ul>
+          <li>The static inventory artefact is loaded, if found (including when just created)</li>
+          <li>The Download Mirror URLs are injected from the cache artefact, if requested</li>
+          <li>Necessary facts for the Cluster deployment are distributed to the Inventory based on the Run thus far</li>
+        </ul>
+      </li>
+      <li>If a Cluster is defined, the Cluster Playbook is then imported</li>
+      <li>The Application Playbook is imported from the Definition directory for any post-run tasks</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="cloud-deployment-sequencing">Cloud Deployment Sequencing</h3>
+
+<p>The <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/cloud.yml">cloud.yml</a> Playbook in Cloudera-Deploy acts as a wrapper for steps that are taken against Public Cloud Infrastructure.</p>
+
+<p>NOTE: cloud.yml is expected be called within the main.yml workflow, and therefore expects that certain Ansible Variables are available. If you wish to modify or re-use behavior, you are advised to trace the Tasks from the start of main.yml to understand the process.</p>
+
+<p>The following steps are included:</p>
+
+<ol>
+  <li>The <code class="language-plaintext highlighter-rouge">cloudera.exe.sequence</code> Role is imported if Cloud Infra or CDP Public Cloud included in the Definition</li>
+  <li>If Dynamic Inventory has been created in the cloud steps, the details about it are persisted</li>
+  <li>If the Download Mirror is in the Definition, it is prepared and the target files are downloaded to it</li>
+  <li>The Download Mirror cache is then updated if any new downloads have been completed</li>
+</ol>
+
+<h3 id="cluster-deployment-sequencing">Cluster Deployment Sequencing</h3>
+
+<p>The <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/cluster.yml">cluster.yml</a> Playbook controls the sequence of Plays which deploy a CDP Base cluster, or legacy CDH cluster.</p>
+
+<p>NOTE: cluster.yml is expected be called within the main.yml workflow, and therefore expects that certain Ansible Variables are available. If you wish to modify or re-use behavior, you are advised to trace the Tasks from the start of main.yml to understand the process.</p>
+
+<p>It is a long Playbook at ~580 lines, and has many tags to activate or skip plays. There are Tags which control full sequences of Plays, specifically those which trigger a <code class="language-plaintext highlighter-rouge">full_cluster</code> build, a <code class="language-plaintext highlighter-rouge">default_cluster</code> build, or <code class="language-plaintext highlighter-rouge">teardown_all</code> to remove the deployed Clusters (and differs from the very top level <code class="language-plaintext highlighter-rouge">teardown</code> tag for Cloudera Deploy)</p>
+
+<p>Tags to trigger individual Plays are best sourced from reading the individual Plays in cluster.yml</p>
+
+<p>The main reason it is broken up into so many plays is that different tasks must happen in a particular sequence on a particular host or set of hosts at any given point. You are advised not to reorder the Plays unless you are quite familiar with the process.</p>
+
+<p>There are a number of ‘blocks’ of Plays in the Playbook to help the user orient themselves, they are annotated in comments.</p>
+
+<p>The general Deployment sequence is:</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">Init Cluster Deployment Tasks</code>
+    <ul>
+      <li>Prepare any local directories or other items needed on the Controller</li>
+      <li>Generally required where files from the nodes need to come back to the Controller for the user to do something with, like handling certificate signing requests</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Check Inventory Connectivity</code>
+    <ul>
+      <li>Validate that the Inventory given to the Ansible Controller can actually be connected to</li>
+      <li>Then collects the Ansible Facts from this inventory for use later</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Verify Inventory and Definition</code>
+    <ul>
+      <li>We run various validation steps on the Inventory and the Cluster Definition to attempt to fail early if known misconfigurations are present</li>
+      <li>If a node is designated to host a <code class="language-plaintext highlighter-rouge">custom_repo</code>, then the Play <code class="language-plaintext highlighter-rouge">Install custom parcel repository</code> is run at this point so that the Repo may be populated with the various files and then validated against the provided Definition</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Prepare Nodes</code>
+    <ul>
+      <li>Having validated our Definition and prepared our Run, we now move onto preparing the nodes that will form the cluster</li>
+      <li>We first apply the OS prerequisites such as huge pages and reconfiguring selinux</li>
+      <li>We then create any local user accounts needed on the nodes</li>
+      <li>The JDK is installed on the relevant nodes</li>
+      <li>Depending on which Database is Defined for Cloudera Manager, the clients and other prequisites for that Database will be prepared</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Create Cluster Service Infrastructure</code>
+    <ul>
+      <li>If you’ve designated nodes for KDC, Certificate Authority or HAProxy, those nodes will be prepared</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Prepare TLS</code>
+    <ul>
+      <li>Having prepared the ca_server for hosting the Certificate Authority above, this section then prepares the TLS keystores and truststores from the certificates if necessary</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Install Cluster Service Infrastructure</code>
+    <ul>
+      <li>Having completed the necessary OS and other prereqs, we are now ready to start installing services</li>
+      <li>First the selected RDBMS is installed on the <code class="language-plaintext highlighter-rouge">db_server</code> node if required by the Definition</li>
+      <li>Then we setup the specific TLS setup for NiFi if it is required</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Install Cloudera Manager</code>
+    <ul>
+      <li>First the Cloudera Manager Daemons are installed</li>
+      <li>Then the Cloudera Manager Server is installed</li>
+      <li>If a Cloudera License is included in the Definition, it will be applied to the server, otherwise it will remain in Trial mode</li>
+      <li>Then the Cloudera Manager agents are installed</li>
+      <li>If TLS is enabled, Cloudera Manager is configured for TLS using the previously prepared configs</li>
+      <li>Finally in the CM install, the various agent, server and auth configurations are layered in</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Prepare Security</code>
+    <ul>
+      <li>At this stage, if Auto-TLS is enabled in the Definition, it is applied to Cloudera Manager</li>
+      <li>We then complete the Kerberos configuration for Cloudera Manager and the Cluster if necessary</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Install Cluster</code>
+    <ul>
+      <li>Next we move onto installing the Cluster within Cloudera Manager</li>
+      <li>Firstly, we restart the CM Agents and ensure they are up and heartbeating</li>
+      <li>We then install and start the Cloudera Manager Management Service</li>
+      <li>If a <code class="language-plaintext highlighter-rouge">custom_repo</code> is in the Inventory, we then check for any parcels which could be preloaded to Cloudera Manager to speed up launch time</li>
+      <li>Finally in this section, we deploy the Clusters listed in the Definition</li>
+      <li>This involves importing the Cluster Template, which can take a long time</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Setup HDFS Encryption</code>
+    <ul>
+      <li>If KTS and or KMS are in the Inventory ahd Definition, they will now be configured</li>
+      <li>Finally Client Configs are refreshed to fix up any stale entries</li>
+    </ul>
+  </li>
+</ol>
+
+<p>The general Teardown sequence is:
+    * Note that the Teardown Plays follow the Deployment plays in the Playbook, so you’ll see a lot of skipped plays when calling these specific teardowns
+        ** If you have Tagged a <code class="language-plaintext highlighter-rouge">ca_server</code> teardown, it is the first to be run
+        ** Then, if TLS is in your Definition, it will be cleaned up
+        ** Finally, if you have Tagged to teardown one or more or all of the Clusters in Cloudera Manager, they will be removed</p>
+
+<p>NOTE: There are no Teardown options for the stages preceding cluster deployment, as it is assumed that you would simply reinitialise the nodes and rerun a deployment to ensure a clean build.</p>
+
+<h3 id="dynamic-inventory">Dynamic Inventory</h3>
+
+<p>The Dynamic Inventory implementation in cloudera-deploy is primarily intended as an aid to automated testing or trial deployments. It allows the user to provide a template inventory file, which is then converted into a number of VMs on the infra platform, which are in turn used within the same run as inventory for the CDP Private Cloud Base deployment, without any further interaction from the user.</p>
+
+<p>Note that this is not necessarily a typical approach, where a user may prefer to create infrastructure using Terraform and then supply Ansible with a static inventory file. Or a user may wish to use a traditional Ansible dynamic inventory plugin. This functionality within Cloudera-Deploy is designed to make it abundantly easy for users new to these technologies to get going with minimal initial learning.</p>
+
+<p>Presently this feature is only implemented for AWS, though extending each of the code sections for any other infrastructure provider is quite possible if the process below is understood. It is one of the more complex workflows in cloudera-deploy simply because it touches on several Roles and collections in order to avoid repetition and each segment of the work involved being executed with other similar workflows.</p>
+
+<p>The process is deliberately broken up into sections with artefact files at key points to allow the user to substitute their own process or inventory at any given stage. It also makes testing changes a lot easier, and it may then be replaced using Terraform or some other provider at your convenience.</p>
+
+<p>NOTE: Dynamic Inventory uses AMIs from the AWS Marketplace, it is necessary for someone to have subscribed to the selected image at least once within the account for it to work. If you are the first person to run this in an account you will get an error and a link to activate the subscription, then you can re-run to complete the deployment. Yay idempotence, as this can only be done in the GUI.</p>
+
+<p>The meta structure specific to this feature is as follows:</p>
+
+<ol>
+  <li>Include an inventory_template.ini in your Definition path, which describes the shape of the infrastructure required for your CDP Base Cluster.</li>
+  <li>Use a supported infra provider, currently this is only AWS</li>
+  <li>When the main.yml playbook is run, the cloudera-deploy/init Role will pick up and process the template to determine validity and the number of hosts needed for the deployment.
+    <ul>
+      <li>Note that the name of the template file may be modified</li>
+      <li>Then existence of the template file is checked</li>
+      <li>We then check if a static inventory has been supplied with the -i switch, and do not process the dynamic inventory if it is set</li>
+      <li>If the above condition is satisfied, we then use the Ansible ‘refresh inventory’ command with the template included in the inventory dir, this is a tasklist called ‘refresh_inventory’.</li>
+      <li>Note that this is a minor hack as traditional Ansible usage would recommend against dynamic inventory refresh mid run, but we use it here in the name of NUX.</li>
+      <li>We then check some simple compliance details within the template, and if it passes we count the number of hosts required in the template and add it to the ‘globals’ variables as ‘vm.count’, which is in turn used later to generate the required host infrastructure.</li>
+      <li>We then remove the dynamic inventory template from the Ansible Inventory, and refresh the inventory again.</li>
+      <li>Note: We use this process because Ansible already has the logic to process the inventory template and give us a host count from it.</li>
+    </ul>
+  </li>
+  <li>Next, the main.yml playbook calls on the cloud.yml playbook, which in turn calls the sequence Role in the <code class="language-plaintext highlighter-rouge">cloudera.exe</code> Collection to run all of the Public Cloud tasks for creating the necessary infrastructure for the deployment.
+    <ul>
+      <li>The defaults used by <code class="language-plaintext highlighter-rouge">cloudera.exe</code> for creating the Dynamic Inventory are <a href="https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/infrastructure/defaults/main.yml">here in the role defaults</a></li>
+      <li>Note: that <code class="language-plaintext highlighter-rouge">globals.vm.count</code> from earlier is consumed here, along with naming, ssh, storage, etc. pieces.</li>
+      <li>Additional defaults are set from a <a href="https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/infrastructure/vars/main.yml">vars</a> file in this Role, where we hold pickers for things like storage, vm, OS type, etc. particular to that Infrastructure provider. All of which may be overridden.</li>
+      <li>Initialization of necessary information is done in initialize_setup_aws in the same Role, here we get the correct AMI to use for VM deployment, and then the host connectivity information Ansible needs for inventory population</li>
+      <li>Then in the main setup.yml file within this infrastructure Role, we run the infra provider-specific ‘compute’ task list
+        <ul>
+          <li>The compute task list first ensures the correct number of VMs is created with the given parameters. This task does a lot of work for us using the Infra provider’s own Ansible modules.</li>
+          <li>It then prepares the <code class="language-plaintext highlighter-rouge">$$infra__dynamic_inventory_host_entries$$</code> variable with a list of the necessary connection information for each new host in a format that Ansible understands, which is a combination of the generic connector information in <code class="language-plaintext highlighter-rouge">$$infra__dynamic_inventory_connectors$$</code> (ansible_user, ssh private key file) and the VM-specific information (private FQDN as node name, Public FQDN as ansible_host)</li>
+        </ul>
+
+        <p>NOTE: This connectivity information is very important for Ansible to build clusters correctly on AWS because AWS uses a reverse-proxy for DNS. Other infra providers would probably only require a much simpler set of connectivity information.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Next, the cloud.yml playbook will run a post-processing check if dynamic inventory VMs have been created by checking the <code class="language-plaintext highlighter-rouge">$$infra__dynamic_inventory_host_entries$$</code> variable, and if it and the template are present it will merge them into a <code class="language-plaintext highlighter-rouge">static_inventory.ini</code> artefact in the Definition directory using the cloudera-deploy/persist_dynamic_inventory tasklist. This artifact is later used by the cluster.yml playbook.</p>
+
+    <p>NOTE:  This essentially picks up the connection entry for each host and replaces the template entry on a 1:1 basis, look at the example above to see how it works.</p>
+  </li>
+  <li>
+    <p>Back in the initial main.yml, we check if a static inventory artefact is presented. If the user created their own, or used the preceding dynamic inventory process to generate a static inventory artefact, this process is then triggered, thus allowing both options. This once again uses the ‘refesh_inventory’ tasklist to inject the static_inventory artefact (regardless of how it was created) into the Ansible Inventory ready for a Cluster deployment.</p>
+  </li>
+  <li>The cluster.yml playbook is then called, which will use whatever inventory is present to run the cluster deployment according to the rest of the configuration and tags presented. In this case it will pick up the static inventory artefact, produced by thi dynamic inventory process, and deploy the cluster.</li>
+</ol>
+
+<h2 id="definition-reference-guide">Definition Reference Guide</h2>
+
+<p>In this section we will break down all the available Definition options by section and explain their usages.</p>
+
+<p>The general structure of each section will start with guidance on the minimally required information for that type of Deployment, followed by guidance on the various options.</p>
+
+<p>For an introduction to the basics of Definition creation and the most common options, please see the [Deployments] Section.</p>
+
+<h3 id="profile">Profile</h3>
+
+<p>The default Cloudera-Deploy user profile is instantiated by the quickstart.sh script from a template file <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/profile.yml">profile.yml</a> in the repository, and written to <code class="language-plaintext highlighter-rouge">~/.config/cloudera-deploy/profiles/default</code></p>
+
+<p>The values in the profile are among the most common to be set for a Deployment, as such the User has several options where they can be set:</p>
+
+<ul>
+  <li>Values in the <code class="language-plaintext highlighter-rouge">default</code> profile will be picked up at the lowest priority</li>
+  <li>if the user provides the path to an alternative <code class="language-plaintext highlighter-rouge">profile.yml</code> via the extra-vars option <code class="language-plaintext highlighter-rouge">abs_profile</code>, that will be used instead of the default profile</li>
+  <li>The User may set the values from the Profile in definition.yml, which will override the previous stated options</li>
+  <li>The User may pass in the values as extra-vars at runtime, which overrides almost anything else.</li>
+</ul>
+
+<p>IMPORTANT: Many Profile values use bash expansion of the user’s home directory (<code class="language-plaintext highlighter-rouge">~/</code>)to refer to files, this allows the same path to work on your local machine AND in the Runner. Using absolute paths (<code class="language-plaintext highlighter-rouge">/home/user</code>) <em>in the Profile</em> is strongly advised against, but should be fine elsewhere in the Framework.</p>
+
+<p><strong>Default Password</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">admin_password</span><span class="pi">:</span> <span class="s">Mysecretpword1!</span>
+</code></pre></div></div>
+
+<p>IMPORTANT: You must provide an <code class="language-plaintext highlighter-rouge">admin_password</code> to the Framework in some manner, it is the only mandatory value which we do not set a default for.</p>
+
+<p>This password will be propagated to your CDP Public Workload User, the admin user in CDP Base, and anywhere else a security value may be required such as in a database required by the Definition you supply.</p>
+
+<p>We recommend you set individual passwords for separate services in <em>serious deployments</em> using the overrides available for each of these values in the Definition. For Demo and Development a common password is a lot easier.</p>
+
+<p><em><strong>Password Complexity</strong></em></p>
+
+<p>Recommended 12-16 chars, 1 Cap, 1 num, 1 special (avoid ‘#’, ‘?’ and ‘/’ for some subsystems).</p>
+
+<p>This satisfies password requirements for <em>most</em> subsystems.</p>
+
+<p>What we mean by this is that the Framework automates many, many subsystems for you depending on what you put in the Definition, and each of those subsystems has different security standards. We strive to balance having security out-of-the-box with an easy to set default value.</p>
+
+<p><strong>Namespace</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name_prefix</span><span class="pi">:</span> <span class="s">cldr</span>
+</code></pre></div></div>
+
+<p>Where names are procedurally generated by the Framework, rather than explicitly provided by the user, this will be prefixed. Sometimes it will be joined with other sources of uniqueness, such as the first two characters of the cloud provider, to generate a unique name for a given subsystem.</p>
+
+<p>All deployment names should be prefixed to allow differentiation and accurate discovery or filtering. You are recommended to combine this with unique default Tags when there are a lot of Deployments sharing some Tenant to avoid clashes.</p>
+
+<p>NOTE: Many subsystems require that deployments within a given Tenant have a unique name, as such you should avoid using the default name prefix <code class="language-plaintext highlighter-rouge">cldr</code> if multiple people may be using this automation Framework in your Deployments.</p>
+
+<p>Ideally it should not exceed 6 chars, and must start with a letter. your personal Initials are an excellent option in most cases.</p>
+
+<p>WARNING: Do not use punctuation in your <code class="language-plaintext highlighter-rouge">name_prefix</code>, particularly ‘-‘ and ‘_’ can cause extremely weird behavior in some subsystems, particularly security subsystems.</p>
+
+<p>WARNING: If you are deploying to Azure, we strongly recommend it be &lt;= 4 chars, as Azure has quite short field character count limits in some cases, particularly storage.</p>
+
+<p>It will default to the name_prefix <code class="language-plaintext highlighter-rouge">cldr</code> as set in <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/roles/cloudera_deploy/defaults/main.yml">roles/cloudera_deploy/defaults</a> if not provided by the User.</p>
+
+<p><strong>Default Tags</strong></p>
+
+<p>These tags are applied by default to all deployed infrastructure, particularly chargeable infrastructure on cloud providers.</p>
+
+<p>You can also set specific Tags on specific deployments, such as a Datahub, in their sections of the Definition.</p>
+
+<p>Some subsystems require certain tags to self-identify different functions, this is particularly common with certain cloud Kubernetes implementations. These will be automatically applied for you where appropriate.</p>
+
+<p>You should use tags to identify your services to make it easy to track and remove them when no longer needed.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">tags</span><span class="pi">:</span>
+  <span class="na">owner</span><span class="pi">:</span> <span class="s">dchaffelson@cloudera.com</span>
+  <span class="na">enddate</span><span class="pi">:</span> <span class="s2">"</span><span class="s">01312022"</span>
+</code></pre></div></div>
+
+<p>IMPORTANT: The two-space indent of the tag <code class="language-plaintext highlighter-rouge">key: value</code> pairs is critical for correct YAML structure</p>
+
+<p>NOTE: For backwards compatibility reasons, we give the example date above in American or ‘Freedom’ format of MMDDYYYY. We recommend most people use ISO8601 or YYYYMMDD format.</p>
+
+<p><strong>Cloud Infrastructure</strong></p>
+
+<p><em><strong>Cloud Provider</strong></em></p>
+
+<p>Specifies the Cloud Infrastructure provider, CDP presently supports GCP, AWS and Azure</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra_type</span><span class="pi">:</span> <span class="s">aws</span>  <span class="c1"># gcp, azure</span>
+</code></pre></div></div>
+
+<p>NOTE: Only necessary when using Public Cloud Infrastructure and when you do not specify an Ansible Inventory</p>
+
+<p><em><strong>Cloud Region</strong></em></p>
+
+<p>Specify the default region you prefer for your infrastructure provider</p>
+
+<p>It must be valid for the selected infra_type</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra_region</span><span class="pi">:</span> <span class="s">us-east-1</span>
+</code></pre></div></div>
+
+<p>IMPORTANT: Generally it is not a problem if the region you set in Definition (or these defaults) differs from the region you have set in the CLI Config. The exception is where you wish to combine other tools with this Framework and they start looking in a different region. Be mindful of mixed configurations.</p>
+
+<p>The automation service attempts to validate that the requested build will work in the given region, so some may be rejected as not all regions provide all cloud services.</p>
+
+<p>NOTE: You are advised to build a reference deployment, including all services you intend to use, before investing into data and application development in a particular Cloud provider or region. You can immediately remove it once this validation is complete.</p>
+
+<p><a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html">Listing</a> of AWS regions.</p>
+
+<p><a href="https://azuretracks.com/2021/04/current-azure-region-names-reference">Listing</a> of Azure regions (Note: not microsoft.com).</p>
+
+<p>Or you can run this in the runner:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">az account list-locations --query '[*].name'</span>
+</code></pre></div></div>
+
+<p><a href="https://cloud.google.com/compute/docs/regions-zones">Listing</a> of GCP regions.</p>
+
+<p><strong>Cloud Credentials</strong></p>
+
+<p>Path to Google Cloud Credentials file, if using Google Cloud</p>
+
+<p>Should be in your local profile</p>
+
+<p>WARNING: We recommend they should not be located anywhere near a version controlled directory like git to avoid accidental inclusion!</p>
+
+<p>If using Azure or AWS the credentials will be automatically collected from your local user profile; these credentials are required because Deployments require a GCP Service Account which is handled differently.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">gcloud_credential_file</span><span class="pi">:</span> <span class="s1">'</span><span class="s">~/.config/gcloud/mycreds.json'</span>
+</code></pre></div></div>
+
+<p><strong>SSH</strong></p>
+
+<p>NOTE: Your SSH keys should be in your local profile (typically <code class="language-plaintext highlighter-rouge">~/.ssh</code>), or the Definition Path, or some other persistent directory available to the Runner. You are advised to be careful of not inadvertently committing your private SSH keys to version control.</p>
+
+<p>NOTE: If you have set the necessary SSH Information into your Ansible Inventory for deploying CDP Base, you can leave these fields commented out of your profile. They are only really necessary for Public Cloud Deployments.</p>
+
+<p><strong>Public Key File</strong></p>
+
+<p>A Public Key file is required if using Azure or GCP as Cloud Infrastructure, or deploying Private Cloud</p>
+
+<p>If not supplied, one will be generated using the supplied <code class="language-plaintext highlighter-rouge">name_prefix</code>, along with a matching Private Key file, and ignoring the <code class="language-plaintext highlighter-rouge">private_key_file</code> setting below. The default location is the usual ssh path in the User’s Home Directory <code class="language-plaintext highlighter-rouge">~/.ssh</code></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">public_key_file</span><span class="pi">:</span> <span class="s1">'</span><span class="s">~/.ssh/cldr.pub'</span>
+</code></pre></div></div>
+
+<p><strong>Private key file</strong></p>
+
+<p>Required if deploying Dynamic Inventory to set the Ansible Connection Parameters.</p>
+
+<p>NOTE: Must be set if public_key_file is set as Ansible validates that your keys match as a convenience</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">private_key_file</span><span class="pi">:</span> <span class="s1">'</span><span class="s">~/.ssh/cldr.pem'</span>
+</code></pre></div></div>
+
+<p><strong>Key Name</strong></p>
+
+<p>Required for AWS Cloud Infrastructure</p>
+
+<p>Defaults to the Namespace if not set</p>
+
+<p>Must be set if public_key_file is set, even if not using AWS.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">public_key_id</span><span class="pi">:</span> <span class="s">cldr</span>
+</code></pre></div></div>
+
+<p><strong>Cloudera License</strong></p>
+
+<p>Path to your Cloudera License file, if you want to supply one.</p>
+
+<p>Required if deploying a CDP Cluster for Private Cloud in a mode other than Trial, or where files are required to be downloaded from behind authentication on archive.cloudera.com</p>
+
+<p>Should be in your local profile using bash expansion, or the definition directory.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">license_file</span><span class="pi">:</span> <span class="s2">"</span><span class="s">~/.cdp/my_cloudera_license.txt</span>
+</code></pre></div></div>
+
+<p>NOTE: Putting the license file in <code class="language-plaintext highlighter-rouge">~/.cdp/</code> is a convenient convention, but not required.</p>
+
+<p><strong>Full Profile YAML</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">admin_password</span><span class="pi">:</span> <span class="s">Mysecretpword1!</span>
+<span class="na">name_prefix</span><span class="pi">:</span> <span class="s">cldr</span>
+<span class="na">tags</span><span class="pi">:</span>
+  <span class="na">owner</span><span class="pi">:</span> <span class="s">dchaffelson@cloudera.com</span>
+  <span class="na">enddate</span><span class="pi">:</span> <span class="s2">"</span><span class="s">01312022"</span>
+<span class="na">infra_type</span><span class="pi">:</span> <span class="s">aws</span>
+<span class="na">infra_region</span><span class="pi">:</span> <span class="s">us-east-1</span>
+<span class="na">gcloud_credential_file</span><span class="pi">:</span> <span class="s1">'</span><span class="s">~/.config/gcloud/mycreds.json'</span>
+<span class="na">public_key_file</span><span class="pi">:</span> <span class="s1">'</span><span class="s">~/.ssh/cldr.pub'</span>
+<span class="na">private_key_file</span><span class="pi">:</span> <span class="s1">'</span><span class="s">~/.ssh/cldr.pem'</span>
+<span class="na">public_key_id</span><span class="pi">:</span> <span class="s">cldr</span>
+<span class="na">license_file</span><span class="pi">:</span> <span class="s2">"</span><span class="s">~/.cdp/my_cloudera_license.txt"</span>
+</code></pre></div></div>
+
+<h3 id="globals">Globals</h3>
+
+<p>Globals is a structure to allow particular variables to be propagated across the entire Framework in a simple dictionary, and they are usually set by the top level playbook and then inherited by the Collections.</p>
+
+<p>Globals are usually taken from some default or User set value, as such you are advised to not set the <code class="language-plaintext highlighter-rouge">globals</code> dictionary directly, as you may squash other variables the Framework expects to be there. If you want to change something you have found in <code class="language-plaintext highlighter-rouge">globals</code> during debugging, look to where it is set upstream in the Playbook or other locations.</p>
+
+<p>Generally only add new values to globals when developing new features if they are needed in multiple Collections, such as <code class="language-plaintext highlighter-rouge">cloudera.exe</code> and <code class="language-plaintext highlighter-rouge">cloudera.cluster</code>.</p>
+
+<p><strong>General</strong></p>
+
+<p>The Globals in this section are explained elsewhere, as most come from the User Profile in Cloudera-Deploy, or are derived from its initialization process.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">globals</span><span class="pi">:</span>
+  <span class="na">admin_password</span><span class="pi">:</span> <span class="s">MySuperSecret1!</span>
+  <span class="na">artifacts</span><span class="pi">:</span>
+    <span class="na">create_deployment_details</span><span class="pi">:</span> <span class="s">yes</span>
+    <span class="na">directory</span><span class="pi">:</span> <span class="s">~/.config/cloudera-deploy/artifacts</span>
+  <span class="na">cloudera_license_file</span><span class="pi">:</span> <span class="s">~/.cdp/my_cloudera_license.txt</span>
+  <span class="na">create_utility_service</span><span class="pi">:</span> <span class="s">yes</span>
+  <span class="na">dynamic_inventory</span><span class="pi">:</span>
+    <span class="na">vm</span><span class="pi">:</span>
+      <span class="na">count</span><span class="pi">:</span> <span class="m">6</span>
+      <span class="na">os</span><span class="pi">:</span> <span class="s">centos8</span>
+  <span class="na">gcloud_credential_file</span><span class="pi">:</span> <span class="s">~/.config/gcp/credentials.json</span>
+  <span class="na">infra_type</span><span class="pi">:</span> <span class="s">aws</span>
+  <span class="na">name_prefix</span><span class="pi">:</span> <span class="s">cldr</span>
+  <span class="na">namespace_cdp</span><span class="pi">:</span> <span class="s">cldr-aw</span>
+  <span class="na">region</span><span class="pi">:</span> <span class="s">eu-west-1</span>
+  <span class="na">tags</span><span class="pi">:</span>
+    <span class="na">mykey</span><span class="pi">:</span> <span class="s">myvalue</span>
+  <span class="na">utility_bucket_name</span><span class="pi">:</span> <span class="s">cldr-0123456789-uk-west-1</span>
+</code></pre></div></div>
+
+<p><strong>Object Storage Name</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">globals</span><span class="pi">:</span>
+  <span class="na">storage</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">us-west-1-default</span>
+</code></pre></div></div>
+
+<p>This particular global is to allow the User to set a unique value to be used when constructing the name for a cloud object store, such as an S3 bucket or Azure storage account.</p>
+
+<p>It defaults to the region + aws profile name for AWS, and just the name of the region for the other clouds. When combined with the namespace, this is usually sufficiently unique for most users.</p>
+
+<p>This odd construction is necessary because, unlike most other cloud resources, these names much be globally unique to all accounts. This is not always the case, but as it usually is we opt for a solution which is less likely to surprise the user with an unexpected error.</p>
+
+<p><strong>SSH</strong></p>
+
+<p>Unfortunately the different cloud providers, and OS types that you may use, tend to have slightly different requirements when it comes to remote access via SSH. As such, you may observe there are several options for providing your SSH credentials to the Framework.</p>
+
+<p>In most cases you are advised to supply the path to your <code class="language-plaintext highlighter-rouge">public_key_file</code> and <code class="language-plaintext highlighter-rouge">private_key_file</code> in your profile.</p>
+
+<p>If you are using AWS, you should set the <code class="language-plaintext highlighter-rouge">public_key_id</code> to match.</p>
+
+<p>You may supply the <code class="language-plaintext highlighter-rouge">public_key_text</code> directly for some Azure use cases, but we will look it up from the file if you supply <code class="language-plaintext highlighter-rouge">public_key_file</code> instead, and this latter option is preferred security practice.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">globals</span><span class="pi">:</span>
+  <span class="na">ssh</span><span class="pi">:</span>
+    <span class="na">key_path</span><span class="pi">:</span> <span class="s">~/.ssh</span>
+    <span class="na">private_key_file</span><span class="pi">:</span> <span class="s">~/.ssh/mykey.pem</span>
+    <span class="na">public_key_file</span><span class="pi">:</span> <span class="s">~/.ssh/mykey.pub</span>
+    <span class="na">public_key_id</span><span class="pi">:</span> <span class="s">mykey</span>
+    <span class="na">public_key_text</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>Labels</strong></p>
+
+<p>The global labels are the short strings used as identifiers when constructing larger labels for uniqueness. It allows us to procedurally generate the different names from standard pieces.</p>
+
+<p>They are deliberately short in some cases due to restricted character counts on some fields.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">globals</span><span class="pi">:</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">admin</span><span class="pi">:</span> <span class="s">admin</span>
+    <span class="na">app</span><span class="pi">:</span> <span class="s">app</span>
+    <span class="na">cml</span><span class="pi">:</span> <span class="s">cml</span>
+    <span class="na">cde</span><span class="pi">:</span> <span class="s">cde</span>
+    <span class="na">credential</span><span class="pi">:</span> <span class="s">cred</span>
+    <span class="na">cross_account</span><span class="pi">:</span> <span class="s">xaccount</span>
+    <span class="na">data</span><span class="pi">:</span> <span class="s">data</span>
+    <span class="na">datalake</span><span class="pi">:</span> <span class="s">dl</span>
+    <span class="na">datalake_admin</span><span class="pi">:</span> <span class="s">dladmin</span>
+    <span class="na">default</span><span class="pi">:</span> <span class="s">default</span>
+    <span class="na">env</span><span class="pi">:</span> <span class="s">env</span>
+    <span class="na">group</span><span class="pi">:</span> <span class="s">group</span>
+    <span class="na">idbroker</span><span class="pi">:</span> <span class="s">idbroker</span>
+    <span class="na">identity</span><span class="pi">:</span> <span class="s">identity</span>
+    <span class="na">internet_gateway</span><span class="pi">:</span> <span class="s">igw</span>
+    <span class="na">knox</span><span class="pi">:</span> <span class="s">know</span>
+    <span class="na">logs</span><span class="pi">:</span> <span class="s">logs</span>
+    <span class="na">policy</span><span class="pi">:</span> <span class="s">policy</span>
+    <span class="na">private</span><span class="pi">:</span> <span class="s">pvt</span>
+    <span class="na">public</span><span class="pi">:</span> <span class="s">pub</span>
+    <span class="na">ranger_audit</span><span class="pi">:</span> <span class="s">audit</span>
+    <span class="na">role</span><span class="pi">:</span> <span class="s">role</span>
+    <span class="na">service_network</span><span class="pi">:</span> <span class="s">svcnet</span>
+    <span class="na">storage</span><span class="pi">:</span> <span class="s">storage</span>
+    <span class="na">subnet</span><span class="pi">:</span> <span class="s">sbnt</span>
+    <span class="na">table</span><span class="pi">:</span> <span class="s">table</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">user</span>
+    <span class="na">vpc</span><span class="pi">:</span> <span class="s">vpc</span>
+    <span class="na">vpce</span><span class="pi">:</span> <span class="s">vpce</span>
+</code></pre></div></div>
+
+<h3 id="infrastructure">Infrastructure</h3>
+
+<p><strong>AWS</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra</span><span class="pi">:</span>
+  <span class="na">aws</span><span class="pi">:</span>
+    <span class="na">profile</span><span class="pi">:</span>
+    <span class="na">region</span><span class="pi">:</span>
+    <span class="na">arn_partition</span><span class="pi">:</span>
+    <span class="na">vpc</span><span class="pi">:</span>
+      <span class="na">az_count</span><span class="pi">:</span>
+      <span class="na">internet_gateway</span><span class="pi">:</span>
+        <span class="na">name</span><span class="pi">:</span>
+        <span class="na">suffix</span><span class="pi">:</span>
+      <span class="na">labels</span><span class="pi">:</span>
+        <span class="na">public_route_table</span><span class="pi">:</span>
+        <span class="na">private_route_table</span><span class="pi">:</span>
+        <span class="na">public_route_table_suffix</span><span class="pi">:</span>
+        <span class="na">private_route_table_suffix</span><span class="pi">:</span>
+      <span class="na">existing</span><span class="pi">:</span>
+        <span class="na">vpc_id</span><span class="pi">:</span>
+        <span class="na">public_subnet_ids</span><span class="pi">:</span>
+        <span class="na">private_subnet_ids</span><span class="pi">:</span>
+    <span class="na">role</span><span class="pi">:</span>
+      <span class="na">tags</span><span class="pi">:</span>
+    <span class="na">policy</span><span class="pi">:</span>
+      <span class="na">tags</span><span class="pi">:</span>
+    <span class="na">storage</span><span class="pi">:</span>
+      <span class="na">tags</span><span class="pi">:</span>
+    <span class="na">private_endpoints</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>Azure</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra</span><span class="pi">:</span>
+  <span class="na">azure</span><span class="pi">:</span>
+    <span class="na">metagroup</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+    <span class="na">netapp</span><span class="pi">:</span>
+      <span class="na">account</span><span class="pi">:</span>
+        <span class="na">name</span><span class="pi">:</span>
+        <span class="na">suffix</span><span class="pi">:</span>
+      <span class="na">pool</span><span class="pi">:</span>
+        <span class="na">name</span><span class="pi">:</span>
+        <span class="na">size</span><span class="pi">:</span>
+        <span class="na">suffix</span><span class="pi">:</span>
+        <span class="na">type</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+      <span class="na">volume</span><span class="pi">:</span>
+        <span class="na">name</span><span class="pi">:</span>
+        <span class="na">size</span><span class="pi">:</span>
+        <span class="na">suffix</span><span class="pi">:</span>
+        <span class="na">type</span><span class="pi">:</span>
+    <span class="na">region</span><span class="pi">:</span>
+    <span class="na">sp_login_from_env</span><span class="pi">:</span>
+    <span class="na">storage</span><span class="pi">:</span>
+      <span class="na">class</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+      <span class="na">type</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>Dynamic Inventory</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra</span><span class="pi">:</span>
+  <span class="na">dynamic_inventory</span><span class="pi">:</span>
+    <span class="na">storage</span><span class="pi">:</span>
+      <span class="na">delete</span><span class="pi">:</span>
+      <span class="na">size</span><span class="pi">:</span>
+      <span class="na">type</span><span class="pi">:</span>
+    <span class="na">tag</span><span class="pi">:</span>
+    <span class="na">tag_key</span><span class="pi">:</span>
+    <span class="na">tag_value</span><span class="pi">:</span>
+    <span class="na">vm</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+      <span class="na">type</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>GCP</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra</span><span class="pi">:</span>
+  <span class="na">gcp</span><span class="pi">:</span>
+    <span class="na">project</span><span class="pi">:</span>
+    <span class="na">region</span><span class="pi">:</span>
+    <span class="na">storage</span><span class="pi">:</span>
+      <span class="na">path</span><span class="pi">:</span>
+        <span class="na">data</span><span class="pi">:</span>
+        <span class="na">logs</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>Security Groups</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra</span><span class="pi">:</span>
+  <span class="na">security_group</span><span class="pi">:</span>
+    <span class="na">default</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+    <span class="na">knox</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+    <span class="na">vpce</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>Storage</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra</span><span class="pi">:</span>
+  <span class="na">storage</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span>
+    <span class="na">path</span><span class="pi">:</span>
+      <span class="na">data</span><span class="pi">:</span>
+      <span class="na">de</span><span class="pi">:</span>
+      <span class="na">logs</span><span class="pi">:</span>
+      <span class="na">ml</span><span class="pi">:</span>
+      <span class="na">ranger_audit</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>Teardown</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra</span><span class="pi">:</span>
+  <span class="na">teardown</span><span class="pi">:</span>
+    <span class="na">delete_data</span><span class="pi">:</span>
+    <span class="na">delete_mirror</span><span class="pi">:</span>
+    <span class="na">delete_network</span><span class="pi">:</span>
+    <span class="na">delete_ssh_key</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>VPC Networking</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">infra</span><span class="pi">:</span>
+  <span class="na">vpc</span><span class="pi">:</span>
+    <span class="na">cidr</span><span class="pi">:</span>
+    <span class="na">extra_cidr</span><span class="pi">:</span>
+    <span class="na">extra_ports</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span>
+    <span class="na">private_subnets</span><span class="pi">:</span>
+    <span class="na">private_subnets_suffix</span><span class="pi">:</span>
+    <span class="na">public_subnets</span><span class="pi">:</span>
+    <span class="na">public_subnets_suffix</span><span class="pi">:</span>
+    <span class="na">service_network</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+      <span class="na">subnet</span><span class="pi">:</span>
+    <span class="na">user_cidr</span><span class="pi">:</span>
+    <span class="na">user_ports</span><span class="pi">:</span>
+    <span class="na">tunneled_cidr</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<h3 id="environment">Environment</h3>
+
+<p>The Environment definition is one of the largest, because the Framework takes the position that it will only work with one Environment per run for CDP Public. This gives us the convenience of using it as encapsulating object for all configuration at the Platform level.</p>
+
+<p>We’ll break the <code class="language-plaintext highlighter-rouge">env</code> key down into sections around the direct keys and then the complex sub-keys, and then provide the full schema at the end of this section as usual.</p>
+
+<p><strong>Top Level Environment Keys</strong></p>
+
+<p>These keys are also at the top level under <code class="language-plaintext highlighter-rouge">env</code>, but do not have complex substructures and therefore do not need breaking out into a separate explanation</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">cldr-aw-env</span>
+  <span class="na">suffix</span><span class="pi">:</span> <span class="s">env</span>
+  <span class="na">workload_analytics</span><span class="pi">:</span> <span class="s">yes</span>  <span class="c1"># no</span>
+  <span class="na">tunnel</span><span class="pi">:</span> <span class="s">yes</span>  <span class="c1"># no</span>
+  <span class="na">public_endpoint_access</span><span class="pi">:</span> <span class="s">yes</span>  <span class="c1"># no</span>
+</code></pre></div></div>
+
+<p><em><strong>Name</strong></em></p>
+
+<p>The name may be supplied here, or it will be procedurally generated by concatenating the namespace, cloud provider, and suffix. We include the cloud provider in the generated name as the user may wish to make a group of environments within a namespace but across multiple clouds, and the names must be distinct.</p>
+
+<p>IMPORTANT: The first eight characters of the name of the Environment must be unique within the CDP Tenant, as they are used in generating various DNS entries for some cloud subsystems which you probably do not want to clash.</p>
+
+<p><em><strong>Suffix</strong></em></p>
+
+<p>The suffix used when generating the name procedurally, if the name is not directly provided.</p>
+
+<p>Note that the suffix can be set here within the Environment definition, or at the globals level if you are composing your configs.</p>
+
+<p><em><strong>Workload Analytics</strong></em></p>
+
+<p>This simple true or false value enables workload analytics for this particular environment.</p>
+
+<p>It defaults to false.</p>
+
+<p><strong>L0, L1, and L2 network architectures</strong></p>
+
+<p>One of the main consequential decisions when deploying a CDP Public Environment is the Cloud Networking Architecture you wish to deploy. While this has more complex implications in terms of the Network topology created, we abstract the typical cases into top level flags here.</p>
+
+<p>We generally refer to network setups for CDP Public as falling into three categories.</p>
+
+<p>If all nodes have public IPs and internet access, we call this L0 or Public - set tunnel &amp; endpoints to false
+If gateway nodes have public IPs, but other nodes do not, we call this L1 or semi-public - set tunnel &amp; endpoints to true
+If no nodes have public IPs, we call this L2 or private - set tunnel to true and endpoints to false</p>
+
+<p>Note that L0 and L1 will work out of the box as the Framework will put the IP of the Ansible Controller on the network security allow-list by default. This is a practical consideration because the Controller <em>usually</em> needs to connect to hosts to do more configuration work, and the User also <em>usually</em> wants to access those machines from their workstation which is <em>usually</em> running the Controller.</p>
+
+<p>For an L2 configuration, the User will need to have some other arrangements to access to the private IPs within the deployed network. Perhaps a jumpbox, VPN, VPC Peering, or one of many such possibilities. These deployments are typical of Production cloud networking in enterprise customers and setup of them is outside the scope of this Framework.</p>
+
+<p><em><strong>Tunnel</strong></em></p>
+
+<p>Setting tunnel option to true enables CCM gateway which removes the need for the environment hosts to have a public IP address.</p>
+
+<p>The default is false.</p>
+
+<p><em><strong>Public Endpoint Access</strong></em></p>
+
+<p>Setting public_endpoint_access to true enables public workload endpoint access gateway which lets users access workload from the internet.</p>
+
+<p>The default is false.</p>
+
+<p>Needed when tunneling is enabled, but you don’t have the direct connectivity with the VPC via a VPN or similar.</p>
+
+<p><strong>Environment AWS sub-structure</strong></p>
+
+<p>As the actual definition of Infrastructure to be deployed on AWS lives under the <code class="language-plaintext highlighter-rouge">infra</code> tag, this section under <code class="language-plaintext highlighter-rouge">env</code> is primarily concerned with handling the naming and deployment of the necessary Policies and Roles.</p>
+
+<p>While the Roles and Policies are created on AWS, and therefore you would reasonably think they should be part of the Infrastructure section, we moved them into the Platform section because the selection of Roles and Policies is closely tied to the shape of the CDP Public Environment and Datalake to be created, especially the cross-account access. It’s not a perfect demarcation, but we have found this setup to be the least-worst of the available options.</p>
+
+<p><em><strong>Policy Naming</strong></em></p>
+
+<p>Every value in this section has a practical default.</p>
+
+<p>You can override the suffix used in policy name generation with the <code class="language-plaintext highlighter-rouge">suffix</code> key, or directly set the literal name used for the policy object with the appropriate <code class="language-plaintext highlighter-rouge">name</code> subkey.</p>
+
+<p>You may set tags to be applied to Policies here.</p>
+
+<p>We plan to support directly supplying the policy documents from local files in the future, presently the Framework uses the official Cloudera policies directly from Cloudera’s codebase.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">aws</span><span class="pi">:</span>
+    <span class="na">policy</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+        <span class="na">bucket_access</span><span class="pi">:</span> <span class="s">cldr-bucket-access-pol</span>
+        <span class="na">cross_account</span><span class="pi">:</span> <span class="s">cldr-xaccount-pol</span>
+        <span class="na">datalake_admin_s3</span><span class="pi">:</span> <span class="s">cldr-dl-admin-pol</span>
+        <span class="na">idbroker</span><span class="pi">:</span> <span class="s">cldr-idbroke-pol</span>
+        <span class="na">log</span><span class="pi">:</span> <span class="s">cldr-log-pol</span>
+        <span class="na">ranger_audit_s3</span><span class="pi">:</span> <span class="s">cldr-ranger-s3-audit-pol</span>
+      <span class="na">suffix</span><span class="pi">:</span> <span class="s">pol</span>
+      <span class="na">tags</span><span class="pi">:</span>
+        <span class="na">pol_key</span><span class="pi">:</span> <span class="s">pol_val</span>
+</code></pre></div></div>
+
+<p><em><strong>Roles</strong></em></p>
+
+<p>Similar to Policies above, here you can set the <code class="language-plaintext highlighter-rouge">label</code> used when generating names for Roles. The label simply specifies the short descriptive string for that individual component type, and the ‘suffix’ is the string appended for this particular class of object.</p>
+
+<p>If you do not set them here in the Environment configuration, they are usually set to one of the global suffix or label defaults. As such, you do not need to set any of these values in most cases.</p>
+
+<p>You can also set the names for the Roles directly.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">aws</span><span class="pi">:</span>
+    <span class="na">role</span><span class="pi">:</span>
+      <span class="na">label</span><span class="pi">:</span>
+        <span class="na">cross_account</span><span class="pi">:</span> <span class="s">xaccount</span>
+        <span class="na">datalake_admin</span><span class="pi">:</span> <span class="s">dladmin</span>
+        <span class="na">idbroker</span><span class="pi">:</span> <span class="s">idbroker</span>
+        <span class="na">log</span><span class="pi">:</span> <span class="s">log</span>
+        <span class="na">ranger_audit</span><span class="pi">:</span> <span class="s">audit</span>
+      <span class="na">name</span><span class="pi">:</span>
+        <span class="na">cross_account</span><span class="pi">:</span> <span class="s">cldr-xaccount-rl</span>
+        <span class="na">datalake_admin</span><span class="pi">:</span> <span class="s">cldr-dladmin-rl</span>
+        <span class="na">idbroker</span><span class="pi">:</span> <span class="s">cldr-idbroker-rl</span>
+        <span class="na">log</span><span class="pi">:</span> <span class="s">cldr-log-rl</span>
+        <span class="na">ranger_audit</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><em><strong>Storage</strong></em></p>
+
+<p>Here you can simply override the default suffix used for naming policies and Roles for storage.</p>
+
+<p>Not to be confused with the naming of buckets or storage accounts in the Infrastructure definition.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">aws</span><span class="pi">:</span>
+    <span class="na">storage</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>Environment Azure sub-structure</strong></p>
+
+<p><em><strong>Azure Application Name</strong></em></p>
+
+<p>Explicitly set the name, or just the suffix to use when procedurally generating the name.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">azure</span><span class="pi">:</span>
+    <span class="na">app</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">cldr-xaccount-app</span>
+      <span class="na">suffix</span><span class="pi">:</span> <span class="s">app</span>
+</code></pre></div></div>
+
+<p><em><strong>Azure Custom Policy for Cross Account Role</strong></em></p>
+
+<p>The Policy is stored in version control in Cloudera Labs and set to the minimum necessary policies for all CDP Public deployments to function.</p>
+
+<p>You use your own policy document if you wish, but we recommend consultation with Cloudera Support first.</p>
+
+<p>You may also override the suffix used when naming the Policy during creation</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">azure</span><span class="pi">:</span>
+    <span class="na">policy</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span> <span class="s">policy</span>
+      <span class="na">url</span><span class="pi">:</span> <span class="s">https://raw.githubusercontent.com/cloudera-labs/snippets/main/policies/azure/cloudbreak_minimal_multiple_rgs_v1.json</span>
+</code></pre></div></div>
+
+<p><em><strong>Azure Roles</strong></em></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">azure</span><span class="pi">:</span>
+    <span class="na">role</span><span class="pi">:</span>
+      <span class="na">assignment</span><span class="pi">:</span>
+        <span class="na">cross_account</span><span class="pi">:</span>
+          <span class="na">contributor</span><span class="pi">:</span>
+          <span class="na">role</span><span class="pi">:</span>
+        <span class="na">datalake_admin</span><span class="pi">:</span>
+          <span class="na">data</span><span class="pi">:</span>
+            <span class="na">storageowner</span><span class="pi">:</span>
+          <span class="na">logs</span><span class="pi">:</span>
+            <span class="na">storageowner</span><span class="pi">:</span>
+        <span class="na">idbroker</span><span class="pi">:</span>
+          <span class="na">mgdidentop</span><span class="pi">:</span>
+          <span class="na">vmcontributor</span><span class="pi">:</span>
+        <span class="na">log</span><span class="pi">:</span>
+          <span class="na">storagecontr</span><span class="pi">:</span>
+        <span class="na">ranger_audit</span><span class="pi">:</span>
+          <span class="na">storagecontr</span><span class="pi">:</span>
+      <span class="na">label</span><span class="pi">:</span>
+        <span class="na">data</span><span class="pi">:</span>
+        <span class="na">datalake_admin</span><span class="pi">:</span>
+        <span class="na">idbroker</span><span class="pi">:</span>
+        <span class="na">identity</span><span class="pi">:</span>
+        <span class="na">log</span><span class="pi">:</span>
+        <span class="na">ranger_audit</span><span class="pi">:</span>
+        <span class="na">xaccount</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+        <span class="na">cross_account</span><span class="pi">:</span>
+        <span class="na">datalake_admin</span><span class="pi">:</span>
+        <span class="na">idbroker</span><span class="pi">:</span>
+        <span class="na">log</span><span class="pi">:</span>
+        <span class="na">ranger_audit</span><span class="pi">:</span>
+      <span class="na">name_suffix</span><span class="pi">:</span>
+        <span class="na">admin</span><span class="pi">:</span>
+        <span class="na">assignment</span><span class="pi">:</span>
+        <span class="na">contributor</span><span class="pi">:</span>
+        <span class="na">operator</span><span class="pi">:</span>
+        <span class="na">owner</span><span class="pi">:</span>
+        <span class="na">user</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><em><strong>Azure Storage</strong></em></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">azure</span><span class="pi">:</span>
+    <span class="na">storage</span><span class="pi">:</span>
+      <span class="na">path</span><span class="pi">:</span>
+        <span class="na">data</span><span class="pi">:</span>
+        <span class="na">logs</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>Environment GCP sub-structure</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">gcp</span><span class="pi">:</span>
+    <span class="na">bindings</span><span class="pi">:</span>
+      <span class="na">cross_account</span><span class="pi">:</span>
+      <span class="na">logs</span><span class="pi">:</span>
+    <span class="na">role</span><span class="pi">:</span>
+      <span class="na">label</span><span class="pi">:</span>
+        <span class="na">cross_account</span><span class="pi">:</span>
+        <span class="na">datalake_admin</span><span class="pi">:</span>
+        <span class="na">idbroker</span><span class="pi">:</span>
+        <span class="na">identity</span><span class="pi">:</span>
+        <span class="na">log</span><span class="pi">:</span>
+        <span class="na">ranger_audit</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+        <span class="na">cross_account</span><span class="pi">:</span>
+        <span class="na">datalake_admin</span><span class="pi">:</span>
+        <span class="na">idbroker</span><span class="pi">:</span>
+        <span class="na">identity</span><span class="pi">:</span>
+        <span class="na">log</span><span class="pi">:</span>
+        <span class="na">ranger_audit</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+    <span class="na">storage</span><span class="pi">:</span>
+      <span class="na">path</span><span class="pi">:</span>
+        <span class="na">data</span><span class="pi">:</span>
+        <span class="na">logs</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>Environment CDP sub-structure</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">cdp</span><span class="pi">:</span>
+    <span class="na">admin_group</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+      <span class="na">resource_roles</span><span class="pi">:</span>
+      <span class="na">roles</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+    <span class="na">control_plane</span><span class="pi">:</span>
+      <span class="na">cidr</span><span class="pi">:</span>
+      <span class="na">ports</span><span class="pi">:</span>
+    <span class="na">credential</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+      <span class="na">name_suffix</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+    <span class="na">cross_account</span><span class="pi">:</span>
+      <span class="na">account_id</span><span class="pi">:</span>
+      <span class="na">external_id</span><span class="pi">:</span>
+    <span class="na">group_suffix</span><span class="pi">:</span>
+    <span class="na">user_group</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span>
+      <span class="na">resource_roles</span><span class="pi">:</span>
+      <span class="na">roles</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>Environment Datalake sub-structure</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">datalake</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span>
+    <span class="na">suffix</span><span class="pi">:</span>
+    <span class="na">user_sync</span><span class="pi">:</span>
+    <span class="na">version</span><span class="pi">:</span>
+    <span class="na">scale</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<p><strong>Environment Teardown sub-structure</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">teardown</span><span class="pi">:</span>
+    <span class="na">delete_admin_group</span><span class="pi">:</span>
+    <span class="na">delete_credential</span><span class="pi">:</span>
+    <span class="na">delete_cross_account</span><span class="pi">:</span>
+    <span class="na">delete_policies</span><span class="pi">:</span>
+    <span class="na">delete_roles</span><span class="pi">:</span>
+    <span class="na">delete_user_group</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<h3 id="datahubs">Datahubs</h3>
+
+<p>When the <code class="language-plaintext highlighter-rouge">datahub</code> key is included at the top level, you are required to provide an array of <code class="language-plaintext highlighter-rouge">definitions</code> providing at enough information for the Framework to know which one you want deployed.</p>
+
+<p>Datahub Deployment configurations are prepared in the <code class="language-plaintext highlighter-rouge">Prepare for CDP Datahub clusters</code> task within the <a href="https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/runtime/tasks/initialize_base.yml">cloudera.exe.runtime.initialize_base</a> Role within the Cloudera.exe Collection.</p>
+
+<p>They are deployed in the <code class="language-plaintext highlighter-rouge">Request CDP Datahub deployments</code> Task within the <code class="language-plaintext highlighter-rouge">cloudera.exe.runtime.setup_base</code> Role, and leverage the <a href="https://cloudera-labs.github.io/cloudera.cloud/datahub_cluster.html">cloudera.cloud.datahub_clusters</a> module.</p>
+
+<p><strong>Minimum Datahub Definition</strong></p>
+
+<p>The minimal definition to create a Datahub is to provide the name of a predefined Datahub Definition in the <code class="language-plaintext highlighter-rouge">definition</code> key within the array of definitions under the datahub key, e.g.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">datahub</span><span class="pi">:</span>
+  <span class="na">definitions</span><span class="pi">:</span>
+      <span class="na">definition</span><span class="pi">:</span> <span class="s">Streams Messaging Light Duty for AWS</span>
+</code></pre></div></div>
+
+<p>NOTE: A listing of available Datahub Definitions can be found in the CDP UI by navigating to:
+<code class="language-plaintext highlighter-rouge">Management Console &gt; Environments &gt; Your Environment &gt; Cluster Definitions</code></p>
+
+<p>You may also use a Jinja Template via the <code class="language-plaintext highlighter-rouge">include</code> key, there is an example <a href="https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/runtime/templates/datahub_streams_messaging_light.j2">here</a></p>
+
+<p>You may also specify a CDP Datahub Template (sometimes called a Cluster Blueprint) using the <code class="language-plaintext highlighter-rouge">template</code> key, which will be paired with the <code class="language-plaintext highlighter-rouge">instance_groups</code> (either from defaults, or supplied by you) in order to produce a Definition to be deployed.</p>
+
+<p>NOTE: Available Cluster Templates, including Custom Templates, can be found in the CDP UI by navigating to:
+<code class="language-plaintext highlighter-rouge">Management Console &gt; Shared Resources &gt; Cluster Templates</code></p>
+
+<p>So, in summary, a Datahub Definition is a combination of a Template and Instance Groups. You may either use predefined Datahub Definitions from the CDP Control Plane, or pass in various methods of constructing one yourself.</p>
+
+<p><strong>Naming your Datahubs</strong></p>
+
+<p>If you do not supply a <code class="language-plaintext highlighter-rouge">name</code> key in your Datahub Definition, the Framework will attempt to create a name for you.</p>
+
+<p>Datahub names must be unique within a Tenant, so you have several options:</p>
+
+<ul>
+  <li>You are advised to supply your own unique name as the best option</li>
+  <li>Or you can set the <code class="language-plaintext highlighter-rouge">suffix</code> key which will be concatenated with the namespace and cloud provider in order to generate a fairly unique but deterministic name, e.g. the suffix <code class="language-plaintext highlighter-rouge">dhub01</code> with the namespace <code class="language-plaintext highlighter-rouge">cldr</code> on AWS would produce <code class="language-plaintext highlighter-rouge">cldr-aw-dhub01</code></li>
+</ul>
+
+<p><strong>Instance Groups</strong></p>
+
+<p>You may provide a detailed specification of your own instance groups, either on a per-Datahub basis in the <code class="language-plaintext highlighter-rouge">definitions</code> array, or by supplying a replacement <code class="language-plaintext highlighter-rouge">instance_group_base</code> key.</p>
+
+<p>In most cases this is not recommended, as they predefined Datahub Definitions have best-practice configurations in place.</p>
+
+<p>Of particular note for <code class="language-plaintext highlighter-rouge">instance_groups</code> are the look-up tables in <a href="https://github.com/cloudera-labs/cloudera.exe/blob/main/roles/runtime/vars/main.yml">cloudera.exe.runtime.vars</a> which specify defaults for compute and storage used in various cases. You may wish to change the types and sizes of these values to suit your own scale.</p>
+
+<p>NOTE: If you use a pre-defined Datahub Definition using the <code class="language-plaintext highlighter-rouge">definition</code> key, the instance_groups here are ignored, as the Definition has them baked in. You need to use a <code class="language-plaintext highlighter-rouge">template</code> or one of the other methods to override the instance_groups.</p>
+
+<p><strong>Image Catalog</strong></p>
+
+<p>When constructing a Datahub Template, the appropriate image for deployment is selected from the CDP Control Plane Image Catalog.</p>
+
+<p>The default <a href="https://docs.cloudera.com/data-hub/cloud/create-cluster-aws/topics/mc-choose-image-catalog.html">Image Catalog</a> for CDP is used, but you may supply the name and URL for a custom image catalog if you wish.</p>
+
+<p>Preparing a custom image catalog is outside the scope of the Automation Framework.</p>
+
+<p><strong>Full Datahub Definition</strong></p>
+
+<p>This is the full specification with the most common default values included for your convenience.</p>
+
+<p>In most cases you would not supply most of these values in your own Definition, and actually doing so is likely to cause a maintenance burden.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">datahub</span><span class="pi">:</span>
+  <span class="na">definitions</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">streams-messaging-dhub-01</span>
+      <span class="na">include</span><span class="pi">:</span> <span class="s">datahub_streams_messaging_light.j2</span>
+      <span class="na">template</span><span class="pi">:</span> <span class="na">Streams Messaging Light Duty</span><span class="pi">:</span> <span class="s">Apache Kafka</span>
+      <span class="na">definition</span><span class="pi">:</span> <span class="s">Streams Messaging Light Duty for AWS</span>
+      <span class="na">suffix</span><span class="pi">:</span> <span class="s">streams-dhub-01</span>
+      <span class="na">instance_groups</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">nodeCount</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">instanceGroupName</span><span class="pi">:</span> <span class="s">master</span>
+          <span class="na">instanceGroupType</span><span class="pi">:</span> <span class="s">GATEWAY</span>
+          <span class="na">instanceType</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+          <span class="na">rootVolumeSize</span><span class="pi">:</span> <span class="m">100</span>
+          <span class="na">recoveryMode</span><span class="pi">:</span> <span class="s">MANUAL</span>
+          <span class="na">recipeNames</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">some_recipe_name</span>
+          <span class="na">attachedVolumeConfiguration</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="na">volumeSize</span><span class="pi">:</span> <span class="m">100</span>
+            <span class="na">volumeCount</span><span class="pi">:</span> <span class="m">1</span>
+            <span class="na">volumeType</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+      <span class="na">tags</span><span class="pi">:</span>
+        <span class="na">key</span><span class="pi">:</span> <span class="s">value</span>
+  <span class="na">compute</span><span class="pi">:</span>
+    <span class="na">aws</span><span class="pi">:</span>
+      <span class="na">std_gp</span><span class="pi">:</span> <span class="s1">'</span><span class="s">m5.2xlarge'</span>
+      <span class="na">lrg_gp</span><span class="pi">:</span> <span class="s1">'</span><span class="s">m5.4xlarge'</span>
+      <span class="na">std_mem</span><span class="pi">:</span> <span class="s1">'</span><span class="s">r5.4xlarge'</span>
+      <span class="na">dsk_mem</span><span class="pi">:</span> <span class="s1">'</span><span class="s">r5d.4xlarge'</span>
+      <span class="na">std_gpu</span><span class="pi">:</span> <span class="s2">"</span><span class="s">p2.8xlarge"</span>
+    <span class="na">azure</span><span class="pi">:</span>
+      <span class="na">std_gp</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Standard_D8_v3'</span>
+      <span class="na">lrg_gp</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Standard_D16_v3'</span>
+      <span class="na">std_mem</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Standard_D16_v3'</span>
+      <span class="na">dsk_mem</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Standard_D8_v3'</span>
+      <span class="na">std_gpu</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Standard_D8_v3'</span>
+    <span class="na">gcp</span><span class="pi">:</span>
+      <span class="na">std_gp</span><span class="pi">:</span> <span class="s1">'</span><span class="s">e2-standard-8'</span>
+      <span class="na">lrg_gp</span><span class="pi">:</span> <span class="s1">'</span><span class="s">e2-standard-8'</span>
+      <span class="na">std_mem</span><span class="pi">:</span> <span class="s1">'</span><span class="s">e2-standard-8'</span>
+      <span class="na">dsk_mem</span><span class="pi">:</span> <span class="s1">'</span><span class="s">e2-standard-8'</span>
+      <span class="na">std_gpu</span><span class="pi">:</span> <span class="s1">'</span><span class="s">e2-standard-8'</span>
+  <span class="na">image_catalog</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">cdp-default</span>
+    <span class="na">url</span><span class="pi">:</span> <span class="s">https://cloudbreak-imagecatalog.s3.amazonaws.com/v3-prod-cb-image-catalog.json</span>
+  <span class="na">instance_group_base</span><span class="pi">:</span>
+    <span class="na">nodeCount</span><span class="pi">:</span> <span class="m">1</span>
+    <span class="na">instanceGroupName</span><span class="pi">:</span> <span class="s">master</span>
+    <span class="na">instanceGroupType</span><span class="pi">:</span> <span class="s">GATEWAY</span>
+    <span class="na">instanceType</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+    <span class="na">rootVolumeSize</span><span class="pi">:</span> <span class="m">100</span>
+    <span class="na">recoveryMode</span><span class="pi">:</span> <span class="s">MANUAL</span>
+    <span class="na">recipeNames</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">some_recipe_name</span>
+    <span class="na">attachedVolumeConfiguration</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">volumeSize</span><span class="pi">:</span> <span class="m">100</span>
+        <span class="na">volumeCount</span><span class="pi">:</span> <span class="m">1</span>
+        <span class="na">volumeType</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+  <span class="na">storage</span><span class="pi">:</span>
+    <span class="na">aws</span><span class="pi">:</span>
+      <span class="na">std</span><span class="pi">:</span> <span class="s1">'</span><span class="s">standard'</span>
+      <span class="na">fast</span><span class="pi">:</span> <span class="s1">'</span><span class="s">st1'</span>
+      <span class="na">eph</span><span class="pi">:</span> <span class="s1">'</span><span class="s">ephemeral'</span>
+    <span class="na">azure</span><span class="pi">:</span>
+      <span class="na">std</span><span class="pi">:</span> <span class="s1">'</span><span class="s">StandardSSD_LRS'</span>
+      <span class="na">fast</span><span class="pi">:</span> <span class="s1">'</span><span class="s">StandardSSD_LRS'</span>
+      <span class="na">eph</span><span class="pi">:</span> <span class="s1">'</span><span class="s">StandardSSD_LRS'</span>
+    <span class="na">gcp</span><span class="pi">:</span>
+      <span class="na">std</span><span class="pi">:</span> <span class="s1">'</span><span class="s">pd-standard'</span>
+      <span class="na">fast</span><span class="pi">:</span> <span class="s1">'</span><span class="s">pd-standard'</span>
+      <span class="na">eph</span><span class="pi">:</span> <span class="s1">'</span><span class="s">pd-standard'</span>
+</code></pre></div></div>
+
+<h3 id="data-engineering">Data Engineering</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">de</span><span class="pi">:</span>
+  <span class="na">definitions</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">cde-01</span>
+      <span class="na">instance_type</span><span class="pi">:</span> <span class="s1">'</span><span class="s">m5.2xlarge'</span>
+      <span class="na">minimum_instances</span><span class="pi">:</span> <span class="m">1</span>
+      <span class="na">maximum_instances</span><span class="pi">:</span> <span class="m">4</span>
+      <span class="na">minimum_spot_instances</span><span class="pi">:</span> <span class="m">0</span>
+      <span class="na">maximum_spot_instances</span><span class="pi">:</span> <span class="m">0</span>
+      <span class="na">enable_public_endpoint</span><span class="pi">:</span> <span class="s">yes</span>
+      <span class="na">enable_workload_analytics</span><span class="pi">:</span> <span class="s">yes</span>
+      <span class="na">initial_instances</span><span class="pi">:</span> <span class="m">1</span>
+      <span class="na">initial_spot_instances</span><span class="pi">:</span> <span class="m">0</span>
+      <span class="na">root_volume_size</span><span class="pi">:</span> <span class="m">100</span>
+      <span class="na">chart_value_overrides</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">chartName</span><span class="pi">:</span> <span class="s">dex-app</span>
+        <span class="pi">-</span> <span class="na">overrides</span><span class="pi">:</span> <span class="s">dexapp.api.gangScheduling.enabled:true</span>
+      <span class="na">skip_validation</span><span class="pi">:</span> <span class="s">yes</span>
+      <span class="na">tags</span><span class="pi">:</span>
+        <span class="na">definition-tag</span><span class="pi">:</span> <span class="s">value</span>
+      <span class="na">use_ssd</span><span class="pi">:</span> <span class="s">yes</span>
+      <span class="na">virtual_clusters</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">cloudera-deployed-vc-1</span>
+          <span class="na">cpu_requests</span><span class="pi">:</span> <span class="m">32</span>
+          <span class="na">memory_requests</span><span class="pi">:</span> <span class="s1">'</span><span class="s">128Gi'</span>
+          <span class="na">spark_version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">SPARK2'</span>
+          <span class="na">acl_users</span><span class="pi">:</span> <span class="s1">'</span><span class="s">*'</span>
+          <span class="na">runtime_spot_component</span><span class="pi">:</span> <span class="s1">'</span><span class="s">NONE'</span>
+          <span class="na">chart_value_overrides</span><span class="pi">:</span>
+           <span class="pi">-</span> <span class="na">chartName</span><span class="pi">:</span> <span class="s">dex-app</span>
+           <span class="pi">-</span> <span class="na">overrides</span><span class="pi">:</span> <span class="s">pipelines.enabled:true</span>
+  <span class="na">suffix</span><span class="pi">:</span> <span class="s">de-svc</span>
+  <span class="na">tags</span><span class="pi">:</span>
+    <span class="na">default_tag</span><span class="pi">:</span> <span class="s">value</span>
+  <span class="na">force_delete</span><span class="pi">:</span> <span class="s">no</span>
+  <span class="na">vc_suffix</span><span class="pi">:</span> <span class="s">de-vc</span>
+</code></pre></div></div>
+
+<h3 id="data-flow">Data Flow</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">df</span><span class="pi">:</span>
+  <span class="na">suffix</span><span class="pi">:</span>
+  <span class="na">min_k8s_nodes</span><span class="pi">:</span>
+  <span class="na">max_k8s_nodes</span><span class="pi">:</span>
+  <span class="na">public_loadbalancer</span><span class="pi">:</span>
+  <span class="na">loadbalancer_ip_ranges</span><span class="pi">:</span>
+  <span class="na">kube_ip_ranges</span><span class="pi">:</span>
+  <span class="na">cluster_subnets</span><span class="pi">:</span>
+  <span class="na">loadbalancer_subnets</span><span class="pi">:</span>
+  <span class="na">teardown</span><span class="pi">:</span>
+    <span class="na">persist</span><span class="pi">:</span>
+  <span class="na">force_delete</span><span class="pi">:</span>
+  <span class="na">terminate_deployments</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<h3 id="data-warehouse">Data Warehouse</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">dw</span><span class="pi">:</span>
+  <span class="na">definitions</span><span class="pi">:</span>
+  <span class="na">suffix</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<h3 id="machine-learning">Machine Learning</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">ml</span><span class="pi">:</span>
+  <span class="na">definitions</span><span class="pi">:</span>
+  <span class="na">k8s_request_base</span><span class="pi">:</span>
+  <span class="na">suffix</span><span class="pi">:</span>
+  <span class="na">tags</span><span class="pi">:</span>
+  <span class="na">public_loadbalancer</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<h3 id="operational-database">Operational Database</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">opdb</span><span class="pi">:</span>
+  <span class="na">definitions</span><span class="pi">:</span>
+  <span class="na">suffix</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<h3 id="data-management">Data Management</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">data</span><span class="pi">:</span>
+  <span class="na">storage</span><span class="pi">:</span>
+    <span class="c1"># A list of lists of locations (read/[only|write]) defined in a policy and assigned to a Role</span>
+    <span class="pi">-</span> <span class="na">read_only</span><span class="pi">:</span> <span class="s">bool</span>
+      <span class="na">locations</span><span class="pi">:</span> <span class="pi">[]</span>
+      <span class="na">policy</span><span class="pi">:</span>
+        <span class="na">name</span><span class="pi">:</span>
+        <span class="na">suffix</span><span class="pi">:</span>
+        <span class="na">delete</span><span class="pi">:</span> <span class="s">bool</span>
+      <span class="na">role</span><span class="pi">:</span>
+        <span class="na">datalake_admin</span><span class="pi">:</span> <span class="s">bool</span>
+        <span class="na">name</span><span class="pi">:</span>
+        <span class="na">suffix</span><span class="pi">:</span>
+        <span class="na">delete</span><span class="pi">:</span> <span class="s">bool</span>
+  <span class="na">policy</span><span class="pi">:</span>
+    <span class="na">suffix</span><span class="pi">:</span>
+    <span class="na">aws</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+      <span class="na">read_only</span><span class="pi">:</span>
+        <span class="na">suffix</span><span class="pi">:</span>
+        <span class="na">url</span><span class="pi">:</span>
+      <span class="na">read_write</span><span class="pi">:</span>
+        <span class="na">suffix</span><span class="pi">:</span>
+        <span class="na">url</span><span class="pi">:</span>
+  <span class="na">role</span><span class="pi">:</span>
+    <span class="na">suffix</span><span class="pi">:</span>
+    <span class="na">aws</span><span class="pi">:</span>
+      <span class="na">suffix</span><span class="pi">:</span>
+  <span class="na">teardown</span><span class="pi">:</span>
+      <span class="na">delete_policies</span><span class="pi">:</span>
+      <span class="na">delete_roles</span><span class="pi">:</span>
+</code></pre></div></div>
+
+            
+          </div>
+           <div class="chrome:sidebar">
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:ansible foundry"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_expanded"
+        onclick="toggleAccordian('sidebar_item:ansible foundry')"
+      >
+        <span class="chrome:sidebar_item_text">Ansible Foundry</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:ansible foundry:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_expanded">
+        
+          
+          
+          
+          <a href="/docs/content/ansible_intro/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Introduction
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_developers/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Goal-oriented Guides
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_info/" class="chrome:sidebar_item text-sm chrome:active_sidebar_item chrome:sidebar_item_child">
+            References
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_troubleshoot/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Operations
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:cdp pvc data services"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_collapsed"
+        onclick="toggleAccordian('sidebar_item:cdp pvc data services')"
+      >
+        <span class="chrome:sidebar_item_text">CDP PvC Data Services</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:cdp pvc data services:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_collapsed">
+        
+          
+          
+          
+          <a href="/docs/content/ecs_env/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: Client
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_gpu/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: GPU
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <a href="/docs/development/" class="chrome:sidebar_item ">
+        <span class="chrome:sidebar_item_text">Coming Soon</span>
+      </a>
+      
+    
+  
+</div>
+ 
+        </div>
+        <footer class="chrome:footer"><div class="chrome:footer_item">
+    <span class="text-lg"
+      >Updated: 2022-11-20 18:01</span
+    >
+  </div>
+</footer>
+
+      </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        let theme = "forest";
+        mermaid.initialize({ startOnLoad: true, theme });
+        window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    </script>
+    
+  </body>
+</html>

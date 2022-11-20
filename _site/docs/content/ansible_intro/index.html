@@ -7,6 +7,9 @@
       rel="stylesheet"
       href="/assets/css/style.css"
     />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
     <link
       rel="stylesheet"
       href="/assets/css/rouge.css"
@@ -63,15 +66,19 @@
             
             
             <ul id="markdown-toc">
-  <li><a href="#ansible-automation-for-cloudera-products" id="markdown-toc-ansible-automation-for-cloudera-products">Ansible Automation for Cloudera Products</a></li>
-  <li><a href="#what-to-expect" id="markdown-toc-what-to-expect">What to Expect</a></li>
-  <li><a href="#what-is-cloudera-ansible-foundry" id="markdown-toc-what-is-cloudera-ansible-foundry">What is Cloudera Ansible Foundry</a></li>
-  <li><a href="#what-is-cloudera-deploy" id="markdown-toc-what-is-cloudera-deploy">What is Cloudera Deploy</a></li>
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a>    <ul>
+      <li><a href="#what-to-expect" id="markdown-toc-what-to-expect">What to Expect</a></li>
+      <li><a href="#what-is-cloudera-ansible-foundry" id="markdown-toc-what-is-cloudera-ansible-foundry">What is Cloudera Ansible Foundry</a></li>
+      <li><a href="#what-is-cloudera-deploy" id="markdown-toc-what-is-cloudera-deploy">What is Cloudera Deploy</a></li>
+    </ul>
+  </li>
   <li><a href="#licensing-warranties-and-restrictions" id="markdown-toc-licensing-warranties-and-restrictions">Licensing, Warranties and Restrictions</a></li>
   <li><a href="#use-cases" id="markdown-toc-use-cases">Use Cases</a>    <ul>
       <li><a href="#simple-use-cases" id="markdown-toc-simple-use-cases">Simple Use Cases</a></li>
       <li><a href="#intermediate-use-cases" id="markdown-toc-intermediate-use-cases">Intermediate Use Cases</a></li>
-      <li><a href="#framework-components" id="markdown-toc-framework-components">Framework Components</a></li>
+    </ul>
+  </li>
+  <li><a href="#framework-components" id="markdown-toc-framework-components">Framework Components</a>    <ul>
       <li><a href="#cloudera-deploy" id="markdown-toc-cloudera-deploy">cloudera-deploy</a></li>
       <li><a href="#cldr-runner" id="markdown-toc-cldr-runner">cldr-runner</a></li>
       <li><a href="#cdpy" id="markdown-toc-cdpy">cdpy</a></li>
@@ -79,53 +86,66 @@
       <li><a href="#example-deployment-definitions" id="markdown-toc-example-deployment-definitions">Example Deployment Definitions</a></li>
     </ul>
   </li>
-  <li><a href="#getting-started" id="markdown-toc-getting-started">Getting Started</a></li>
-  <li><a href="#prerequisites" id="markdown-toc-prerequisites">Prerequisites</a></li>
-  <li><a href="#understanding-the-skills-gap" id="markdown-toc-understanding-the-skills-gap">Understanding the Skills Gap</a>    <ul>
+  <li><a href="#getting-started" id="markdown-toc-getting-started">Getting Started</a>    <ul>
       <li><a href="#personas" id="markdown-toc-personas">Personas</a></li>
     </ul>
   </li>
 </ul>
 
 <hr />
+<h2 id="introduction">Introduction</h2>
+<p>Ansible Automation for Cloudera Products
+AKA: Cloudera Deploy | Cloudera AutoProv | Cloudera Ansible Foundry | Cloudera Playbooks</p>
 
-<h2 id="ansible-automation-for-cloudera-products">Ansible Automation for Cloudera Products</h2>
-<p>AKA: Cloudera Deploy | Cloudera AutoProv | Cloudera Ansible Foundry | Cloudera Playbooks</p>
-
-<h2 id="what-to-expect">What to Expect</h2>
+<h3 id="what-to-expect">What to Expect</h3>
 <p>These docs are for new users and power users alike to leverage Cloudera’s Ansible implementation for deployment and automation of Cloudera Products within the wider Hybrid Data Cloud ecosystem.</p>
 
 <p>It is generally broken into several sections:</p>
 
-<p>For all users:
-These introductory notes to orient new users</p>
+<p>For all users:</p>
+<ul>
+  <li>
+    <p>These <a href="#introduction">introductory</a> notes to orient new users</p>
+  </li>
+  <li>
+    <p>A discussion of <a href="#use-cases">Use Cases</a> that the Framework supports</p>
+  </li>
+  <li>
+    <p>A <a href="#getting-started">Getting Started</a> guide based around user goals and skill levels</p>
+  </li>
+  <li>
+    <p>An <a href="/docs/content/ansible_info/">Overview</a> of preparing Definitions for Deployment</p>
+  </li>
+</ul>
 
-<p>– A discussion of Use Cases that the Framework supports</p>
+<p>For Developers:</p>
+<ul>
+  <li>
+    <p>A <a href="/docs/content/ansible_info/">History</a> and guiding principles</p>
+  </li>
+  <li>
+    <p>A breakdown of <a href="#framework-components">Framework Components</a></p>
+  </li>
+  <li>
+    <p>An in-depth <a href="/docs/content/ansible_developers/">Setup Guide</a></p>
+  </li>
+  <li>
+    <p>Logical breakdowns of key <a href="/docs/content/ansible_info/">Workflows</a> within the Playbooks</p>
+  </li>
+  <li>
+    <p>A <a href="/docs/content/ansible_info/">Reference</a> guide to all Definition options</p>
+  </li>
+</ul>
 
-<p>– A Getting Started guide based around user goals and skill levels</p>
-
-<p>– An Overview of preparing Definitions for Deployment</p>
-
-<p>For Developers:
-– A History and guiding principles</p>
-
-<p>– A breakdown of Framework Components</p>
-
-<p>– An in-depth Setup Guide</p>
-
-<p>– Logical breakdowns of key Workflows within the Playbooks</p>
-
-<p>– A Reference guide to all Definition options</p>
-
-<h2 id="what-is-cloudera-ansible-foundry">What is Cloudera Ansible Foundry</h2>
+<h3 id="what-is-cloudera-ansible-foundry">What is Cloudera Ansible Foundry</h3>
 <p>This framework is generally called the Cloudera Ansible Foundry, and it wraps software dependencies, automation code, examples, and documentation into an integrated family.</p>
 
 <p>It further provides a consistent and portable toolkit for working in Python, Bash, Terraform, various CLIs, language clients, ad-hoc commands, and other commonly used tools in the Hybrid Cloud ecosystem.</p>
 
-<h2 id="what-is-cloudera-deploy">What is Cloudera Deploy</h2>
+<h3 id="what-is-cloudera-deploy">What is Cloudera Deploy</h3>
 <p>Cloudera Deploy is the name of the reference implementation in Ansible Playbooks for automating Cloudera Products.</p>
 
-<p>For most users, Cloudera-Deploy is the entrypoint and only component they need interact with, but underneath it there is an extensible framework of components for handling various scenarios for power-users.</p>
+<p>For most users, <a href="https://github.com/cloudera-labs/cloudera-deploy">Cloudera-Deploy</a> is the entrypoint and only component they need interact with, but underneath it there is an extensible framework of components for handling various scenarios for power-users.</p>
 
 <p>To that end, you can use Cloudera-Deploy itself directly, or use it as a starting point for your own implementation, or simply use the components within for your own purposes.</p>
 
@@ -140,40 +160,61 @@ These introductory notes to orient new users</p>
 <h3 id="simple-use-cases">Simple Use Cases</h3>
 <p>These simple use cases can be run from the Cloudera-Deploy Quickstart without requiring additional skills in advance beyond use of cmdline, docker, and cloud credentials</p>
 
-<p>– Deploy Reference Architectures for CDP Public on AWS, GCP, or Azure</p>
-
-<p>– Deploying from OSX, Windows10, or Linux machines</p>
-
-<p>– Leverage Ansible or Terraform for Cloud Infrastructure</p>
-
-<p>– Deploy CDP Base clusters to most supported OS targets</p>
-
-<p>– Deploy Applications on various CDP implementations</p>
-
-<p>– Teardown and other lifecycling task</p>
+<ul>
+  <li>
+    <p>Deploy Reference Architectures for CDP Public on AWS, GCP, or Azure</p>
+  </li>
+  <li>
+    <p>Deploying from OSX, Windows10, or Linux machines</p>
+  </li>
+  <li>
+    <p>Leverage Ansible or Terraform for Cloud Infrastructure</p>
+  </li>
+  <li>
+    <p>Deploy CDP Base clusters to most supported OS targets</p>
+  </li>
+  <li>
+    <p>Deploy Applications on various CDP implementations</p>
+  </li>
+  <li>
+    <p>Teardown and other lifecycling task</p>
+  </li>
+</ul>
 
 <h3 id="intermediate-use-cases">Intermediate Use Cases</h3>
 <p>In these cases, we expect that you are a more experienced DevOps user with particular goals in mind and at a good working knowledge of the technologies in play</p>
 
-<p>– Deploy CDP Private Cloud on a Kubernetes Variant</p>
+<ul>
+  <li>
+    <p>Deploy CDP Private Cloud on a Kubernetes Variant</p>
+  </li>
+  <li>
+    <p>Deploy Applications across multiple CDP Hybrid Cloud Environments</p>
+  </li>
+  <li>
+    <p>Integrate a 3rd party component into the Framework</p>
+  </li>
+  <li>
+    <p>Create a mirror of archive.cloudera.com or custom offline repo of parcels</p>
+  </li>
+  <li>
+    <p>Use the framework within Ansible Tower, or via CICD integration</p>
+  </li>
+  <li>
+    <p>Handle partial deployments or partial teardowns using run levels</p>
+  </li>
+  <li>
+    <p>Automate deployment to adopted infrastructure</p>
+  </li>
+  <li>
+    <p>Extend the Ansible Collections to handle additional cases</p>
+  </li>
+  <li>
+    <p>Force remove cloud infrastructure within a given namespace</p>
+  </li>
+</ul>
 
-<p>– Deploy Applications across multiple CDP Hybrid Cloud Environments</p>
-
-<p>– Integrate a 3rd party component into the Framework</p>
-
-<p>– Create a mirror of archive.cloudera.com or custom offline repo of parcels</p>
-
-<p>– Use the framework within Ansible Tower, or via CICD integration</p>
-
-<p>– Handle partial deployments or partial teardowns using run levels</p>
-
-<p>– Automate deployment to adopted infrastructure</p>
-
-<p>– Extend the Ansible Collections to handle additional cases</p>
-
-<p>– Force remove cloud infrastructure within a given namespace</p>
-
-<h3 id="framework-components">Framework Components</h3>
+<h2 id="framework-components">Framework Components</h2>
 <p>Here we will give more of a sense of what is in each of the repositories within the framework</p>
 
 <h3 id="cloudera-deploy">cloudera-deploy</h3>
@@ -198,18 +239,28 @@ These introductory notes to orient new users</p>
 <p>cdpy contains a large number of helper methods which are reused throughout the cloudera.cloud modules, as well as well-structured Ansible-friendly error handling.</p>
 
 <h3 id="cloudera-ansible-collections">Cloudera Ansible Collections</h3>
-<p>cloudera.cloud
-This Collection is primarily un-opinionated modules for the CDP Control Plane in Public or Private Cloud.</p>
+
+<ul>
+  <li>cloudera.cloud</li>
+</ul>
+
+<p>This Collection is primarily un-opinionated modules for the CDP Control Plane in Public or Private Cloud.</p>
 
 <p>The point of keeping the modules unopinionated and solely covering the CDP Control Plane interactions is to minimise the dependencies and attack surface for users who aren’t using Public Cloud.</p>
 
-<p>cloudera.exe
-This Collection is highly opinionated Roles for most task sequences around achieving some run-level or dependency satisfaction.</p>
+<ul>
+  <li>cloudera.exe</li>
+</ul>
+
+<p>This Collection is highly opinionated Roles for most task sequences around achieving some run-level or dependency satisfaction.</p>
 
 <p>The concept of run-level deployments in cloudera.exe is explained later in the Architecture.</p>
 
-<p>cloudera.cluster
-This Collection is focused on Deploying &amp; Configuring Clusters via Cloudera Manager - usually traditional Cloudera clusters.</p>
+<ul>
+  <li>cloudera.cluster</li>
+</ul>
+
+<p>This Collection is focused on Deploying &amp; Configuring Clusters via Cloudera Manager - usually traditional Cloudera clusters.</p>
 
 <p>It is backwards compatible with the Cloudera Playbooks written for Ansible &lt;2.9, whereas this Collection is for &gt;2.10</p>
 
@@ -223,10 +274,16 @@ This Collection is focused on Deploying &amp; Configuring Clusters via Cloudera 
 
 <p>As such, we have set it up so a new user can get started in as little as 3 steps, while not limiting Power Users from leveraging the full suite of capabilities.</p>
 
-<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+  <li>Prerequisites</li>
+</ul>
+
 <p>While Cloudera-Deploy aims to remove as many complexities for the new user, there are still a few dependencies like authentication and runtimes required for it to work. The quickstart guide contains extra prerequisite steps that you are advised to follow if this is your first time using new credentials or tools such as AWS CLI.</p>
 
-<h2 id="understanding-the-skills-gap">Understanding the Skills Gap</h2>
+<ul>
+  <li>Understanding the Skills Gap</li>
+</ul>
+
 <p>We recognise there is a significant jump in the skills and knowledge required to go from using the pre-configured push-button examples in the ‘Simple’ section to more complex cases the ‘Intermediate’ section and beyond.</p>
 
 <p>There are several good introductory courses online for Ansible and Terraform use in Hybrid Cloud Architectures. Cloudera also offers a training program tailored to these tools to interested Customers and Partners.</p>
@@ -234,16 +291,23 @@ This Collection is focused on Deploying &amp; Configuring Clusters via Cloudera 
 <p>You can also reach out to your Cloudera contacts for assistance in these deployments at any time.</p>
 
 <h3 id="personas">Personas</h3>
-<p>New to Automation
-Using Cloudera-Deploy without modifying it only requires a couple of steps and some cloud credentials. It is designed to be extremely accessible to new users.</p>
+
+<ul>
+  <li>New to Automation</li>
+</ul>
+
+<p>Using Cloudera-Deploy without modifying it only requires a couple of steps and some cloud credentials. It is designed to be extremely accessible to new users.</p>
 
 <p>If this is your first time, we suggest running the Cloudera-Deploy Quickstart using one of the prebuilt Definitions before diving in further.</p>
 
 <p>Skills required:
 commandline, editing text files, cloud credential management</p>
 
-<p>Create your own Definitions
-Crafting Definitions is just editing text files to declare what the Deployment should look like, and allowing Cloudera-Deploy to interpret and produce what you have described. The files are written in YAML with a simple structure.</p>
+<ul>
+  <li>Create your own Definitions</li>
+</ul>
+
+<p>Crafting Definitions is just editing text files to declare what the Deployment should look like, and allowing Cloudera-Deploy to interpret and produce what you have described. The files are written in YAML with a simple structure.</p>
 
 <p>Once you have worked out how to run a basic Deployment via the Quickstart, you may wish to customise it to meet your requirements. A summary of editing Definitions is included in the Getting Started sections for CDP Public Cloud and CDP Private Cloud.</p>
 
@@ -252,8 +316,11 @@ Crafting Definitions is just editing text files to declare what the Deployment s
 <p>Additional skills required:
 YAML editing and formatting, Cloudera-Deploy Definitions management</p>
 
-<p>Create your own Playbooks
-Creating your own Playbooks requires a working understanding of authoring Ansible tasks and how to use Modules and Roles from Ansible Collections. It goes a step beyond editing YAML declarations into understanding the sequences of steps necessary to achieve a given outcome in a hopefully robust manner.</p>
+<ul>
+  <li>Create your own Playbooks</li>
+</ul>
+
+<p>Creating your own Playbooks requires a working understanding of authoring Ansible tasks and how to use Modules and Roles from Ansible Collections. It goes a step beyond editing YAML declarations into understanding the sequences of steps necessary to achieve a given outcome in a hopefully robust manner.</p>
 
 <p>We will soon be publishing more examples of Application Playbooks on top of Cloudera-Deploy, but you can review the Playbooks already included as a starting point.</p>
 
@@ -262,8 +329,11 @@ Creating your own Playbooks requires a working understanding of authoring Ansibl
 <p>Additional skills required:
 Ansible Task development, use of Ansible Collections, advanced use of Ansible Tags, experience with multi-tier automation abstractions</p>
 
-<p>Extend the Framework
-If you are familiar with Ansible and Cloudera Products, and are considering adding Ansible modules or Roles to the Collections, then you may wish to follow the Developer Setup to fork and checkout the Framework components so you can make (and perhaps contribute back) your own changes.</p>
+<ul>
+  <li>Extend the Framework</li>
+</ul>
+
+<p>If you are familiar with Ansible and Cloudera Products, and are considering adding Ansible modules or Roles to the Collections, then you may wish to follow the Developer Setup to fork and checkout the Framework components so you can make (and perhaps contribute back) your own changes.</p>
 
 <p>Additional skills required:
 Python development, Ansible test frameworks and debugging, Docker Containers</p>
@@ -314,7 +384,23 @@ Python development, Ansible test frameworks and debugging, Docker Containers</p>
           
           
           <a href="/docs/content/ansible_developers/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
-            Developers
+            Goal-oriented Guides
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_info/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            References
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_troubleshoot/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Operations
           </a>
           
         
@@ -385,7 +471,7 @@ Python development, Ansible test frameworks and debugging, Docker Containers</p>
         </div>
         <footer class="chrome:footer"><div class="chrome:footer_item">
     <span class="text-lg"
-      >Updated: 2022-11-16 16:58</span
+      >Updated: 2022-11-20 18:01</span
     >
   </div>
 </footer>

@@ -14,6 +14,8 @@ sidebar:
     children:
       - ansible_intro
       - ansible_developers
+      - ansible_info
+      - ansible_troubleshoot
   - label: CDP PvC Data Services
     children:
       - ecs_env

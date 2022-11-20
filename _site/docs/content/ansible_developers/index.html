@@ -7,6 +7,9 @@
       rel="stylesheet"
       href="/assets/css/style.css"
     />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
     <link
       rel="stylesheet"
       href="/assets/css/rouge.css"
@@ -63,13 +66,39 @@
             
             
             <ul id="markdown-toc">
-  <li><a href="#enable-notty-for-ide-signing" id="markdown-toc-enable-notty-for-ide-signing">Enable notty for IDE signing</a></li>
-  <li><a href="#enable-gpg-to-use-the-gpg-agent" id="markdown-toc-enable-gpg-to-use-the-gpg-agent">Enable gpg to use the gpg-agent</a></li>
-  <li><a href="#runnerprojectansible_devcollectionsansible_collections" id="markdown-toc-runnerprojectansible_devcollectionsansible_collections">/runner/project/ansible_dev/collections/ansible_collections</a></li>
-  <li><a href="#homerunneransiblecollectionsansible_collections" id="markdown-toc-homerunneransiblecollectionsansible_collections">/home/runner/.ansible/collections/ansible_collections</a></li>
+  <li><a href="#detailed-setup-for-developers" id="markdown-toc-detailed-setup-for-developers">Detailed Setup for Developers</a>    <ul>
+      <li><a href="#developers-setup-on-osx" id="markdown-toc-developers-setup-on-osx">Developers setup on OSX</a></li>
+      <li><a href="#developer-setup-on-windows" id="markdown-toc-developer-setup-on-windows">Developer setup on Windows</a></li>
+    </ul>
+  </li>
+  <li><a href="#process-guides" id="markdown-toc-process-guides">Process Guides</a>    <ul>
+      <li><a href="#main-setup-process" id="markdown-toc-main-setup-process">Main Setup Process</a></li>
+      <li><a href="#refresh-your-cloudera-deploy-local-repo" id="markdown-toc-refresh-your-cloudera-deploy-local-repo">Refresh your Cloudera-Deploy local repo</a></li>
+      <li><a href="#manual-ansible-controller-setup-on-centos7" id="markdown-toc-manual-ansible-controller-setup-on-centos7">Manual Ansible Controller setup on Centos7</a></li>
+      <li><a href="#install-homebrew-and-git-on-osx" id="markdown-toc-install-homebrew-and-git-on-osx">Install Homebrew and Git on OSX</a></li>
+      <li><a href="#setup-docker" id="markdown-toc-setup-docker">Setup Docker</a></li>
+      <li><a href="#install-windows-subsystem-for-linux-wsl2" id="markdown-toc-install-windows-subsystem-for-linux-wsl2">Install Windows Subsystem for Linux (WSL2)</a></li>
+      <li><a href="#handle-line-endings-on-windows" id="markdown-toc-handle-line-endings-on-windows">Handle line-endings on Windows</a></li>
+      <li><a href="#setup-gpg-commit-signing" id="markdown-toc-setup-gpg-commit-signing">Setup GPG commit signing</a></li>
+      <li><a href="#using-the-ansible-runner-independent-of-cloudera-deploy" id="markdown-toc-using-the-ansible-runner-independent-of-cloudera-deploy">Using the Ansible Runner Independent of Cloudera-Deploy</a></li>
+      <li><a href="#getting-started-with-developing-collections" id="markdown-toc-getting-started-with-developing-collections">Getting Started with Developing Collections</a></li>
+      <li><a href="#install-dependencies-without-using-runner" id="markdown-toc-install-dependencies-without-using-runner">Install Dependencies without using Runner</a></li>
+      <li><a href="#developing-within-the-runner" id="markdown-toc-developing-within-the-runner">Developing within the Runner</a></li>
+      <li><a href="#working-with-aws-sso" id="markdown-toc-working-with-aws-sso">Working with AWS SSO</a></li>
+      <li><a href="#working-with-named-credential-profiles" id="markdown-toc-working-with-named-credential-profiles">Working with named credential profiles</a></li>
+      <li><a href="#using-a-jumpbox" id="markdown-toc-using-a-jumpbox">Using a Jumpbox</a></li>
+    </ul>
+  </li>
+  <li><a href="#cdp-private-cloud-deployments" id="markdown-toc-cdp-private-cloud-deployments">CDP Private Cloud Deployments</a>    <ul>
+      <li><a href="#ansible-controller-options" id="markdown-toc-ansible-controller-options">Ansible Controller options</a></li>
+      <li><a href="#inventories" id="markdown-toc-inventories">Inventories</a></li>
+      <li><a href="#process-overview" id="markdown-toc-process-overview">Process Overview</a></li>
+      <li><a href="#executing-playbooks" id="markdown-toc-executing-playbooks">Executing Playbooks</a></li>
+    </ul>
+  </li>
 </ul>
 
-<p>=== Detailed Setup for Developers</p>
+<h2 id="detailed-setup-for-developers">Detailed Setup for Developers</h2>
 
 <p>This document is structured with suggested sequences of steps at the top, and the various processes you need underneath. Use the suggested sequences or create your own as appropriate.</p>
 
@@ -77,144 +106,233 @@
 
 <p>We welcome all suggestions and discussions for improvement, but if you’re going to tell us we’re ‘using Docker Wrong’ then we’d greatly appreciate an explanation on how you’d improve it.</p>
 
-<p>==== Developers setup on OSX</p>
+<h3 id="developers-setup-on-osx">Developers setup on OSX</h3>
 
 <p>The Developer onboarding is aimed at those who want to modify the automation tooling itself to change behaviors.</p>
 
-<p>.The following chapters of this documentation provide the necessary process:</p>
+<p><em><strong>The following chapters of this documentation provide the necessary process:</strong></em></p>
 
-<p>. Prepare your xref:_install_homebrew_and_git_on_osx[OSX Deps]
-. Follow the xref:_main_setup_process[Main Setup]
-. (Optional) Setup xref:_setup_gpg_commit_signing[Commit Signing] for Contributions
-. (Optional) Get setup to Develop the xref:_getting_started_with_developing_collections[Collections] themselves</p>
+<ul>
+  <li>Prepare your <a href="#install-homebrew-and-git-on-osx">OSX Deps</a></li>
+  <li>Follow the <a href="#main-setup-process">Main Setup</a></li>
+  <li>(Optional) Setup <a href="#setup-gpg-commit-signing">Commit Signing</a> for Contributions</li>
+  <li>(Optional) Get setup to Develop the <a href="#getting-started-with-developing-collections">Collections</a> themselves</li>
+</ul>
 
-<p>==== Developer setup on Windows</p>
+<h3 id="developer-setup-on-windows">Developer setup on Windows</h3>
 
-<p>Because Windows already needs to set up Linux compatibility to make containers work, we’re just going to leverage that across the board for simplicity.</p>
+<p>Because Windows already needs to set up Linux compatibility to make containers work, we just going to leverage that across the board for simplicity.</p>
 
 <p>IMPORTANT: You must use WSL2 or you are going to get some really weird errors.</p>
 
 <p>We assume you have a recent version of 64bit Windows 10 with Administrator access and virtualization enabled, if you are restricted by your org from doing this then they should have a replacement process as this is pretty standard stuff for developers.</p>
 
-<p>. Install xref:_install_windows_subsystem_for_linux_wsl2[WSL2]
-. Handle xref:_handle_line_endings_on_windows[Line Endings] on Windows
-. Follow the xref:_main_setup_process[Main Setup]
-. (Optional) Setup xref:_setup_gpg_commit_signing[Commit Signing] for Contributions
-. (Optional) Get setup to Develop the xref:_getting_started_with_developing_collections[Collections] themselves</p>
+<ul>
+  <li>Install <a href="#install-windows-subsystem-for-linux_wsl2">WSL2</a></li>
+  <li>Handle <a href="#handle-line_endings-on-windows">Line Endings</a> on Windows</li>
+  <li>Follow the <a href="#main-setup-process">Main Setup</a></li>
+  <li>(Optional) Setup <a href="#setup-gpg-commit-signing">Commit Signing</a> for Contributions</li>
+  <li>(Optional) Get setup to Develop the <a href="#getting-started-with-developing-collections">Collections</a> themselves</li>
+</ul>
 
-<p>=== Process Guides</p>
+<h2 id="process-guides">Process Guides</h2>
 
-<p>==== Main Setup Process</p>
+<h3 id="main-setup-process">Main Setup Process</h3>
 
-<p>This Setup Process is simply the https://github.com/cloudera-labs/cloudera-deploy/blob/main/readme.adoc#2-quickstart[Quickstart] from the Cloudera-Deploy Readme with more steps and explanations.</p>
+<p>This Setup Process is simply the <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/readme.adoc#2-quickstart">Quickstart</a> from the Cloudera-Deploy Readme with more steps and explanations.</p>
 
-<p>===== Prerequisites</p>
+<p><strong>Prerequisites</strong></p>
 
 <p>NOTE: It is easiest to test your credentials within the Runner, as the dependencies are already installed for you</p>
 
-<p>. Cloud Credentials (CDP Public) and/or Host Infrastructure (CDP Private)
-** If you are deploying to a public cloud, you will need an active credential for that provider with rights to deploy resources for the Deployment you specify.
-** Unless otherwise instructed your ‘default’ credential will be used for the cloud provider.
-** You can check this with <code class="language-plaintext highlighter-rouge">aws sts get-caller-identity</code> and comparing outputs to the AWS UI, if using AWS
-** For Azure, consider <code class="language-plaintext highlighter-rouge">az account list</code>, or if you need to refresh your credentials, <code class="language-plaintext highlighter-rouge">az login</code>.
-** For GCP, check that your Service Account credential is being picked up in the Cloudera Deploy Profile, and then test with <code class="language-plaintext highlighter-rouge">gcloud auth list</code></p>
+<ol>
+  <li>
+    <p>Cloud Credentials (CDP Public) and/or Host Infrastructure (CDP Private)</p>
 
-<p>. CDP Credentials (CDP Public)
-** If you are deploying CDP Public Cloud, you will need an active credential within a CDP Tenant.
-** Unless otherwise instructed, your ‘default’ credential and tenant will be used.
-** You can check this with <code class="language-plaintext highlighter-rouge">cdp iam get-user</code> and comparing outputs to the CDP UI</p>
+    <ul>
+      <li>If you are deploying to a public cloud, you will need an active credential for that provider with rights to deploy resources for the Deployment you specify.</li>
+      <li>Unless otherwise instructed your default credential will be used for the cloud provider.</li>
+      <li>You can check this with <code class="language-plaintext highlighter-rouge">aws sts get-caller-identity</code> and comparing outputs to the AWS UI, if using AWS</li>
+      <li>For Azure, consider <code class="language-plaintext highlighter-rouge">az account list</code>, or if you need to refresh your credentials, <code class="language-plaintext highlighter-rouge">az login</code>.</li>
+      <li>For GCP, check that your Service Account credential is being picked up in the Cloudera Deploy Profile, and then test with <code class="language-plaintext highlighter-rouge">gcloud auth list</code></li>
+    </ul>
+  </li>
+  <li>CDP Credentials (CDP Public)
+    <ul>
+      <li>If you are deploying CDP Public Cloud, you will need an active credential within a CDP Tenant.</li>
+      <li>Unless otherwise instructed, your default credential and tenant will be used.</li>
+      <li>You can check this with “cdp iam get-user” and comparing outputs to the CDP UI</li>
+    </ul>
+  </li>
+  <li>Code Deps:
+    <ul>
+      <li>Docker and Git installed locally.</li>
+      <li>or - Ability to install Python and CLI dependencies on the machine of your choice (slow option)(See <a href="#manual-ansible-controller-setup-on-centos7">Centos7 Script</a> for an example)</li>
+    </ul>
+  </li>
+</ol>
 
-<p>. Code Deps:
-.. Docker and Git installed locally (quick option)(«_setup_docker,See Setup Docker»)
-.. or - Ability to install Python and CLI dependencies on the machine of your choice (slow option)(See xref:_manual_ansible_controller_setup_on_centos7[Centos7 Script] for an example)</p>
+<p><strong>Get the Repo</strong></p>
 
-<p>===== Get the Repo
-. Open a terminal and switch to your preferred projects directory
-[source,bash]
-cd ~/Projects</p>
+<ol>
+  <li>
+    <p>Open a terminal and switch to your preferred projects directory</p>
 
-<p>. Clone or update the repo
-[source,bash]
-git clone https://github.com/cloudera-labs/cloudera-deploy.git &amp;&amp; cd cloudera-deploy &amp;&amp; chmod +x ./quickstart.sh</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">cd ~/Projects</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Clone or update the repo</p>
 
-<p>NOTE: If you already have the repo cloned, don’t forget to xref:_refresh_your_cloudera_deploy_local_repo[update it]</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">git clone https://github.com/cloudera-labs/cloudera-deploy.git &amp;&amp; cd cloudera-deploy &amp;&amp; chmod +x ./quickstart.sh</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
 
-<p>===== Get the Runner</p>
+<p>NOTE: If you already have the repo cloned, don’t forget to update it.</p>
 
-<p>. Have xref:_setup_docker[Docker] Installed and running
-. (Optional) Set your provider to download a reduced image and save disk space
-.. AWS
-[source,bash]
-export provider=aws</p>
+<p><strong>Get the Runner</strong></p>
 
-<p>.. Azure
-[source,bash]
-export provider=azure</p>
+<ol>
+  <li>
+    <p>Have <a href="#setup-docker">Docker</a> installed and running</p>
+  </li>
+  <li>
+    <p>(Optional) Set your provider to download a reduced image and save disk space</p>
 
-<p>.. GCP
-[source,bash]
-export provider=gcp</p>
+    <ul>
+      <li>
+        <p>AWS</p>
 
-<p>.. Default is all of them, but it’s a ~2.3GB image download
-. Run the quickstart script in the Repo you just cloned above
-** Option A: Run the quickstart bare, it will mount the parent directory of the cloudera-deploy repo, which will be your code directory if you followed the directions above, e.g. <code class="language-plaintext highlighter-rouge">~/Projects</code>
-[source,bash]
-./quickstart.sh</p>
+        <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="s">export provider=aws</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Azure</p>
 
-<p>** Option B: Include an explicit path on your local machine, it will be mounted in the /runner/project folder in the container. If your code or Definitions are not in this path you may not be able to access them in the container.
-** Don’t worry if you get it wrong, just <em>stop the container</em> and rerun quickstart and it’ll make a new one with the new mount.
-[source,bash]
-./quickstart.sh ~/code</p>
+        <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="s">export provider=azure</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>GCP</p>
 
-<p>. This will drop you into a new shell in the container with all dependencies resolved for working with CDP and Cloud Infrastructure, you’ll know it has worked because the shell prompt is Orange with <code class="language-plaintext highlighter-rouge">cldr &lt;version&gt; #&gt;</code>
-** It will automatically load your local machine user profile so you have access to your credentials, ssh keys, etc.
-** If you run the quickstart script again, it’ll simply create another bash session on the container, providing useful parallelism
-** If you stop the container, the next time you run quickstart it will be updated and recreated, so any changes within the container filesystem and not persisted back to your Project directory or mounted user profile will be lost
-** As long as you run commands from within the /runner path, it will log your Ansible back to ~/.config/cloudera-deploy/log
-. If you already have a CDP Credential in your local user profile, you can test it with
-[source,bash]
-cdp iam get-user</p>
+        <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="s">export provider=gcp</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Default is all of them, but it’s a ~2.3GB image download</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Run the quickstart script in the Repo you just cloned above</p>
 
-<p>.. It will use the default CDP credential, or you can use a different profile by setting the CDP_PROFILE environment variable, or setting cdp_profile in your cloudera-deploy Definition files.
-.. You should compare the UUID of your user returned by this command in the terminal with the UUID of your user reported in the User Profile in the CDP UI so you are certain that you are deploying to the expected Tenant
-. Check you have a credential for your chosen Cloud Infrastructure Provider. The default is AWS, and again you can provide a specific profile or use your default. You can check it by running
-[source,bash]
-aws sts get-caller-identity</p>
+    <ul>
+      <li>Option A: Run the quickstart bare, it will mount the parent directory of the cloudera-deploy repo, which will be your code directory if you followed the directions above, e.g. <code class="language-plaintext highlighter-rouge">~/Projects</code></li>
+    </ul>
 
-<p>.. You should likewise compare the Account ID reported here with the Account ID in the AWS IAM UI to ensure you are targeting the expected Account. This is similar for other providers.</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">./quickstart.sh</span>
+</code></pre></div>    </div>
 
-<p>===== Prepare your Profiles to run a Deployment
-NOTE: that you should execute any Ansible commands from /runner in the Runner, as it has all the defaults set for you and it may fail to find dependencies otherwise.</p>
+    <ul>
+      <li>
+        <p>Option B: Include an explicit path on your local machine, it will be mounted in the /runner/project folder in the container. If your code or Definitions are not in this path you may not be able to access them in the container.</p>
+      </li>
+      <li>
+        <p>Dont worry if you get it wrong, just stop the container and rerun quickstart and it will make a new one with the new mount.</p>
+      </li>
+    </ul>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">./quickstart.sh ~/code</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>This will drop you into a new shell in the container with all dependencies resolved for working with CDP and Cloud Infrastructure, you’ll know it has worked because the shell prompt is Orange with <code class="language-plaintext highlighter-rouge">cldr &lt;version&gt; #&gt;</code></p>
+
+    <ul>
+      <li>It will automatically load your local machine user profile so you have access to your credentials, ssh keys, etc.</li>
+      <li>If you run the quickstart script again, it will simply create another bash session on the container, providing useful parallelism</li>
+      <li>If you stop the container, the next time you run quickstart it will be updated and recreated, so any changes within the container filesystem and not persisted back to your Project directory or mounted user profile will be lost</li>
+      <li>As long as you run commands from within the /runner path, it will log your Ansible back to ~/.config/cloudera-deploy/log</li>
+    </ul>
+  </li>
+  <li>
+    <p>If you already have a CDP Credential in your local user profile, you can test it with</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">cdp iam get-user</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>It will use the default CDP credential, or you can use a different profile by setting the CDP_PROFILE environment variable, or setting cdp_profile in your cloudera-deploy Definition files.</li>
+      <li>You should compare the UUID of your user returned by this command in the terminal with the UUID of your user reported in the User Profile in the CDP UI so you are certain that you are deploying to the expected Tenant</li>
+    </ul>
+  </li>
+  <li>
+    <p>Check you have a credential for your chosen Cloud Infrastructure Provider. The default is AWS, and again you can provide a specific profile or use your default. You can check it by running</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">aws sts get-caller-identity</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>You should likewise compare the Account ID reported here with the Account ID in the AWS IAM UI to ensure you are targeting the expected Account. This is similar for other providers.</li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Prepare your Profiles to run a Deployment</strong></p>
+
+<p>NOTE: that you should execute any Ansible commands from /runner in the Runner, as it has all the defaults set for you and it may fail to find dependencies otherwise.</p>
 
 <p>NOTE: If you have different settings for different deployments you can create additional profile files under the directory above to store the different configurations. To use an alternative cloudera-deploy profile, specify the <code class="language-plaintext highlighter-rouge">-e profile=&lt;profile_name&gt;</code> option when running the ansible-playbook command.</p>
 
-<p>. Edit the default user Profile to personalise the Password, Namespace, SSH Keys, etc. for your Deployments. Note that this file is created the first time you run the quickstart.
-[source,bash]
-vi ~/.config/cloudera-deploy/profiles/default</p>
+<ol>
+  <li>
+    <p>Edit the default user Profile to personalise the Password, Namespace, SSH Keys, etc. for your Deployments. Note that this file is created the first time you run the quickstart.</p>
 
-<p>. You will need CDP Credentials, and Credentials for your target Infrastructure of choice. Fortunately the Runner has most of these dependencies available to you
-.. CDP with pre-issued Keys and optional profile
-[source,bash]
-cdp configure –profile default</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">vi ~/.config/cloudera-deploy/profiles/default</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>You will need CDP Credentials, and Credentials for your target Infrastructure of choice. Fortunately the Runner has most of these dependencies available to you</p>
 
-<p>.. AWS with pre-issued Keys
-[source,bash]
-aws configure –profile default</p>
+    <ul>
+      <li>CDP with pre-issued Keys and optional profile</li>
+    </ul>
 
-<p>** AWS SSO requires awscliv2 which is not installed in the Runner by default
-.. Azure via interactive login
-[source,bash]
-az login</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">cdp configure --profile default</span>
+</code></pre></div>    </div>
 
-<p>.. Google Cloud via init
-[source,bash]
-gcloud init</p>
+    <ul>
+      <li>AWS with pre-issued Keys</li>
+    </ul>
 
-<p>===== Deployment Run Commands</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">aws configure --profile default</span>
+</code></pre></div>    </div>
 
-<p>Provided you have completed the prerequisites to set up a cloud provider credential, and CDP Public Cloud credential, and your Cloudera-Deploy Profile, the following command creates a default Sandbox with CDP Public &amp; Private Cloud in your default CDP Tenant and Cloud Infra Provider with no further interaction from the user:
-[source,bash]
-ansible-playbook project/cloudera-deploy/main.yml -e “definition_path=examples/sandbox” -t run,default_cluster</p>
+    <p>AWS SSO requires awscliv2 which is not installed in the Runner by default</p>
+
+    <ul>
+      <li>Azure via interactive login</li>
+    </ul>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">az login</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Google Cloud via init
+        <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">gcloud init</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>Deployment Run Commands</strong></p>
+
+<p>Provided you have completed the prerequisites to set up a cloud provider credential, and CDP Public Cloud credential, and your Cloudera-Deploy Profile, the following command creates a default Sandbox with CDP Public &amp; Private Cloud in your default CDP Tenant and Cloud Infra Provider with no further interaction from the user:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">ansible-playbook project/cloudera-deploy/main.yml -e "definition_path=examples/sandbox" -t run,default_cluster</span>
+</code></pre></div></div>
 
 <p>NOTE: So that is three dependencies, and two commands, and you have a complete Hybrid Cloud Data Platform</p>
 
@@ -222,9 +340,10 @@ ansible-playbook project/cloudera-deploy/main.yml -e “definition_path=examples
 
 <ul>
   <li>
-    <p>If you have used quickstart.sh to mount a local project directory with your definitions.yml and application.yml into the runner container (as explained in the steps in Get the Runner above), then you won’t have your own main.yml close to hand. You can instead use the default main.yml in /opt/cloudera-deploy/, and reference your project dir at /runner/project:
-[source,bash]
-ansible-playbook /opt/cloudera-deploy/main.yml -e “definition_path=/runner/project/<your definition="" path="">" -t <your tags=""></your></your></p>
+    <p>If you have used quickstart.sh to mount a local project directory with your definitions.yml and application.yml into the runner container (as explained in the steps in Get the Runner above), then you won’t have your own main.yml close to hand. You can instead use the default main.yml in /opt/cloudera-deploy/, and reference your project dir at /runner/project:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="s">ansible-playbook /opt/cloudera-deploy/main.yml -e "definition_path=/runner/project/&lt;your definition path&gt;" -t &lt;your tags&gt;</span>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Note that we pass in some ansible ‘extra variables’ using the -e flag. The only required variable points to the definition_path which contains the files that describe the deployment you want. You can provide many more extra vars, or even files directly on the command-line per usual Ansible options.</p>
@@ -234,284 +353,412 @@ ansible-playbook /opt/cloudera-deploy/main.yml -e “definition_path=/runner/pro
   </li>
 </ul>
 
-<p>.Here are additional commands which will come in handy:</p>
+<p><em><strong>Here are additional commands which will come in handy:</strong></em></p>
 
 <ul>
-  <li>Teardown and delete everything related to this definition:
-[source,bash]
-ansible-playbook project/cloudera-deploy/main.yml -e “definition_path=examples/sandbox” -t teardown</li>
+  <li>
+    <p>Teardown and delete everything related to this definition:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="s">ansible-playbook project/cloudera-deploy/main.yml -e "definition_path=examples/sandbox" -t teardown</span>
+</code></pre></div>    </div>
+  </li>
 </ul>
 
 <p>WARNING: This will <code class="language-plaintext highlighter-rouge">teardown</code> everything related to this definition and name_prefix, make sure that is actually what you want to be doing before running it.</p>
 
 <ul>
-  <li>Just deploy a CDP Public Datalake:
-[source,bash]
-ansible-playbook project/cloudera-deploy/main.yml -e “definition_path=examples/sandbox” -t plat</li>
+  <li>
+    <p>Just deploy a CDP Public Datalake:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="s">ansible-playbook project/cloudera-deploy/main.yml -e "definition_path=examples/sandbox" -t plat</span>
+</code></pre></div>    </div>
+  </li>
 </ul>
 
 <p>NOTE: This uses the same definition, but then uses a different Ansible Tag to only deploy part of it, more explanation of the Definitions and Tags will follow elsewhere in the Architecture Docs.</p>
 
 <ul>
-  <li>Just deploy CDP Private Cluster Trial on Public Cloud Infra:
-[source,bash]
-ansible-playbook project/cloudera-deploy/main.yml -e “definition_path=examples/sandbox” -t infra,default_cluster</li>
+  <li>
+    <p>Just deploy CDP Private Cluster Trial on Public Cloud Infra:</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="s">ansible-playbook project/cloudera-deploy/main.yml -e "definition_path=examples/sandbox" -t infra,default_cluster</span>
+</code></pre></div>    </div>
+  </li>
 </ul>
 
 <p>NOTE: This leverages the dynamic inventory feature to make a simple cluster on EC2 instances on AWS without the user needing to learn how first, and is very handy for trials and platform testing</p>
 
-<p>==== Refresh your Cloudera-Deploy local repo
-If you have previously used Cloudera-Deploy but haven’t touched it in a while, here is a guide to refreshing your setup and getting results quickly</p>
+<h3 id="refresh-your-cloudera-deploy-local-repo">Refresh your Cloudera-Deploy local repo</h3>
+<p>If you have previously used Cloudera-Deploy but haven’t touched it in a while, here is a guide to refreshing your setup and getting results quickly</p>
 
-<p>[source,bash]
-cd cloudera-deploy
-git fetch –all
-git pull
-docker stop $(docker ps -qa)
-./quickstart.sh
-cdp iam get-user
-aws iam get-user</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="s">cd cloudera-deploy</span>
+    <span class="s">git fetch --all</span>
+    <span class="s">git pull</span>
+    <span class="s">docker stop $(docker ps -qa)</span>
+    <span class="s">./quickstart.sh</span>
+    <span class="s">cdp iam get-user</span>
+    <span class="s">aws iam get-user</span>
+</code></pre></div></div>
 
-<p>==== Manual Ansible Controller setup on Centos7</p>
+<h3 id="manual-ansible-controller-setup-on-centos7">Manual Ansible Controller setup on Centos7</h3>
 
-<p>We provide an example script for initialising an Ansible Controller on a Centos7 box https://github.com/cloudera-labs/cloudera-deploy/blob/main/centos7-init.sh[here]</p>
+<p>We provide an example script for initialising an Ansible Controller on a Centos7 box <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/centos7-init.sh">here</a></p>
 
-<p>==== Install Homebrew and Git on OSX
-.Install XCode command line tools
-[source,bash]
-xcode-select –install</p>
+<h3 id="install-homebrew-and-git-on-osx">Install Homebrew and Git on OSX</h3>
+<p>Install XCode command line tools</p>
 
-<p>.Install Homebrew
-[source,bash]
-/bin/bash -c “$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)”</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">xcode-select --install</span>
+</code></pre></div></div>
 
-<p>.Install git (through Homebrew)
-[source,bash]
-brew install git</p>
+<p>Install Homebrew</p>
 
-<p>If you are going to use AWS SSO, you may also with to install awscliv2 on your local machine
-[source, bash]
-brew install awscli@2</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span>
+</code></pre></div></div>
 
-<p>==== Setup Docker</p>
+<p>Install git (through Homebrew)</p>
 
-<p>.Guide for Windows
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">brew install git</span>
+</code></pre></div></div>
+
+<p>If you are going to use AWS SSO, you may also with to install awscliv2 on your local machine</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">brew install awscli@2</span>
+</code></pre></div></div>
+
+<h3 id="setup-docker">Setup Docker</h3>
+
+<p><strong>Guide for Windows</strong>
 Follow the instructions provided by https://docs.docker.com/docker-for-windows/install/[Docker]</p>
 
 <p>NOTE: You want to be using WSL2, make sure Docker can see the underlying Ubuntu (or similar) for execution. You are advised to stick to the guide here, as we have found Windows throws some intractable filesystem and networking errors with creative linux-on-Windows setups for Docker and SSH.</p>
 
-<p>.Guide for OSX
+<p><strong>Guide for OSX</strong>
 Follow the instructions provided by https://docs.docker.com/docker-for-mac/install/[Docker]</p>
 
-<p>==== Install Windows Subsystem for Linux (WSL2)</p>
+<h3 id="install-windows-subsystem-for-linux-wsl2">Install Windows Subsystem for Linux (WSL2)</h3>
 
-<p>.There’s a lot of guides on how to do this, here’s a summary:</p>
+<p><em><strong>There’s a lot of guides on how to do this, here’s the summary:</strong></em></p>
 
-<p>. Enable Developer mode (on older versions of Win10)
-.. Windows Settings &gt; Update &amp; Security
-.. Select the Developer Mode radio button
-.. You may not need to do this, don’t worry if it’s not there and the rest of the process works, as the latest releases don’t require you to do this to install Linux
-.. If you did have to enable it, you may have to reboot (yay Windows)
-. Enable Windows Subsystem for Linux v2
-.. Control Panel &gt; Programs &amp; Features &gt; Turn Windows Features on and off
-.. Tick the box for ‘Windows Subsystem for Linux’
-.. Make sure you either setup WSL2 from the start, or do the upgrade process. WSL1 has some strange behaviors
-.. You’ll probably have to reboot. Yay Windows!
-. Install Ubuntu 18 (other distros untested, including Ubuntu 20)
-.. Try to do it from the Microsoft Store
-… Open the store (search store in launch bar)
-… Search for ‘Linux’ in the store
-… Select and install Ubuntu
-.. If you can’t do it from the store, try this in the cmd.exe prompt <code class="language-plaintext highlighter-rouge">lxrun /install</code>
-.. It’ll ask you to set a username and password, keep it short and simple, doesn’t have to match your actual Windows user
-. You may have to set this as the default bash environment as Docker for Windows likes to steal it away after updates
-.. List the currently installed distros by opening cmd.exe
-.. <code class="language-plaintext highlighter-rouge">wsl --list --all</code>
-.. Set ubuntu as default if it is not
-.. <code class="language-plaintext highlighter-rouge">wsl -s Ubuntu</code></p>
+<ol>
+  <li>Enable Developer mode (on older versions of Win10)
+    <ul>
+      <li>Windows Settings &gt; Update &amp; Security</li>
+      <li>Select the Developer Mode radio button</li>
+      <li>You may not need to do this, don’t worry if it’s not there and the rest of the process works, as the latest releases don’t require you to do this to install Linux</li>
+      <li>If you did have to enable it, you may have to reboot (yay Windows)</li>
+    </ul>
+  </li>
+  <li>Enable Windows Subsystem for Linux v2
+    <ul>
+      <li>Control Panel &gt; Programs &amp; Features &gt; Turn Windows Features on and off</li>
+      <li>Tick the box for ‘Windows Subsystem for Linux’</li>
+      <li>Make sure you either setup WSL2 from the start, or do the upgrade process. WSL1 has some strange behaviors</li>
+      <li>You’ll probably have to reboot. Yay Windows!</li>
+    </ul>
+  </li>
+  <li>Install Ubuntu 18 (other distros untested, including Ubuntu 20)
+    <ul>
+      <li>Try to do it from the Microsoft Store
+ ** Open the store (search store in launch bar)
+ ** Search for Linux in the store
+ ** Select and install Ubuntu</li>
+      <li>If you can’t do it from the store, try this in the cmd.exe prompt <code class="language-plaintext highlighter-rouge">lxrun /install</code></li>
+      <li>It’ll ask you to set a username and password, keep it short and simple, doesn’t have to match your actual Windows user</li>
+    </ul>
+  </li>
+  <li>
+    <p>You may have to set this as the default bash environment as Docker for Windows likes to steal it away after updates</p>
 
-<p>==== Handle line-endings on Windows
-Windows defaults to a different line ending standard than Linux/OSX.</p>
+    <ul>
+      <li>List the currently installed distros by opening cmd.exe</li>
+      <li><code class="language-plaintext highlighter-rouge">wsl --list --all</code></li>
+      <li>Set ubuntu as default if it is not</li>
+      <li><code class="language-plaintext highlighter-rouge">wsl -s Ubuntu</code></li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="handle-line-endings-on-windows">Handle line-endings on Windows</h3>
+<p>Windows defaults to a different line ending standard than Linux/OSX.</p>
 
 <p>NOTE: You only need to follow this step if you plan on editing the code on Windows.</p>
 
 <p>The Cloudera Labs repos standardise on linux line endings, the easiest way to handle this on Windows involves basically two steps.</p>
 
-<p>. Set git to always not use Windows line endings, so it doesn’t rewrite your files when you checkout
-.. <code class="language-plaintext highlighter-rouge">git config --global core.autocrlf false</code>
-.. Set your IDE to use Linux line endings, if not for everything then at least the Cloudera Labs projects
-.. In Pycharm, this is in File &gt; Settings &gt; Editor &gt; Code Style &gt; General &gt; Line Separator: set to ‘Unix and macOS (\n)</p>
+<ol>
+  <li>Set git to always not use Windows line endings, so it doesn’t rewrite your files when you checkout
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">git config --global core.autocrlf false</code></li>
+      <li>Set your IDE to use Linux line endings, if not for everything then at least the Cloudera Labs projects</li>
+      <li>In Pycharm, this is in File &gt; Settings &gt; Editor &gt; Code Style &gt; General &gt; Line Separator: set to Unix and macOS (\n)</li>
+    </ul>
+  </li>
+</ol>
 
-<p>==== Setup GPG commit signing</p>
+<h3 id="setup-gpg-commit-signing">Setup GPG commit signing</h3>
 
 <p>NOTE: You can skip this step if you are not planning on contributing code</p>
 
-<p>.DCO:
-Cloudera-Labs uses the Developer Certificate of Origin (DCO) approach to open source contribution, by signing your commits you are attesting that you are allowed to submit them by whoever owns your work (you, or your employer). We also require commit signing to validate the supply chain on our code.</p>
+<p><em><strong>DCO:</strong></em></p>
 
-<p>.Background:
-There is a good explanation https://nifi.apache.org/gpg.html[here], it also covers setup for machines with other OS.</p>
+<p>Cloudera-Labs uses the Developer Certificate of Origin (DCO) approach to open source contribution, by signing your commits you are attesting that you are allowed to submit them by whoever owns your work (you, or your employer). We also require commit signing to validate the supply chain on our code.</p>
+
+<p><em><strong>Background:</strong></em></p>
+
+<p>There is a good explanation <a href="https://nifi.apache.org/gpg.html">here</a>, it also covers setup for machines with other OS.</p>
 
 <p>This subguide assumes that you want to set up your development machine so that it automatically signs all your commits without bothering you too much. If you are just checking out the code to inspect it and not for contributing back to the community, then you can skip this step.
 You may want to modify this process to ask you for your passphrase or manually sign commits each time at your preference.</p>
 
-<p>.References:
-https://nifi.apache.org/gpg.html  +
-https://stackoverflow.com/a/46884134  +
-https://superuser.com/a/954536  +
-https://withblue.ink/2020/05/17/how-and-why-to-sign-git-commits.html  +</p>
+<p><em><strong>References:</strong></em></p>
 
-<p>.Testing:
-OSX Catalina 10.15.7 on MacBook Pro 2019</p>
+<ul>
+  <li>https://nifi.apache.org/gpg.html</li>
+  <li>https://stackoverflow.com/a/46884134</li>
+  <li>https://superuser.com/a/954536</li>
+  <li>https://withblue.ink/2020/05/17/how-and-why-to-sign-git-commits.html</li>
+</ul>
 
-<p>.Process:
-. Update or install xref:_install_homebrew_and_git_on_osx[Homebrew]
-. Install dependencies
-[source,bash]
-brew install gpg2 pinentry-mac &amp;&amp; brew install –cask gpg-suite</p>
+<p><em><strong>Testing:</strong></em></p>
 
-<p>** gpg-suite is not strictly necessary, but it makes it easier to integrate signing with IDEs like IntelliJ as it helps you manage the passphrase in your OSX keychain
-** Pinentry-mac makes it easy to sign commits within your IDE, like Pycharm, without having to always commit via terminal
-. Create a directory for gnupg to store details
-[source,bash]
-mkdir ~/.gnupg</p>
+<p>OSX Catalina 10.15.7 on MacBook Pro 2019</p>
 
-<p>. Put the following in <code class="language-plaintext highlighter-rouge">~/.gnupg/gpg-agent.conf</code>
-[source,bash]
-default-cache-ttl 600
-max-cache-ttl 7200
-default-cache-ttl-ssh 600
-max-cache-ttl-ssh 7200
-pinentry-program /usr/local/bin/pinentry-mac</p>
+<p><em><strong>Process:</strong></em></p>
 
-<p>. Enable it in your user profile such as ~/.bash_profile or ~/.zprofile
-[source,bash]
-export GPG_TTY=$(tty)
-gpgconf –launch gpg-agent</p>
+<ol>
+  <li>
+    <p>Update or install <a href="#install-homebrew-and-git-on-osx">Homebrew</a></p>
+  </li>
+  <li>
+    <p>Install dependencies. gpg-suite is not strictly necessary, but it makes it easier to integrate signing with IDEs like IntelliJ as it helps you manage the passphrase in your OSX keychain. Pinentry-mac makes it easy to sign commits within your IDE, like Pycharm, without having to always commit via terminal</p>
 
-<p>. Set correct permissions on your gnupg user directory
-[source,bash]
-chown -R $(whoami) ~/.gnupg/
-find ~/.gnupg -type f -exec chmod 600 {} \;
-find ~/.gnupg -type d -exec chmod 700 {} \;</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">brew install gpg2 pinentry-mac &amp;&amp; brew install --cask gpg-suite</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create a directory for gnupg to store details</p>
 
-<p>. Generate yourself a key
-[source,bash]
-gpg –full-gen-key</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">mkdir ~/.gnupg</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Put the following in <code class="language-plaintext highlighter-rouge">~/.gnupg/gpg-agent.conf</code></p>
 
-<p>.. Key type 4
-.. Keysize 4096
-.. Expiration 1y or 2y or whatever
-.. Your real name, or github username
-.. Your real email address, or the one github recognises as yours in your Settings
-.. A Passphrase - don’t forget it, and make sure it is strong
-. Verify your key is created and stored
-[source,bash]
-gpg2 –list-secret-keys –keyid-format SHORT</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">default-cache-ttl </span><span class="m">600</span>
+ <span class="s">max-cache-ttl </span><span class="m">7200</span>
+ <span class="s">default-cache-ttl-ssh </span><span class="m">600</span>
+ <span class="s">max-cache-ttl-ssh </span><span class="m">7200</span>
+ <span class="s">pinentry-program /usr/local/bin/pinentry-mac</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Enable it in your user profile such as ~/.bash_profile or ~/.zprofile</p>
 
-<p>** Copy your key ID, it’ll look something like <code class="language-plaintext highlighter-rouge">rsa4096/674CB45A</code>
-** You want the second bit, <code class="language-plaintext highlighter-rouge">674CB45A</code>
-. Test your key can be used
-[source,bash]
-echo “hello world” | gpg2 –clearsign</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">export GPG_TTY=$(tty)</span>
+ <span class="s">gpgconf --launch gpg-agent</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Set correct permissions on your gnupg user directory</p>
 
-<p>** You’ll have to enter your passphrase to sign it, then it’ll print the encrypted message
-. You may want to add multiple email addresses to the key signing, such as your open source email and/or your employer email and/or your personal email
-.. Open your key for editing
-[source,bash]
-gpg2 –edit-key <your ID="" here=""></your></p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">chown -R $(whoami) ~/.gnupg/</span>
+ <span class="s">find ~/.gnupg -type f -exec chmod 600 {} \;</span>
+ <span class="s">find ~/.gnupg -type d -exec chmod 700 {} \;</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Generate yourself a key</p>
 
-<p>.. Then use the adduid command
-[source, bash]
-adduid</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">gpg --full-gen-key</span>
+</code></pre></div>    </div>
 
-<p>.. Enter the identity Name and Email as before
-.. Then update the trust for the new identity
-[source, bash]
-uid 2
-trust</p>
+    <ul>
+      <li>Key type 4</li>
+      <li>Keysize 4096</li>
+      <li>Expiration 1y or 2y or whatever</li>
+      <li>Your real name, or github username</li>
+      <li>Your real email address, or the one github recognises as yours in your Settings</li>
+      <li>A Passphrase - don’t forget it, and make sure it is strong</li>
+    </ul>
+  </li>
+  <li>
+    <p>Verify your key is created and stored</p>
 
-<p>** You probably want trust 5
-.. Save to exit
-[source, bash]
-save</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">gpg2 --list-secret-keys --keyid-format SHORT</span>
+</code></pre></div>    </div>
 
-<p>. Configure Github to recognise your signed commits
-.. Set your git email for making commits
-[source, bash]
-git config –global user.email <a href="mailto:your@email.com">your@email.com</a></p>
+    <p>Copy your key ID, it’ll look something like <code class="language-plaintext highlighter-rouge">rsa4096/674CB45A</code>
+ You want the second bit, <code class="language-plaintext highlighter-rouge">674CB45A</code></p>
+  </li>
+  <li>
+    <p>Test your key can be used</p>
 
-<p>*** This email must be one of those in your GPG key set earlier
-.. Export your public key for uploading to Github
-[source, bash]
-gpg2 –armor –export <your ID="" here=""></your></p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">echo "hello world" | gpg2 --clearsign</span>
+</code></pre></div>    </div>
 
-<p>.. Copy everything including the following lines into your paste buffer
-[source, bash]
-—–BEGIN PGP PUBLIC KEY BLOCK—–
-…
-—–END PGP PUBLIC KEY BLOCK—–</p>
+    <p>You’ll have to enter your passphrase to sign it, then it’ll print the encrypted message</p>
+  </li>
+  <li>
+    <p>You may want to add multiple email addresses to the key signing, such as your open source email and/or your employer email and/or your personal email</p>
 
-<p>. Open github and go to your key settings
-https://github.com/settings/keys
-. Add new GPG key, paste in your PGP block from your buffer
-. Configure git to autosign your commits
-[source, bash]
-git config –global gpg.program gpg
-git config –global user.signingkey <your ID="" here="">
-git config --global commit.gpgSign true
-git config --global tag.gpgSign true</your></p>
+    <ul>
+      <li>Open your key for editing</li>
+    </ul>
 
-<p>. Put the following in ~/.gnupg/gpg.conf
-[source, bash]</p>
-<h1 id="enable-notty-for-ide-signing">Enable notty for IDE signing</h1>
-<p>no-tty</p>
-<h1 id="enable-gpg-to-use-the-gpg-agent">Enable gpg to use the gpg-agent</h1>
-<p>use-agent</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">gpg2 --edit-key &lt;your ID here&gt;</span>
+</code></pre></div>    </div>
+    <ul>
+      <li>Then use the adduid command
+        <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">adduid</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Enter the identity Name and Email as before</p>
+      </li>
+      <li>Then update the trust for the new identity
+        <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">uid </span><span class="m">2</span>
+<span class="s">trust</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
 
-<p>. Configure IntelliJ to sign your commits
-.. This should be as simple as restarting your IDE once this process is complete
-.. Then when you make a new commit you can tick the box to ‘Sign-off commit’ in the dialog box
-. Configure vsCode to sign commits
-.. Find the following flag in the config and enable it <code class="language-plaintext highlighter-rouge">git.enableCommitSigning</code></p>
+    <p>You probably want trust 5</p>
 
-<p>==== Using the Ansible Runner Independent of Cloudera-Deploy</p>
+    <ul>
+      <li>Save to exit
+        <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">save</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Configure Github to recognise your signed commits</p>
+
+    <ul>
+      <li>Set your git email for making commits</li>
+    </ul>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">git config --global user.email &lt;your@email.com&gt;</span>
+</code></pre></div>    </div>
+
+    <p>This email must be one of those in your GPG key set earlier</p>
+
+    <ul>
+      <li>Export your public key for uploading to Github</li>
+    </ul>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">gpg2 --armor --export &lt;your ID here&gt;</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Copy everything including the following lines into your paste buffer</li>
+    </ul>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">-----BEGIN PGP PUBLIC KEY BLOCK-----</span>
+<span class="nn">...</span>
+<span class="s">-----END PGP PUBLIC KEY BLOCK-----</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Open github and go to your key settings <code class="language-plaintext highlighter-rouge">https://github.com/settings/keys</code></p>
+  </li>
+  <li>
+    <p>Add new GPG key, paste in your PGP block from your buffer</p>
+  </li>
+  <li>
+    <p>Configure git to autosign your commits</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">git config --global gpg.program gpg</span>
+<span class="s">git config --global user.signingkey &lt;your ID here&gt;</span>
+<span class="s">git config --global commit.gpgSign </span><span class="no">true</span>
+<span class="s">git config --global tag.gpgSign </span><span class="no">true</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Put the following in <code class="language-plaintext highlighter-rouge">~/.gnupg/gpg.conf</code></p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Enable notty for IDE signing</span>
+<span class="s">no-tty</span>
+<span class="c1"># Enable gpg to use the gpg-agent</span>
+<span class="s">use-agent</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Configure IntelliJ to sign your commits
+    <ul>
+      <li>This should be as simple as restarting your IDE once this process is complete</li>
+      <li>Then when you make a new commit you can tick the box to <code class="language-plaintext highlighter-rouge">Sign-off commit</code> in the dialog box</li>
+    </ul>
+  </li>
+  <li>Configure vsCode to sign commits
+    <ul>
+      <li>Find the following flag in the config and enable it <code class="language-plaintext highlighter-rouge">git.enableCommitSigning</code></li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="using-the-ansible-runner-independent-of-cloudera-deploy">Using the Ansible Runner Independent of Cloudera-Deploy</h3>
 
 <p>In order to minimise time spent on dependency management and troubleshooting issues arising from users on different systems, we provide a standardised container image.
 The image is prepared in such a way that you can use it as a shell, a python environment, a container on Kubernetes, within other CICD Frameworks, Ansible Tower, or simply as an ansible-runner.</p>
 
-<p>.Testing:</p>
+<p><strong>Testing:</strong></p>
 
-<ul>
-  <li>OSX Catalina 10.15.7 on MacBook Pro 2019</li>
-  <li>Windows 10.0.19042 on Intel gaming rig (Tasteful RGB Edition)</li>
-</ul>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* OSX Catalina 10.15.7 on MacBook Pro 2019
+* Windows 10.0.19042 on Intel gaming rig (Tasteful RGB Edition)
+</code></pre></div></div>
 
-<p>.Manual Process:
-. To run this process on Windows you are expected to be within your xref:_install_windows_subsystem_for_linux_wsl2[WSL2] subsystem
-. Clone the Cloudera Labs Ansible Runner implementation repo into your preferred local Projects directory
-[source, bash]
-git clone https://github.com/cloudera-labs/cldr-runner.git &amp;&amp; cd cldr-runner</p>
+<p><strong>Manual Process:</strong></p>
 
-<p>. Linux only: Mark the run_project.sh script and build.sh script as executable
-[source, bash]
-chmod +x ./run_project.sh
-chmod +x ./build.sh</p>
+<ol>
+  <li>
+    <p>To run this process on Windows you are expected to be within your <a href="#install-windows-subsystem-for-linux-wsl2">WSL2</a> subsystem</p>
+  </li>
+  <li>
+    <p>Clone the Cloudera Labs Ansible Runner implementation repo into your preferred local Projects directory</p>
 
-<p>. Ensure xref:_setup_docker[Docker] is running on your host machine
-. Copy the absolute path to the root of your code projects directory that contains the projects you want to execute within the container environment, e.g. <code class="language-plaintext highlighter-rouge">/Users/dchaffelson/Projects</code>
-. Launch the runner targeting the project you want to execute by passing the absolute path as the argument to the run_project.sh script, e.g. <code class="language-plaintext highlighter-rouge">./run_project.sh /Users/dchaffelson/Projects</code>
-** The script will build the container image from the latest release bits, this will take a few minutes the first time, the resulting image will be ~2GB
-** You will then be dropped into a shell session in directory /runner in the container environment. Your Project will be mounted at /runner/project. You will have all the currently known dependencies for working with CDP pre-installed with conflicts resolved
-** Note that the container must be stopped for a new project directory to be mounted to a new build, if there is already a container of the same name running you will just get a new shell session in it
-. At this point you may wish to install additional dependencies to the container, particularly those which may be behind VPN or on your corporate VCS.
-[source, bash]
-ansible-galaxy install -r project/deps/ansible-deps.yml
-pip install -r project/deps/python-deps.txt</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">git clone https://github.com/cloudera-labs/cldr-runner.git &amp;&amp; cd cldr-runner</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Linux only: Mark the run_project.sh script and build.sh script as executable</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">chmod +x ./run_project.sh</span>
+ <span class="s">chmod +x ./build.sh</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Ensure <a href="#setup-docker">Docker</a> is running on your host machine</p>
+  </li>
+  <li>
+    <p>Copy the absolute path to the root of your code projects directory that contains the projects you want to execute within the container environment, e.g. <code class="language-plaintext highlighter-rouge">/Users/dchaffelson/Projects</code></p>
+  </li>
+  <li>
+    <p>Launch the runner targeting the project you want to execute by passing the absolute path as the argument to the run_project.sh script, e.g. <code class="language-plaintext highlighter-rouge">./run_project.sh /Users/dchaffelson/Projects</code></p>
+
+    <ul>
+      <li>
+        <p>The script will build the container image from the latest release bits, this will take a few minutes the first time, the resulting image will be ~2GB</p>
+      </li>
+      <li>
+        <p>You will then be dropped into a shell session in directory /runner in the container environment. Your Project will be mounted at /runner/project. You will have all the currently known dependencies for working with CDP pre-installed with conflicts resolved</p>
+      </li>
+      <li>
+        <p>Note that the container must be stopped for a new project directory to be mounted to a new build, if there is already a container of the same name running you will just get a new shell session in it</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>At this point you may wish to install additional dependencies to the container, particularly those which may be behind VPN or on your corporate VCS.</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">ansible-galaxy install -r project/deps/ansible-deps.yml</span>
+ <span class="s">pip install -r project/deps/python-deps.txt</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
 
 <p>NOTE: By default, the container is recreated if stopped, but it will not stop if you close your shell session as it is held open by a background tty. Try not to kill that.</p>
 
-<p>==== Getting Started with Developing Collections</p>
+<h3 id="getting-started-with-developing-collections">Getting Started with Developing Collections</h3>
 
 <p>NOTE: You can skip this step if you only want to use the Collections to create your own playbooks.  +
 This step is setting up the to Develop the Collections themselves.</p>
@@ -520,192 +767,465 @@ This step is setting up the to Develop the Collections themselves.</p>
 
 <p>You only need to do this if you want to contribute directly to the Collections or Python clients underlying the interactions with Cloudera products - you do not need to go through this setup process if you simply wish to use cloudera-deploy with your own YAML Definitions, as the Collections and Clients should not need to be modified in those cases and are already pre-installed in the Runner.</p>
 
-<p>.Why do it this way:
-Ansible expects to find collections within a path ‘collections/ansible_collections’ on a series of predefined or default paths within your environment. By default, the Runner has this Path variable prepopulated in a helpful fashion to the pre-installed Collections, this process guides you through modifying that to point at your own versions which you have to maintain yourself.</p>
+<p><em><strong>Why do it this way:</strong></em></p>
+
+<p>Ansible expects to find collections within a path “collections/ansible_collections” on a series of predefined or default paths within your environment. By default, the Runner has this Path variable prepopulated in a helpful fashion to the pre-installed Collections, this process guides you through modifying that to point at your own versions which you have to maintain yourself.</p>
 
 <p>For development purposes, creating this path in your favourite coding Projects directory, and then checking out the collections under it and renaming them to match the expected namespace may seem slightly arcane but it is the lowest-friction method for ongoing development we have found over many years of doing this.</p>
 
-<p>.Process:
-. Make the directory tree Ansible expects in the same parent code directory that cloudera-deploy is in, e.g.
-[source, bash]
-cd cloudera-deploy &amp;&amp; mkdir -p ../ansible_dev/collections/ansible_collections/cloudera</p>
+<p><em><strong>Process:</strong></em></p>
 
-<p>** cloudera is the base namespace of our collection
-** Your Projects directory should also have your Ansible Playbooks and other codebase in it, so that you can mount the root of it to the Runner and have access to all your codebase, e.g. <code class="language-plaintext highlighter-rouge">~/Projects/cloudera-deploy</code> should be where Cloudera-Deploy is located
-. Fork each of the sub-collections and cdpy into your personal github, and replace <myAccount> with your actual github account below
-. Checkout each of the sub-collections into this folder, e.g.:
-[source, bash]
-cd ~/Projects
-git clone -b devel https://github.com/<myAccount>/cdpy.git cdpy
-cd ansible_dev/collections/ansible_collections/cloudera
-git clone -b devel https://github.com/<myAccount>/cloudera.exe.git exe
-git clone -b devel https://github.com/<myAccount>/cloudera.cloud.git cloud
-git clone -b devel https://github.com/<myAccount>/cloudera.cluster.git cluster
-+
-NOTE: The cloned directories above must be named "exe", "cloud" and "cluster", respectively. Ensure you specify the directory name as the last parameter in the command line, as shown above.
-Each of the subcollections should be on the ‘devel’ branch so you can PR them back them with your changes
-+
-. Your Code Project directory should now look something like this:
-[source,bash]
-/Projects/ansible_dev/collections/ansible_collections/cloudera
-/Projects/ansible_dev/collections/ansible_collections/cloudera/exe
-/Projects/ansible_dev/collections/ansible_collections/cloudera/cloud
-/Projects/ansible_dev/collections/ansible_collections/cloudera/cluster
-/Projects/cdpy
-/Projects/cloudera-deploy
-. Before you invoke quickstart.sh, set the environment variable below to tell Ansible where to find your code inside your execution environment once it is mounted in the Container at /runner/project:
-[source, bash]
-export CLDR_COLLECTION_PATH="ansible_dev/collections"
-export CLDR_PYTHON_PATH=/runner/project/cdpy/src
-+
-NOTE: You might want to set this in your bash or zsh profile on your local machine so it is persistent</myAccount></myAccount></myAccount></myAccount></myAccount></p>
+<ol>
+  <li>
+    <p>Make the directory tree Ansible expects in the same parent code directory that cloudera-deploy is in, e.g.</p>
 
-<p>. Then, when you run quickstart.sh in cloudera-deploy, it will pick up this extra Collection location and add cdpy to the PYTHONPATH, and use these instead of the release versions basked into the Container</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">cd cloudera-deploy &amp;&amp; mkdir -p ../ansible_dev/collections/ansible_collections/cloudera</span>
+</code></pre></div>    </div>
 
-<p>. You can confirm this is working by running this inside the Runner
-[source, bash]
-ansible-galaxy collection list</p>
+    <ul>
+      <li>cloudera is the base namespace of our collection</li>
+      <li>Your Projects directory should also have your Ansible Playbooks and other codebase in it, so that you can mount the root of it to the Runner and have access to all your codebase, e.g. <code class="language-plaintext highlighter-rouge">~/Projects/cloudera-deploy</code> should be where Cloudera-Deploy is located</li>
+    </ul>
+  </li>
+  <li>
+    <p>Fork each of the sub-collections and cdpy into your personal github, and replace <myAccount> with your actual github account below</myAccount></p>
+  </li>
+  <li>
+    <p>Checkout each of the sub-collections into this folder, e.g.:</p>
 
-<p>It should look something like:
-[source, bash]
-—-</p>
-<h1 id="runnerprojectansible_devcollectionsansible_collections">/runner/project/ansible_dev/collections/ansible_collections</h1>
-<p>Collection       Version
-—————- ——-
-cloudera.cloud   0.1.0
-cloudera.cluster 2.0.0
-cloudera.exe     0.0.1
-Cloudera.runtime 0.0.1</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">cd ~/Projects</span>
+ <span class="s">git clone -b devel https://github.com/&lt;myAccount&gt;/cdpy.git cdpy</span>
+ <span class="s">cd ansible_dev/collections/ansible_collections/cloudera</span>
+ <span class="s">git clone -b devel https://github.com/&lt;myAccount&gt;/cloudera.exe.git exe</span>
+ <span class="s">git clone -b devel https://github.com/&lt;myAccount&gt;/cloudera.cloud.git cloud</span>
+ <span class="s">git clone -b devel https://github.com/&lt;myAccount&gt;/cloudera.cluster.git cluster</span>
+</code></pre></div>    </div>
 
-<h1 id="homerunneransiblecollectionsansible_collections">/home/runner/.ansible/collections/ansible_collections</h1>
-<p>Collection           Version
-——————– ——-
-amazon.aws           1.4.0
-ansible.netcommon    1.5.0
-ansible.posix        1.1.1
-azure.azcollection   1.4.0
-community.aws        1.4.0
-community.crypto     1.4.0
-community.general    2.1.1
-community.mysql      1.2.0
-community.postgresql 1.1.1
-google.cloud         1.0.2
-netapp.azure         21.3.0
-—-</p>
+    <p>NOTE: The cloned directories above must be named “exe”, “cloud” and “cluster”, respectively. Ensure you specify the directory name as the last parameter in the command line, as shown above.
+ Each of the subcollections should be on the ‘devel’ branch so you can PR them back them with your changes</p>
+  </li>
+  <li>
+    <p>Your Code Project directory should now look something like this:</p>
 
-<p>If you see duplication of collections because you are using the runner AND mounting your own versions, you probably have not activated the CLDR_COLLECTION_PATH variable correctly, and thus quickstart.sh is not picking it up.</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">/Projects/ansible_dev/collections/ansible_collections/cloudera</span>
+<span class="s">/Projects/ansible_dev/collections/ansible_collections/cloudera/exe</span>
+<span class="s">/Projects/ansible_dev/collections/ansible_collections/cloudera/cloud</span>
+<span class="s">/Projects/ansible_dev/collections/ansible_collections/cloudera/cluster</span>
+<span class="s">/Projects/cdpy</span>
+<span class="s">/Projects/cloudera-deploy</span>
+</code></pre></div>    </div>
+  </li>
+  <li>Before you invoke quickstart.sh, set the environment variable below to tell Ansible where to find your code inside your execution environment once it is mounted in the Container at /runner/project:
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">export CLDR_COLLECTION_PATH="ansible_dev/collections"</span>
+ <span class="s">export CLDR_PYTHON_PATH=/runner/project/cdpy/src</span>
+</code></pre></div>    </div>
+    <p>NOTE: You might want to set this in your bash or zsh profile on your local machine so it is persistent</p>
+  </li>
+  <li>
+    <p>Then, when you run quickstart.sh in cloudera-deploy, it will pick up this extra Collection location and add cdpy to the PYTHONPATH, and use these instead of the release versions basked into the Container</p>
+  </li>
+  <li>You can confirm this is working by running this inside the Runner
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">ansible-galaxy collection list</span>
+</code></pre></div>    </div>
 
-<p>As another test, you should also be able to invoke python inside the container and use cdpy
-[source,python]
-from cdpy.cdpy import Cdpy
-c = Cdpy()
-c.iam.get_user()</p>
+    <p>It should look something like:</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">----</span>
+ <span class="s"># /runner/project/ansible_dev/collections/ansible_collections</span>
+ <span class="s">Collection       Version</span>
+ <span class="s">---------------- -------</span>
+ <span class="s">cloudera.cloud   0.1.0</span>
+ <span class="s">cloudera.cluster 2.0.0</span>
+ <span class="s">cloudera.exe     0.0.1</span>
+ <span class="s">Cloudera.runtime 0.0.1</span>
 
-<p>To test that cdpy is present and you can access your account as on cmdline</p>
+ <span class="s"># /home/runner/.ansible/collections/ansible_collections</span>
+ <span class="s">Collection           Version</span>
+ <span class="s">-------------------- -------</span>
+ <span class="s">amazon.aws           1.4.0</span>
+ <span class="s">ansible.netcommon    1.5.0</span>
+ <span class="s">ansible.posix        1.1.1</span>
+ <span class="s">azure.azcollection   1.4.0</span>
+ <span class="s">community.aws        1.4.0</span>
+ <span class="s">community.crypto     1.4.0</span>
+ <span class="s">community.general    2.1.1</span>
+ <span class="s">community.mysql      1.2.0</span>
+ <span class="s">community.postgresql 1.1.1</span>
+ <span class="s">google.cloud         1.0.2</span>
+ <span class="s">netapp.azure         21.3.0</span>
+ <span class="s">----</span>
+</code></pre></div>    </div>
 
-<p>You may now edit the collections or cdpy and have the changes immediately available for use within the Runner, which is an awful lot easier than having to compile and crossload them after every change.</p>
+    <p>If you see duplication of collections because you are using the runner AND mounting your own versions, you probably have not activated the CLDR_COLLECTION_PATH variable correctly, and thus quickstart.sh is not picking it up.</p>
 
-<p>==== Install Dependencies without using Runner
-We prefer that you use the Runner, because it sets many defaults to avoid common issues and thus save you and us a lot of issue reproduction time. However, we understand that there are many situations where it may not be appropriate, such as air-gapped environments, or when you want to run the install locally on the hardware and not have a separate ansible controller.</p>
+    <p>As another test, you should also be able to invoke python inside the container and use cdpy</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">from cdpy.cdpy import Cdpy</span>
+ <span class="s">c = Cdpy()</span>
+ <span class="s">c.iam.get_user()</span>
+</code></pre></div>    </div>
 
-<p>. Create a new virtualenv, or activate an existing one, we do not recommend installing dependencies in system python on most OS.
-. Install dependencies for your hosting infrastructure version following the pathway laid out in the https://github.com/cloudera-labs/cldr-runner/blob/main/Dockerfile[Dockerfile] in ansible-runner
+    <p>To test that cdpy is present and you can access your account as on cmdline</p>
+
+    <p>You may now edit the collections or cdpy and have the changes immediately available for use within the Runner, which is an awful lot easier than having to compile and crossload them after every change.</p>
+  </li>
+</ol>
+
+<h3 id="install-dependencies-without-using-runner">Install Dependencies without using Runner</h3>
+
+<p>We prefer that you use the Runner, because it sets many defaults to avoid common issues and thus save you and us a lot of issue reproduction time. However, we understand that there are many situations where it may not be appropriate, such as air-gapped environments, or when you want to run the install locally on the hardware and not have a separate ansible controller.</p>
+
+<ol>
+  <li>
+    <p>Create a new virtualenv, or activate an existing one, we do not recommend installing dependencies in system python on most OS.</p>
+  </li>
+  <li>
+    <p>Install dependencies for your hosting infrastructure version following the pathway laid out in the <a href="https://github.com/cloudera-labs/cldr-runner/blob/main/Dockerfile">Dockerfile</a> in ansible-runner
 Install any additional dependencies you may have</p>
+  </li>
+</ol>
 
 <p>NOTE: THe Dockerfile resolves combined dependencies for all our Hybrid Cloud Deployments, you probably only need a subset for your environment.</p>
 
-<p>==== Developing within the Runner
-While we recommend using the Runner as your execution environment when doing development, actually developing directly against the Runner using something like Visual Studio may not be a great idea due to the file system latency commonly encountered.</p>
+<h3 id="developing-within-the-runner">Developing within the Runner</h3>
+
+<p>While we recommend using the Runner as your execution environment when doing development, actually developing directly against the Runner using something like Visual Studio may not be a great idea due to the file system latency commonly encountered.</p>
 
 <p>Generally when the maintainers work with this system we are editing the files directly on our host system using our IDE, and those files are RW mounted into the container for execution via the <code class="language-plaintext highlighter-rouge">/runner/project</code> mechanism, which then does not noticeably incur any performance degradation.</p>
 
-<p>==== Working with AWS SSO</p>
+<h3 id="working-with-aws-sso">Working with AWS SSO</h3>
 
-<p>.Why:
-Traditionally AWS users would use static keys, but more recently using temporary credentials via SSO is more commonplace.</p>
+<p><em><strong>Why:</strong></em></p>
+
+<p>Traditionally AWS users would use static keys, but more recently using temporary credentials via SSO is more commonplace.</p>
 
 <p>The upside of AWS SSO is better credential management, the downside being additional complexity, reliance on the fairly awful AWSCLIv2, and a lack of OOTB automation integration.</p>
 
-<p>.Setup AWS SSO:
-. Install awscli v2 on your local machine
-[source,bash]
-brew install awscli</p>
+<p><em><strong>Setup AWS SSO:</strong></em></p>
 
-<p>. Check you have version 2 (currently 2.5.4)
-[source,bash]
-aws –version</p>
+<ol>
+  <li>
+    <p>Install awscli v2 on your local machine</p>
 
-<p>. Login to AWS SSO via Okta (or however), examine the list of accounts and select the one you want to set up, copy the name to use as your AWS Profile name
-. Setup and login to AWS SSO for your selected account
-[source,bash]
-aws configure sso –profile <selected name="" here=""></selected></p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">brew install awscli</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Check you have version 2 (currently 2.5.4)</p>
 
-<p>.. Enter your Start URL, e.g. <code class="language-plaintext highlighter-rouge">https://&lt;app-name&gt;.awsapps.com/start</code>
-.. SSO Region, e.g. <code class="language-plaintext highlighter-rouge">us-east-1</code>
-.. It’ll launch your browser (which is why we do it on your local machine)
-.. Complete the login process to authenticate the session
-.. Select which AWS account you wish to set up
-.. Set your default region for this profile, e.g. <code class="language-plaintext highlighter-rouge">us-east-1</code>
-.. Set your default output for this profile, e.g. <code class="language-plaintext highlighter-rouge">json</code>
-. Now whenever you run a deployment you must set the profile name to match the one you have setup, e.g. in definition.yml
-[source,yaml]
-aws_profile: my-aws-profile</p>
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">aws --version</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Login to AWS SSO via Okta (or however), examine the list of accounts and select the one you want to set up, copy the name to use as your AWS Profile name</p>
+  </li>
+  <li>
+    <p>Setup and login to AWS SSO for your selected account</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="s">aws configure sso --profile &lt;selected name here&gt;</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Enter your Start URL, e.g. <code class="language-plaintext highlighter-rouge">https://&lt;app-name&gt;.awsapps.com/start</code></li>
+      <li>SSO Region, e.g. <code class="language-plaintext highlighter-rouge">us-east-1</code></li>
+      <li>It’ll launch your browser (which is why we do it on your local machine)</li>
+      <li>Complete the login process to authenticate the session</li>
+      <li>Select which AWS account you wish to set up</li>
+      <li>Set your default region for this profile, e.g. <code class="language-plaintext highlighter-rouge">us-east-1</code></li>
+      <li>Set your default output for this profile, e.g. <code class="language-plaintext highlighter-rouge">json</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>Now whenever you run a deployment you must set the profile name to match the one you have setup, e.g. in definition.yml</p>
+
+    <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="na">aws_profile</span><span class="pi">:</span> <span class="s">my-aws-profile</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
 
 <p>NOTE: You will likely have to re-login to SSO before each run</p>
 
-<p>==== Working with named credential profiles</p>
+<h3 id="working-with-named-credential-profiles">Working with named credential profiles</h3>
 
 <p>For CDP, AWS, and other credential-based access controls it is common to have multiple accounts that may be used from time to time. As such, it is useful to be able to easily, safely, and precisely switch between these accounts.</p>
 
-<p>This is typically achieved through use of multiple named profiles, a good introductory guide to this is https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html[here] for AWS.</p>
+<p>This is typically achieved through use of multiple named profiles, a good introductory guide to this is <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html">here</a> for AWS.</p>
 
-<p>To set up a named profile for CDP, follow https://docs.cloudera.com/cdp/latest/cli/topics/mc-cli-generating-an-api-access-key.html[this] guide to create an API access key, and then https://docs.cloudera.com/cdp/latest/cli/topics/mc-configuring-cdp-client-with-the-api-access-key.html[this] guide to configure your local credentials by simply adding the <code class="language-plaintext highlighter-rouge">--profile &lt;profile name&gt;</code> flag to the commands</p>
+<p>To set up a named profile for CDP, follow <a href="https://docs.cloudera.com/cdp/latest/cli/topics/mc-cli-generating-an-api-access-key.html">this</a> guide to create an API access key, and then <a href="https://docs.cloudera.com/cdp/latest/cli/topics/mc-configuring-cdp-client-with-the-api-access-key.html">this</a> guide to configure your local credentials by simply adding the <code class="language-plaintext highlighter-rouge">--profile &lt;profile name&gt;</code> flag to the commands</p>
 
 <p>Credentials are typically stored in a dot-prefix directory in the user profile on Linux, and in the user home directory on Windows, e.g. <code class="language-plaintext highlighter-rouge">~/.aws/credentials</code>, <code class="language-plaintext highlighter-rouge">~/.cdp/credentials</code> etc. They may be directly edited in these files if you prefer instead of using the <code class="language-plaintext highlighter-rouge">configure</code> CLI commands.</p>
 
 <p>By default, Cloudera-Deploy will use the <code class="language-plaintext highlighter-rouge">default</code> profiles for each account touched, you can set the Definition yaml keys <code class="language-plaintext highlighter-rouge">cdp_profile: &lt;profile name&gt;</code> and/or <code class="language-plaintext highlighter-rouge">aws_profile: &lt;profile name&gt;</code> to use a specific named profile instead.</p>
 
-<p>.Things to know:</p>
+<p><em><strong>Things to know:</strong></em></p>
 
 <ul>
-  <li>There should always be a <code class="language-plaintext highlighter-rouge">default</code> credential which points to a ‘safe’ account for when you deliberately or accidentally run commands without specifying a profile. This is generally a dev account, or even an expired credential, to ensure you don’t accidentally delete prod.</li>
-  <li>It is typical with CDP Public Cloud to pair a CDP Tenant with specific Cloud Infrastructure accounts to avoid confusion, therefore if you have a <code class="language-plaintext highlighter-rouge">dev</code> and <code class="language-plaintext highlighter-rouge">prod</code> CDP tenant with profiles of the same name, we recommend the paired cloud infrastructure accounts are also named <code class="language-plaintext highlighter-rouge">dev</code> and <code class="language-plaintext highlighter-rouge">prod</code>.</li>
+  <li>
+    <p>There should always be a <code class="language-plaintext highlighter-rouge">default</code> credential which points to a ‘safe’ account for when you deliberately or accidentally run commands without specifying a profile. This is generally a dev account, or even an expired credential, to ensure you don’t accidentally delete prod.</p>
+  </li>
+  <li>
+    <p>It is typical with CDP Public Cloud to pair a CDP Tenant with specific Cloud Infrastructure accounts to avoid confusion, therefore if you have a <code class="language-plaintext highlighter-rouge">dev</code> and <code class="language-plaintext highlighter-rouge">prod</code> CDP tenant with profiles of the same name, we recommend the paired cloud infrastructure accounts are also named <code class="language-plaintext highlighter-rouge">dev</code> and <code class="language-plaintext highlighter-rouge">prod</code>.</p>
+  </li>
 </ul>
 
-<p>==== Using a Jumpbox</p>
+<h3 id="using-a-jumpbox">Using a Jumpbox</h3>
 
 <p>A common deployment scenario is to funnel all cluster access through a jump/bastion host.</p>
 
 <p>In this case, there are three possibilities:</p>
 
-<p>. To run the Ansible Runner from the jump host itself
-. To deploy the dependencies within the boundary of the Jump Host
-. To run the Ansible Runner locally and tunnel connections through the jump host.</p>
+<ol>
+  <li>To run the Ansible Runner from the jump host itself</li>
+  <li>To deploy the dependencies within the boundary of the Jump Host</li>
+  <li>To run the Ansible Runner locally and tunnel connections through the jump host.</li>
+</ol>
 
 <p>In scenario 3, the following will be necessary to tunnel both SSH connection and HTTP calls through the jump host.</p>
 
-<p>.HTTP
-In the runner, edit <code class="language-plaintext highlighter-rouge">/runner/env/envvars</code> and add <code class="language-plaintext highlighter-rouge">http_proxy=&lt;proxy&gt;</code> where<proxy> is the name:port of your http proxy (e.g. a SOCKs proxy running on localhost).</proxy></p>
+<ul>
+  <li>HTTP
+In the runner, edit <code class="language-plaintext highlighter-rouge">/runner/env/envvars</code> and add <code class="language-plaintext highlighter-rouge">http_proxy=&lt;proxy&gt;</code> where<proxy> is the name:port of your http proxy (e.g. a SOCKs proxy running on localhost).</proxy></li>
+</ul>
 
 <p>Alternatively, edit quickstart.sh to pass this value through from your local machine if it is available.</p>
 
-<p>.SSH
-In your inventory file, under the <code class="language-plaintext highlighter-rouge">[deployment:vars]</code> group, add the following variable to set additional arguments on the SSH command used by Ansible.
-[source,bash]
-ansible_ssh_common_args=’-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand=”ssh -W %h:%p -q <jump host="">"'</jump></p>
+<ul>
+  <li>SSH
+In your inventory file, under the <code class="language-plaintext highlighter-rouge">[deployment:vars]</code> group, add the following variable to set additional arguments on the SSH command used by Ansible.</li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="s">ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand="ssh -W %h:%p -q &lt;jump host&gt;"'</span>
+</code></pre></div></div>
 
 <p>Optionally, in your SSH config file (e.g. ~/.ssh/config) you can configure an alias with predefined parameters for the jump host. This makes it easier to manage between different deployments and makes the argument string easier to read.</p>
 
-<p>[source,bash]
-Host myJump
-    IdentityFile ~/.ssh/myKey
-    StrictHostKeyChecking = no
-    User myUser
-    HostName jump.host.name</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="s">Host myJump</span>
+        <span class="s">IdentityFile ~/.ssh/myKey</span>
+        <span class="s">StrictHostKeyChecking = no</span>
+        <span class="s">User myUser</span>
+        <span class="s">HostName jump.host.name</span>
+</code></pre></div></div>
 
-<p>With this SSH config the proxy string would look like this:
-[source,bash]
-ansible_ssh_common_args=’-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand=”ssh -W %h:%p -q myJump”’</p>
+<p>With this SSH config the proxy string would look like this:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="s">ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand="ssh -W %h:%p -q myJump"'</span>
+</code></pre></div></div>
+
+<h2 id="cdp-private-cloud-deployments">CDP Private Cloud Deployments</h2>
+
+<p>CDP Base represents deployment of ‘Traditional’ clusters via Cloudera Manager, which you might think of historically as hadoop or big data clusters. In practice, there is an Ansible Collection called <code class="language-plaintext highlighter-rouge">cloudera.cluster</code> which is excellent at configuring Cloudera Manager across various versions of Linux regardless of whether that OS is running in Containers, Virtual Machines, Cloud Infra like EC2, or old school baremetal nodes.</p>
+
+<p>Cloudera.cluster is wrapped within Cloudera-Deploy, so again in practice you are most likely to simply use Cloudera-Deploy as the entrypoint to drive <code class="language-plaintext highlighter-rouge">cloudera.cluster</code> to create the cluster you want via the Definition mechanism explained in these docs.</p>
+
+<p>The differences are that Cloudera.cluster has been built over many generations to support Cloudera Manager versions 5 to 7, and supports many legacy options and behaviors for user convenience. The result of this is that, while simple deployments are as simple as the more modern CDP Public Cloud, complex deployments will require a greater familiarity with Ansible and Cloudera Manager templates.</p>
+
+<h3 id="ansible-controller-options">Ansible Controller options</h3>
+
+<p>We still strongly recommend that you use the cloudera-runner Docker Container shipped with Cloudera-Deploy as your Ansible controller for CDP Base deployments, because the consistency and logging is going to save you time and effort.</p>
+
+<p>However, it is not uncommon to use the target Cloudera Manager node as the Controller. It is also not uncommon to need to deploy to air-gapped environments or environments where Docker is not permitted.</p>
+
+<p>As such, there is a <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/centos7-init.sh">script</a> for deploying the dependencies for Cloudera-Deploy on centos7 as an example in the repo for Power Users in these scenarios. Note that the script covers dependencies for all Cloudera Products on all current Clouds, so you may wish to exclude parts irrelevant to your scenario.</p>
+
+<p>NOTE: It is worth noting that the <code class="language-plaintext highlighter-rouge">admin_password</code> field from your Profile, as outlined in the Quickstart, will be used as the Cloudera Manager admin password during <code class="language-plaintext highlighter-rouge">cloudera.cluster</code> deployments.</p>
+
+<h3 id="inventories">Inventories</h3>
+<p>An inventory file can be supplied using the traditional -i flag at runtime or by including either
+inventory_static.ini or inventory_template.ini in the definitions path.</p>
+
+<p><em><strong>inventory_static.ini</strong></em></p>
+
+<p>An Ansible inventory covering the hosts in-scope for the deployment. An inventory with this name will be picked up automatically if present without using the 
+<code class="language-plaintext highlighter-rouge">-i</code> to specify the inventory file at runtime.</p>
+
+<p>Common inventory group names are:</p>
+
+<ul>
+  <li>cloudera_manager</li>
+  <li>cluster_master_nodes</li>
+  <li>cluster_worker_nodes</li>
+  <li>cluster_edge_nodes</li>
+</ul>
+
+<p>Each host in these groups should be assigned one of the host templates that is defined in cluster.yml. These can be applied per host by setting <code class="language-plaintext highlighter-rouge">host_template=TemplateName</code> after the hostname, or per group by setting <code class="language-plaintext highlighter-rouge">host_template=TemplateName</code> in the group vars. See <a href="https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#adding-variables-to-inventory">here</a> for more information on Ansible inventory vars.</p>
+
+<p>Nodes that should be added to the CDP Cluster as defined in the cluster.yml must be added as children to the <code class="language-plaintext highlighter-rouge">cluster</code> group. For example, if all data nodes are present under the <code class="language-plaintext highlighter-rouge">cluster_worker_nodes</code> group, then this group should be listed under <code class="language-plaintext highlighter-rouge">cluster:children</code>. See <a href="https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#inheriting-variable-values-group-variables-for-groups-of-groups">here</a> for an example of setting group children.</p>
+
+<p>All nodes/groups should be added as children of the <code class="language-plaintext highlighter-rouge">deployment</code> group <code class="language-plaintext highlighter-rouge">[deployment:children]</code>. This includes the <code class="language-plaintext highlighter-rouge">cluster</code> group, as well as all non-CDP Cluster groups, for example, Cloudera Manager and supporting infrastructure nodes, perhaps running HAProxy or an RDBMS, that are deployed with the cluster but are not running CDP Roles. This allows for deployment-wide variables to be set, such as the common ssh key that can be used to access all nodes.</p>
+
+<p>WARNING: Do not use the <code class="language-plaintext highlighter-rouge">[all:vars]</code> group if you are using an independent Ansible Controller as Plays will also be applied to it via the <code class="language-plaintext highlighter-rouge">localhost</code> mechanic. This includes from your Laptop or the Ansible-Runner supplied in Cloudera-Deploy.</p>
+
+<h3 id="process-overview">Process Overview</h3>
+
+<p>In this section we will walk through a typical deployment, commenting on options at various points.</p>
+
+<ul>
+  <li>Prepare a Definition Path</li>
+</ul>
+
+<p>You are advised to create a working directory for your definition in your preferred Projects directory.</p>
+
+<p>If you have checked out Cloudera-Deploy from Github following the Quickstart, then you could make a copy of the folder <code class="language-plaintext highlighter-rouge">cloudera-deploy/examples/sandbox</code> into the same base code Projects directory, and use it as a starting point.</p>
+
+<p>You might then have:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="s">~/Projects/cloudera-deploy</span>  <span class="c1"># contains quickstart.sh, main.yml</span>
+    <span class="s">~/Projects/my-definition</span>  <span class="c1"># copied from ~/Projects/cloudera-deploy/examples/sandbox</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Infrastructure and Inventory
+You are advised to prepare your nodes in advance by whatever mechanism you prefer, and then include them in an Ansible Inventory matching the shape of the Clu
+ster you want to deploy.</li>
+</ul>
+
+<p>You may use Cloudera-Deploy to automatically provision EC2 instances based on the inventory template, but this is intended for test and training purposes. An example inventory template is included in the <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/examples/sandbox/inventory_template.ini">Cloudera-Deploy Sandbox Example</a>. There is also a copy of the <code class="language-plaintext highlighter-rouge">static_inventory.ini</code> file in this directory.</p>
+
+<p>If you want to use a static inventory, you may use any of the typical Ansible inventory approaches such as <code class="language-plaintext highlighter-rouge">-i</code> on the cmdline, the Inventory path, or including a file <code class="language-plaintext highlighter-rouge">inventory_static.ini</code> in your Definition Path which Cloudera-Deploy will automatically pick up.</p>
+
+<p>You may wish to include additional variables in the Inventory, most typically the ssh user and private key. These should probably be in the <code class="language-plaintext highlighter-rouge">[deployment:vars]</code> section.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="pi">[</span><span class="nv">deployment</span><span class="pi">:</span><span class="nv">vars</span><span class="pi">]</span>
+    <span class="s">ansible_ssh_private_key_file=~/.ssh/root_key</span>
+    <span class="s">ansible_user=root</span>
+</code></pre></div></div>
+
+<p>NOTE: When you run quickstart.sh to launch the Runner Container, it will mount your local user <code class="language-plaintext highlighter-rouge">~/.ssh</code> directory into the container, so there is no need to copy keys around provided you use bash expansion for the user home directory.</p>
+
+<ul>
+  <li>Cloudera-Deploy and the Runner</li>
+</ul>
+
+<p>If you have not already done so, you should follow the instructions to setup your OS dependencies and get a copy of Cloudera-Deploy. New users are encouraged to use the <a href="https://github.com/cloudera-labs/cloudera-deploy/blob/main/readme.adoc">Quickstart</a>, while Power Users who want to immediately understand the inner 
+workings may wish to follow selected parts of the «developers.adoc#_detailed_setup_for_developers,Developers» guide.</p>
+
+<p>Regardless of which method you select, complete the setup process until you are in the orange coloured interactive shell. Ensure that /runner/project within the shell has mounted your Projects directory that contains the Definition working directory you created in step one.</p>
+
+<p>IMPORTANT: At this point you should ensure that the directory listing in <code class="language-plaintext highlighter-rouge">/runner/project</code> within the Runner matches your projects directory on your local machine, we earlier gave the example of <code class="language-plaintext highlighter-rouge">~/Projects</code> for this.</p>
+
+<p>When using the Ansible Runner, you should be aware that most changes to the filesystem within the <em>container</em> are not persistent - that is, when you kill the container, most changes will be lost. When we are working on files that we want to persist, such as cluster templates, we can keep these on the local filesystem outside of the container, and mount the local filesystem directory inside the container, which is the purpose of the /runner/project mountpoint. This means that we can read and write to those files both inside and outside of the container and you can safely terminate your container without losing them.</p>
+
+<p>Apart from the working dir, the container will mount specific directories out of your local user profile such as ~/.ssh, ~/.config, ~/.aws etc. into the container to pass-through credentials and other requirements. You should assume that any changes outside of these profile directories and /runner/project are not persisted.</p>
+
+<p>NOTE: If we do not specify which directory to mount, the quickstart.sh script will mount the parent directory that the current session is in. i.e. if you run quickstart.sh from the path <code class="language-plaintext highlighter-rouge">~/Projects/cloudera-deploy</code>, then <code class="language-plaintext highlighter-rouge">~/Projects</code> in the host filesystem will be mounted to <code class="language-plaintext highlighter-rouge">/runner/projects</code> in the Container.</p>
+
+<p>NOTE: If you did not stop the container previously, quickstart.sh will ignore any arguments passed and simply give you a new terminal session in the existing container. Therefore, if you want to change the mounted directory you must stop and restart the container with the new path.</p>
+
+<h3 id="executing-playbooks">Executing Playbooks</h3>
+
+<p>To run the playbook, we use the <code class="language-plaintext highlighter-rouge">ansible-playbook</code> command. The entry point to the playbook is in main.yml in cloudera-deploy. With our mount point in /runner/project, the full path is <code class="language-plaintext highlighter-rouge">/runner/project/cloudera-deploy/main.yml</code>. This is passed as the first argument to ansible-playbook.</p>
+
+<p>We also need to provide some additional arguments. We do this with the -e flag. The first argument to pass is the definition_path. This is the path to the directory that contains our definition, inventory, etc.</p>
+
+<p>NOTE: It is usually a good idea to use Cloudera-Deploy to verify your infrastructure before committing to the full deployment, by using the same main playbook and adding the verify tag, as below. This is particularly handy for real-world deployments for a quick sanity check.</p>
+
+<p>An example command is shown below. Notice that we do not need to specifically provide an inventory list. The playbook will look in the definition_path for an inventory file, which is included in the cloudera-deploy-definitions examples. Of course, you can provide an inventory file using the -i if you want.</p>
+
+<p>NOTE: Commands like <code class="language-plaintext highlighter-rouge">ansible-playbook</code> should be run from the <code class="language-plaintext highlighter-rouge">/runner</code> directory in the Ansible-Runner to pick up the defaults and other useful configurations</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">ansible-playbook /runner/project/cloudera-deploy/main.yml \</span>
+ <span class="s">-e "definition_path=/runner/project/my-definition/" \</span>
+ <span class="s">-t verify</span>
+ <span class="s">-v</span>
+</code></pre></div></div>
+
+<p>Following this will be a lot of output into the terminal which tracks the stages of our deployment.</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">-----</span>
+<span class="s">PLAY [Init Cloudera-Deploy Run] ******************************************************************************************************************************</span>
+<span class="err">************************************************************************************************</span>
+
+<span class="s">TASK [Gathering Facts] ***************************************************************************************************************************************</span>
+<span class="err">************************************************************************************************</span>
+<span class="s">Thursday 13 May 2021  18:54:13 +0000 (0:00:00.014)   </span><span class="err">	</span><span class="s">0:00:00.014 **********</span>
+<span class="na">ok</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">localhost</span><span class="pi">]</span>
+<span class="s">-----</span>
+</code></pre></div></div>
+
+<p>To run the actual full deployment against your inventory, the most common tag to use is <code class="language-plaintext highlighter-rouge">full_cluster</code>. The complete listing of all tags can be found by reviewing the Plays in https://github.com/cloudera-labs/cloudera-deploy/blob/main/cluster.yml[cluster.yml] in cloudera-deploy.</p>
+
+<p>The command would look something like this, with verbosity at level 2</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">ansible-playbook /runner/project/cloudera-deploy/main.yml \</span>
+ <span class="s">-e "definition_path=/runner/project/my-definition/" \</span>
+ <span class="s">-t full_cluster</span>
+ <span class="s">-vv</span>
+</code></pre></div></div>
+
+<p>Expect the deployment to take 30 to 90 minutes or longer, assuming you encounter no errors.</p>
+
+<p>If you do run into issues, most runs are idempotent so you can re-run with increased verbosity of the terminal output by adding the -v flag to the ansible-playbook command. You can scale the verbosity by adding more vs up to -vvvvv for maximum verbosity.</p>
+
+<p>There is nothing you need to do until the playbook completes, however it can be useful to have a scroll through the output and get a feel for what it is doing.</p>
+
+<p>Eventually, you will get to some output that looks like the following. This indicates that Cloudera Manager is being installed, and then a check runs to wait for the server to start responding. When you get past this step, youll be able to access the CM UI in your browser.</p>
+
+<p>It will be installed on the host that was under the cloudera_manager title in your inventory, and on port 7180 for HTTP and 7183 for HTTPS. The username is typically ‘admin’, and the password will be the admin_password you set in your Profile or Definition.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">-----</span>
+<span class="s">TASK [cloudera.cluster.server</span> <span class="err">:</span> <span class="s">Install Cloudera Manager Server] *********************************************************************************************</span>
+<span class="err">************************************************************************************************</span>
+<span class="s">Thursday 13 May 2021  19:41:50 +0000 (0:00:06.555)   </span><span class="err">	</span><span class="s">0:47:36.812 **********</span>
+<span class="s">.</span>
+<span class="s">RUNNING HANDLER [cloudera.cluster.common</span> <span class="err">:</span> <span class="s">wait cloudera-scm-server] *****************************************************************************************</span>
+<span class="err">************************************************************************************************</span>
+<span class="s">Thursday 13 May 2021  19:42:45 +0000 (0:00:09.338)   </span><span class="err">	</span><span class="s">0:48:31.682 **********</span>
+<span class="s">-----</span>
+</code></pre></div></div>
+
+<p>The next important step to watch out for comes right at the end of the playbook. This is the Import Cluster Template step. In this step, the playbook is using the CM API to insert our cluster template, which allows CM to handle the complex logic of deploying the software, pushing out configurations and completing initializations and first runs. During this step, you will not see much useful output in the terminal.</p>
+
+<p>Instead, you should go inside the CM web UI and go to the Running Commands page, where you will be able to drill down into the Import Cluster Template command and watch the individual steps that CM performs. This is the best place to debug any errors that you might encounter during the Import Cluster Template step.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">-----</span>
+<span class="s">TASK [cloudera.cluster.cluster</span> <span class="err">:</span> <span class="s">Import cluster template]</span>
+<span class="err">******************************************************</span>
+<span class="s">-----</span>
+</code></pre></div></div>
+
+<p>NOTE: Deploying parcels can take some time if downloading directly from Cloudera Repos over slow or long-distance connections. Consider using the local repo options if doing multiple builds.</p>
+
+<p>After the Template is imported, the First Run is completed, and then a cluster Restart command will run.</p>
+
+<p>In the terminal session, our playbook has now completed and we will see the results at the end of the output. We should see a success message and a quick recap of the steps it took.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">-----</span>
+<span class="s">TASK [Deployment results] ***************************************************************************************************************</span>
+<span class="s">Thursday 13 May 2021  20:59:45 +0000 (0:00:00.287)   </span><span class="err">	</span><span class="s">2:05:31.793 **********</span>
+<span class="na">ok</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">localhost</span><span class="pi">]</span> <span class="s">=&gt; {</span>
+<span class="err">	</span><span class="s2">"</span><span class="s">msg"</span><span class="err">:</span> <span class="s2">"</span><span class="s">Success!"</span>
+<span class="err">}</span>
+
+<span class="s">PLAY RECAP ***************************************************************************************************************</span>
+<span class="na">ccycloud-1.cddemo.root.hwx.site </span><span class="pi">:</span> <span class="s">ok=162  changed=49   unreachable=0</span><span class="err">	</span><span class="s">failed=0</span><span class="err">	</span><span class="s">skipped=151  rescued=0</span><span class="err">	</span><span class="s">ignored=0</span>
+<span class="na">ccycloud-2.cddemo.root.hwx.site </span><span class="pi">:</span> <span class="s">ok=71   changed=23   unreachable=0</span><span class="err">	</span><span class="s">failed=0</span><span class="err">	</span><span class="s">skipped=65   rescued=0</span><span class="err">	</span><span class="s">ignored=0</span>
+<span class="na">ccycloud-3.cddemo.root.hwx.site </span><span class="pi">:</span> <span class="s">ok=71   changed=23   unreachable=0</span><span class="err">	</span><span class="s">failed=0</span><span class="err">	</span><span class="s">skipped=65   rescued=0</span><span class="err">	</span><span class="s">ignored=0</span>
+<span class="na">ccycloud-4.cddemo.root.hwx.site </span><span class="pi">:</span> <span class="s">ok=71   changed=23   unreachable=0</span><span class="err">	</span><span class="s">failed=0</span><span class="err">	</span><span class="s">skipped=65   rescued=0</span><span class="err">	</span><span class="s">ignored=0</span>
+<span class="na">localhost              	</span><span class="pi">:</span> <span class="s">ok=173  changed=11   unreachable=0</span><span class="err">	</span><span class="s">failed=0</span><span class="err">	</span><span class="s">skipped=149  rescued=0</span><span class="err">	</span><span class="s">ignored=1</span>
+
+<span class="s">Thursday 13 May 2021  20:59:45 +0000 (0:00:00.064)   </span><span class="err">	</span><span class="s">2:05:31.857 **********</span>
+<span class="s">===============================================================================</span>
+<span class="na">cloudera.cluster.cluster </span><span class="pi">:</span> <span class="s">Import cluster template --------------------------------- 4132.25s</span>
+<span class="na">cloudera.cluster.daemons </span><span class="pi">:</span> <span class="s">Install Cloudera Manager daemons package ---------------- 1415.92s</span>
+<span class="na">cloudera.cluster.user_accounts </span><span class="pi">:</span> <span class="s">Create local user accounts ------------------------ 294.11s</span>
+<span class="na">cloudera.cluster.user_accounts </span><span class="pi">:</span> <span class="s">Set home directory permissions -------------------- 254.82s</span>
+<span class="na">cloudera.cluster.common </span><span class="pi">:</span> <span class="s">wait cloudera-scm-server --------------------------------- 99.33s</span>
+<span class="na">cloudera.cluster.agent </span><span class="pi">:</span> <span class="s">Install Cloudera Manager agent packages ------------------- 64.32s</span>
+<span class="na">cloudera.cluster.os </span><span class="pi">:</span> <span class="s">Populate service facts --------------------------------------- 60.19s</span>
+<span class="na">cloudera.cluster.jdk </span><span class="pi">:</span> <span class="s">Install JDK ------------------------------------------------- 50.16s</span>
+<span class="na">cloudera.cluster.krb5_server </span><span class="pi">:</span> <span class="s">Install KRB5 server --------------------------------- 39.23s</span>
+<span class="na">geerlingguy.postgresql </span><span class="pi">:</span> <span class="s">Ensure PostgreSQL packages are installed. ----------------- 38.81s</span>
+<span class="na">cloudera.cluster.cluster </span><span class="pi">:</span> <span class="s">Restart Cloudera Management Service --------------------- 35.66s</span>
+<span class="na">cloudera.cluster.mgmt </span><span class="pi">:</span> <span class="s">Start Cloudera Management Service -------------------------- 34.83s</span>
+<span class="na">cloudera.cluster.krb5_client </span><span class="pi">:</span> <span class="s">Install KRB5 client libraries ----------------------- 34.25s</span>
+<span class="na">cloudera.cluster.kerberos </span><span class="pi">:</span> <span class="s">Import KDC admin credentials --------------------------- 25.34s</span>
+<span class="s">Gather facts from connected inventory ---------------------------------------------- 20.92s</span>
+<span class="na">cloudera.cluster.krb5_server </span><span class="pi">:</span> <span class="s">Start Kerberos KDC ---------------------------------- 19.53s</span>
+<span class="na">cloudera.cluster.deployment/repometa </span><span class="pi">:</span> <span class="s">Download parcel manifest information -------- 19.00s</span>
+<span class="na">cloudera.cluster.os </span><span class="pi">:</span> <span class="s">Install rngd ------------------------------------------------- 18.34s</span>
+<span class="na">cloudera.cluster.rdbms </span><span class="pi">:</span> <span class="s">Copy SQL to change template to UTF-8 ---------------------- 16.64s</span>
+<span class="s">Gathering Facts -------------------------------------------------------------------- 16.31s</span>
+<span class="s">-----</span>
+</code></pre></div></div>
+
+<p>From this, we can see that the build took 2:05:31.793 (2 hours 5 minutes) in total, around 1 hour of this was the Import Cluster Template which includes the parcel downloads. Pre-downloading and hosting a cluster-local parcel repository can speed this up dramatically.</p>
 
             
           </div>
@@ -753,7 +1273,23 @@ ansible_ssh_common_args=’-o StrictHostKeyChecking=no -o UserKnownHostsFile=/de
           
           
           <a href="/docs/content/ansible_developers/" class="chrome:sidebar_item text-sm chrome:active_sidebar_item chrome:sidebar_item_child">
-            Developers
+            Goal-oriented Guides
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_info/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            References
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_troubleshoot/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Operations
           </a>
           
         
@@ -824,7 +1360,7 @@ ansible_ssh_common_args=’-o StrictHostKeyChecking=no -o UserKnownHostsFile=/de
         </div>
         <footer class="chrome:footer"><div class="chrome:footer_item">
     <span class="text-lg"
-      >Updated: 2022-11-16 16:58</span
+      >Updated: 2022-11-20 18:01</span
     >
   </div>
 </footer>
