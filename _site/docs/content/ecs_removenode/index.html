@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Remove failed worker node from the existing ECS cluster</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/style.css"
+    />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link
+      rel="stylesheet"
+      href="/assets/css/rouge.css"
+    />
+    <script src="/assets/js/accordian.js"></script>
+    <script src="/assets/js/heading_links.js"></script>
+    
+    <script src="/assets/js/vendor/lunr.min.js"></script>
+    <script src="/assets/js/search.js"></script>
+    
+  </head>
+
+  <body>
+    <div class="chrome">
+      <div class="chrome:nav">
+      <img src="/assets/images/cloudera_logo_WHITE.png" alt="Link to GitHub Repository">
+  
+</div>
+
+      <div class="chrome:body">
+        <header class="chrome:header">
+  <div class="chrome:header_title">
+    <a href="/" class="text-grey-800 no-underline hover:no-underline focus:no-underline">
+      <span class="text-3xl">Cloudera Labs</span>
+    </a>
+  </div>
+   <div class="chrome:header_item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" focusable="false" viewBox="0 0 26 26">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+    <circle cx="11" cy="11" r="7"/>
+    <path d="M16 16l6 6"/>
+  </g>
+</svg>
+
+  <form id="search">
+    <input
+      type="text"
+      id="search_input"
+      name="search_query"
+      class="search_input"
+      placeholder="Search Cloudera Labs"
+      autocomplete="off"
+    />
+  </form>
+</div>
+ 
+</header>
+
+        <div class="chrome:content">
+          <div class="chrome:main">
+            
+            
+            <h1 id="remove-failed-worker-node-from-the-existing-ecs-cluster">Remove failed worker node from the existing ECS cluster</h1>
+            
+            
+            <p class="no_toc">Remove failed worker node from the existing ECS cluster</p>
+
+<ul id="markdown-toc">
+  <li><a href="#introduction-to-the-test-environment" id="markdown-toc-introduction-to-the-test-environment">Introduction to the test environment</a></li>
+  <li><a href="#check-if-node-ds06ecsopenstackcom-is-going-down" id="markdown-toc-check-if-node-ds06ecsopenstackcom-is-going-down">Check if node ds06.ecs.openstack.com is going down</a></li>
+  <li><a href="#remove-node-from-kubernetes-cluster" id="markdown-toc-remove-node-from-kubernetes-cluster">Remove node from Kubernetes Cluster</a></li>
+  <li><a href="#remove-node-from-ecs-cluster" id="markdown-toc-remove-node-from-ecs-cluster">Remove node From ECS Cluster</a></li>
+  <li><a href="#remove-node-from-cloudera-manager" id="markdown-toc-remove-node-from-cloudera-manager">Remove node From Cloudera Manager</a></li>
+  <li><a href="#destroy-node-ds06" id="markdown-toc-destroy-node-ds06">Destroy node ds06</a></li>
+</ul>
+
+<hr />
+
+<h2 id="introduction-to-the-test-environment">Introduction to the test environment</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td>CDP Runtime version</td>
+      <td>CDP PvC Base 7.1.7</td>
+    </tr>
+    <tr>
+      <td>CM version</td>
+      <td>Cloudera Manager 7.5.5</td>
+    </tr>
+    <tr>
+      <td>ECS version</td>
+      <td>CDP PvC DataServices 1.3.4</td>
+    </tr>
+    <tr>
+      <td>OS version</td>
+      <td>Centos 7.9</td>
+    </tr>
+    <tr>
+      <td>K8S version</td>
+      <td>RKE 1.21</td>
+    </tr>
+    <tr>
+      <td>Whether to enable Kerberos</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Whether to enable TLS</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Auto-TLS</td>
+      <td>No, using manual TLS</td>
+    </tr>
+    <tr>
+      <td>Kerberos</td>
+      <td>AD</td>
+    </tr>
+    <tr>
+      <td>LDAP</td>
+      <td>AD</td>
+    </tr>
+    <tr>
+      <td>DB Configuration</td>
+      <td>External Postgres 12</td>
+    </tr>
+    <tr>
+      <td>Vault</td>
+      <td>Embedded</td>
+    </tr>
+    <tr>
+      <td>Docker registry</td>
+      <td>Embedded</td>
+    </tr>
+    <tr>
+      <td>Install Method</td>
+      <td>Internet</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>IP addresss</td>
+      <td>hostname</td>
+      <td>description</td>
+    </tr>
+    <tr>
+      <td>192.168.8.140</td>
+      <td>ds00.ecs.openstack.com</td>
+      <td>CDP Base cluster, only a single node</td>
+    </tr>
+    <tr>
+      <td>192.168.8.141</td>
+      <td>ds01.ecs.openstack.com</td>
+      <td>ECS master node 1</td>
+    </tr>
+    <tr>
+      <td>192.168.8.142</td>
+      <td>ds02.ecs.openstack.com</td>
+      <td>ECS master node 2</td>
+    </tr>
+    <tr>
+      <td>192.168.8.143</td>
+      <td>ds03.ecs.openstack.com</td>
+      <td>ECS master node 3</td>
+    </tr>
+    <tr>
+      <td>192.168.8.144</td>
+      <td>ds04.ecs.openstack.com</td>
+      <td>ECS worker node 1</td>
+    </tr>
+    <tr>
+      <td>192.168.8.145</td>
+      <td>ds05.ecs.openstack.com</td>
+      <td>ECS worker node 2</td>
+    </tr>
+    <tr>
+      <td>192.168.8.146</td>
+      <td>ds06.ecs.openstack.com</td>
+      <td>ECS worker node 3</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="check-if-node-ds06ecsopenstackcom-is-going-down">Check if node ds06.ecs.openstack.com is going down</h2>
+
+<ul>
+  <li>Error 1: Failed to receive heartbeat from agent ds06</li>
+</ul>
+
+<p><img src="../../assets/images/removenode01.png" alt="" /></p>
+
+<ul>
+  <li>Error 2: Node ds06 is not ready
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># kubectl get node</span>
+NAME                                    STATUS     ROLES                       AGE   VERSION
+ds01.ecs.openstack.com   Ready      control-plane,etcd,master   22d   v1.21.8+rke2r2
+ds02.ecs.openstack.com   Ready      control-plane,etcd,master   22d   v1.21.8+rke2r2
+ds03.ecs.openstack.com   Ready      control-plane,etcd,master   22d   v1.21.8+rke2r2
+ds04.ecs.openstack.com   Ready      &lt;none&gt;                      22d   v1.21.8+rke2r2
+ds05.ecs.openstack.com   Ready      &lt;none&gt;                      22d   v1.21.8+rke2r2
+ds06.ecs.openstack.com   NotReady   &lt;none&gt;                      22d   v1.21.8+rke2r2
+</code></pre></div>    </div>
+  </li>
+  <li>Error 3: Most of pods on Node ds06  are keeping in terminating state
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># kubectl get pods -A -o wide --field-selector spec.nodeName=ds06.ecs.openstack.com</span>
+NAMESPACE                              NAME                                                              READY   STATUS        RESTARTS   AGE    IP               NODE                                    NOMINATED NODE   READINESS GATES
+default-cbdec3c5-monitoring-platform   monitoring-prometheus-kube-state-metrics-6ffcdcb5b4-ljgfq         2/2     Terminating   0          2d1h   10.42.4.27       ds06.ecs.openstack.com   &lt;none&gt;           &lt;none&gt;
+infra-prometheus                       infra-prometheus-operator-1-1652500324-prometheus-node-expgjddh   1/1     Running       0          22d    192.168.8.146   ds06.ecs.openstack.com   &lt;none&gt;           &lt;none&gt;
+kube-system                            kube-proxy-ds06.ecs.openstack.com                  1/1     Running       0          2d6h   192.168.8.146   ds06.ecs.openstack.com   &lt;none&gt;           &lt;none&gt;
+kube-system                            nvidia-device-plugin-daemonset-wnq8p                              1/1     Running       0          22d    10.42.4.5        ds06.ecs.openstack.com   &lt;none&gt;           &lt;none&gt;
+kube-system                            rke2-canal-b8n4k                                                  2/2     Running       0          22d    192.168.8.146   ds06.ecs.openstack.com   &lt;none&gt;           &lt;none&gt;
+longhorn-system                        engine-image-ei-d4c780c6-zwmbm                                    1/1     Running       0          22d    10.42.4.4        ds06.ecs.openstack.com   &lt;none&gt;           &lt;none&gt;
+longhorn-system                        instance-manager-e-da42b727                                       1/1     Terminating   0          2d2h   10.42.4.15       ds06.ecs.openstack.com   &lt;none&gt;           &lt;none&gt;
+longhorn-system                        instance-manager-r-c7bd215e                                       1/1     Terminating   0          2d2h   10.42.4.16       ds06.ecs.openstack.com   &lt;none&gt;           &lt;none&gt;
+longhorn-system                        longhorn-csi-plugin-28rv2                                         2/2     Running       0          22d    10.42.4.3        ds06.ecs.openstack.com   &lt;none&gt;           &lt;none&gt;
+longhorn-system                        longhorn-manager-zh9f9                                            1/1     Running       0          22d    10.42.4.6        ds06.ecs.openstack.com   &lt;none&gt;           &lt;none&gt;
+shared-services                        log-router-979c8                                                  2/2     Running       0          10d    10.42.4.2        ds06.ecs.openstack.com   &lt;none&gt;           &lt;none&gt;
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="remove-node-from-kubernetes-cluster">Remove node from Kubernetes Cluster</h2>
+
+<ul>
+  <li>Delete node using kubectl commands
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># kubectl delete node ds06.ecs.openstack.com</span>
+node <span class="s2">"ds06.ecs.openstack.com"</span> deleted
+</code></pre></div>    </div>
+  </li>
+  <li>Check the status of available nodes and now we don’t see ds06 again
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># kubectl get node</span>
+NAME                                    STATUS   ROLES                       AGE   VERSION
+ds01.ecs.openstack.com   Ready    control-plane,etcd,master   22d   v1.21.8+rke2r2
+ds02.ecs.openstack.com   Ready    control-plane,etcd,master   22d   v1.21.8+rke2r2
+ds03.ecs.openstack.com   Ready    control-plane,etcd,master   22d   v1.21.8+rke2r2
+ds04.ecs.openstack.com   Ready    &lt;none&gt;                      22d   v1.21.8+rke2r2
+ds05.ecs.openstack.com   Ready    &lt;none&gt;                      22d   v1.21.8+rke2r2
+</code></pre></div>    </div>
+  </li>
+  <li>Pods in <code class="language-plaintext highlighter-rouge">terminating</code> state can be removed from the apiserver after the failed Node is manually deleted.</li>
+</ul>
+
+<h2 id="remove-node-from-ecs-cluster">Remove node From ECS Cluster</h2>
+
+<ul>
+  <li>In the Cloudera Manager Admin Console, go to Hosts &gt; All Hosts. Select the hosts to delete.</li>
+</ul>
+
+<p><img src="../../assets/images/removenode02.png" alt="" /></p>
+
+<ul>
+  <li>Select Actions for Selected &gt; Remove From Cluster. The Remove Hosts From Cluster dialog box displays.</li>
+</ul>
+
+<p><img src="../../assets/images/removenode03.png" alt="" /></p>
+
+<ul>
+  <li>Leave the selections to decommission roles and skip removing the Cloudera Management Service roles. Click Confirm to proceed with removing the selected hosts.</li>
+</ul>
+
+<p><img src="../../assets/images/removenode04.png" alt="" /></p>
+
+<h2 id="remove-node-from-cloudera-manager">Remove node From Cloudera Manager</h2>
+
+<ul>
+  <li>In the Cloudera Manager Admin Console, go to Hosts &gt; All Hosts. Select the hosts to delete.</li>
+</ul>
+
+<p><img src="../../assets/images/removenode05.png" alt="" /></p>
+
+<ul>
+  <li>Select Actions for Selected &gt; Remove from Cloudera Manager.</li>
+</ul>
+
+<p><img src="../../assets/images/removenode06.png" alt="" /></p>
+
+<ul>
+  <li>Click Confirm to remove the failed host from Cloudera Manager.</li>
+</ul>
+
+<p><img src="../../assets/images/removenode07.png" alt="" /></p>
+
+<h2 id="destroy-node-ds06">Destroy node ds06</h2>
+
+<ul>
+  <li>If you want to replace this failed node with a new one, you need to destroy node ds06, then see the steps in the [docs].</li>
+</ul>
+
+
+            
+          </div>
+           <div class="chrome:sidebar">
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:ansible foundry"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_collapsed"
+        onclick="toggleAccordian('sidebar_item:ansible foundry')"
+      >
+        <span class="chrome:sidebar_item_text">Ansible Foundry</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:ansible foundry:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_collapsed">
+        
+          
+          
+          
+          <a href="/docs/content/ansible_intro/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Introduction
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_developers/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Goal-oriented Guides
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_info/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            References
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_troubleshoot/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Operations
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:cdp pvc data services"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_expanded"
+        onclick="toggleAccordian('sidebar_item:cdp pvc data services')"
+      >
+        <span class="chrome:sidebar_item_text">CDP PvC Data Services</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:cdp pvc data services:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_expanded">
+        
+          
+          
+          
+          <a href="/docs/content/ecs_env/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: Client
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_lvm/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: LVM
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_gpu/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: GPU
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_addnode/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: Add ECS Node
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_removenode/" class="chrome:sidebar_item text-sm chrome:active_sidebar_item chrome:sidebar_item_child">
+            ECS: Remove Node
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ocp_gpu/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            OCP: GPU
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ocp_cdwdisk/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            OCP: CDW Disk
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/cml_autotls/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            CML: CSR with AutoTLS
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <a href="/docs/development/" class="chrome:sidebar_item ">
+        <span class="chrome:sidebar_item_text">Coming Soon</span>
+      </a>
+      
+    
+  
+</div>
+ 
+        </div>
+        <footer class="chrome:footer"><div class="chrome:footer_item">
+    <span class="text-lg"
+      >Updated: 2022-11-21 15:51</span
+    >
+  </div>
+</footer>
+
+      </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        let theme = "forest";
+        mermaid.initialize({ startOnLoad: true, theme });
+        window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    </script>
+    
+  </body>
+</html>

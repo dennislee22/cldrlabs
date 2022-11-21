@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Sign CSR with AutoTLS Managed CA for ML Workspace</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/style.css"
+    />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link
+      rel="stylesheet"
+      href="/assets/css/rouge.css"
+    />
+    <script src="/assets/js/accordian.js"></script>
+    <script src="/assets/js/heading_links.js"></script>
+    
+    <script src="/assets/js/vendor/lunr.min.js"></script>
+    <script src="/assets/js/search.js"></script>
+    
+  </head>
+
+  <body>
+    <div class="chrome">
+      <div class="chrome:nav">
+      <img src="/assets/images/cloudera_logo_WHITE.png" alt="Link to GitHub Repository">
+  
+</div>
+
+      <div class="chrome:body">
+        <header class="chrome:header">
+  <div class="chrome:header_title">
+    <a href="/" class="text-grey-800 no-underline hover:no-underline focus:no-underline">
+      <span class="text-3xl">Cloudera Labs</span>
+    </a>
+  </div>
+   <div class="chrome:header_item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" focusable="false" viewBox="0 0 26 26">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+    <circle cx="11" cy="11" r="7"/>
+    <path d="M16 16l6 6"/>
+  </g>
+</svg>
+
+  <form id="search">
+    <input
+      type="text"
+      id="search_input"
+      name="search_query"
+      class="search_input"
+      placeholder="Search Cloudera Labs"
+      autocomplete="off"
+    />
+  </form>
+</div>
+ 
+</header>
+
+        <div class="chrome:content">
+          <div class="chrome:main">
+            
+            
+            <h1 id="sign-csr-with-autotls-managed-ca-for-ml-workspace">Sign CSR with AutoTLS Managed CA for ML Workspace</h1>
+            
+            
+            <p>You can provision an ML workspace with TLS enabled, so that it can be accessed via https.</p>
+
+<hr />
+<h2 id="ml-workspace-certificate-requirements">ML Workspace certificate requirements</h2>
+
+<ul>
+  <li>
+    <p>You can provision an ML workspace with TLS enabled, so that it can be accessed via https.</p>
+  </li>
+  <li>The certificate URL is generally of the form: &lt;workspaceid&gt;
+.&lt;cluster&gt;
+.&lt;domain&gt;
+.com. Assuming an example URL for the certificate of ml-47e0ade8-e0a.cluster.yourcompany.com, check that the certificate correctly shows the corresponding Common Name (CN) and Subject Alternative Names (SAN):
+    <ul>
+      <li>CN: ml-47e0ade8-e0a.cluster.yourcompany.com</li>
+      <li>SAN: *.ml-47e0ade8-e0a.cluster.yourcompany.com</li>
+      <li>SAN: ml-47e0ade8-e0a.cluster.yourcompany.com</li>
+    </ul>
+  </li>
+  <li>Given a certificate (ca-cert.pem) and its private key (ca-key.pem), You can use OpenSSL to sign a provided CSR (host.csr) and generate a certificate for ML workspace (host.crt). For the AutoTLS enabled CDP cluster:
+    <ul>
+      <li>ca-cert.pem is <code class="language-plaintext highlighter-rouge">/var/lib/cloudera-scm-agent/agent-cert/cm-auto-in_cluster_ca_cert.pem</code></li>
+      <li>ca-key.pem is <code class="language-plaintext highlighter-rouge">/var/lib/cloudera-scm-server/certmanager/CMCA/private/ca_key.pem</code>, which is hidden in the CM backend database</li>
+      <li>host.csr is generate by <code class="language-plaintext highlighter-rouge">openssl req</code> command with the corresponding Common Name (CN) tag</li>
+      <li>host.crt is the target ML Workspace certificate</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="export-autotls-cmca-package-from-cm-database">Export AutoTLS CMCA package from CM database</h2>
+
+<h3 id="postgresql">PostgreSQL</h3>
+
+<ul>
+  <li>Blob data can be easily exported by the <code class="language-plaintext highlighter-rouge">copy</code> command.</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql <span class="nt">-U</span> scm <span class="nt">-h</span> cb01.ecs.ycloud.com <span class="nt">-p</span> 5432 <span class="nt">-d</span> scm <span class="nt">-c</span> <span class="s2">"</span><span class="se">\c</span><span class="s2">opy (SELECT encode(CERTTAR, 'hex') from CERTIFICATES) to STDOUT"</span> | <span class="k">while </span><span class="nb">read</span> <span class="nt">-N2</span> code<span class="p">;</span> <span class="k">do </span><span class="nb">printf</span> <span class="s2">"</span><span class="se">\x</span><span class="nv">$code</span><span class="s2">"</span><span class="p">;</span> <span class="k">done</span> <span class="o">&gt;</span> ~/cmca.tar.gz
+<span class="nb">mkdir</span> <span class="nt">-p</span> /var/lib/cloudera-scm-server/certmanager
+<span class="nb">tar </span>zxvf ~/cmca.tar.gz <span class="nt">-C</span> /var/lib/cloudera-scm-server/certmanager
+</code></pre></div></div>
+
+<h3 id="oracle">Oracle</h3>
+
+<ul>
+  <li>Open SSH terminal for Oracle server and create a directory for export BLOB data.</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>su - oracle
+<span class="nb">mkdir</span> <span class="nt">-p</span> /home/oracle/blobs
+
+sqlplus / as sysdba
+SQL&gt;create or replace directory BLOBS as <span class="s1">'/home/oracle/blobs/'</span><span class="p">;</span>
+SQL&gt;grant <span class="nb">read</span>,write on directory BLOBS to scm<span class="p">;</span>
+SQL&gt;grant create procedure to scm<span class="p">;</span>
+SQL&gt;exit
+</code></pre></div></div>
+
+<ul>
+  <li>Open SSH terminal for Oracle client (e.g. CM server). Please create a procedure and execute it.</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>su - oracle
+sqlplus scm/password@orcl
+
+SQL&gt;CREATE OR REPLACE PROCEDURE blob_to_file <span class="o">(</span>p_blob      IN  BLOB,
+                                          p_dir       IN  VARCHAR2,
+                                          p_filename  IN  VARCHAR2<span class="o">)</span>
+AS
+  l_file      UTL_FILE.FILE_TYPE<span class="p">;</span>
+  l_buffer    RAW<span class="o">(</span>32767<span class="o">)</span><span class="p">;</span>
+  l_amount    BINARY_INTEGER :<span class="o">=</span> 32767<span class="p">;</span>
+  l_pos       INTEGER :<span class="o">=</span> 1<span class="p">;</span>
+  l_blob_len  INTEGER<span class="p">;</span>
+BEGIN
+  l_blob_len :<span class="o">=</span> DBMS_LOB.getlength<span class="o">(</span>p_blob<span class="o">)</span><span class="p">;</span>
+  
+  <span class="nt">--</span> Open the destination file.
+  l_file :<span class="o">=</span> UTL_FILE.fopen<span class="o">(</span>p_dir, p_filename,<span class="s1">'wb'</span>, 32767<span class="o">)</span><span class="p">;</span>
+
+  <span class="nt">--</span> Read chunks of the BLOB and write them to the file <span class="k">until </span>complete.
+  WHILE l_pos &lt;<span class="o">=</span> l_blob_len LOOP
+    DBMS_LOB.read<span class="o">(</span>p_blob, l_amount, l_pos, l_buffer<span class="o">)</span><span class="p">;</span>
+    UTL_FILE.put_raw<span class="o">(</span>l_file, l_buffer, TRUE<span class="o">)</span><span class="p">;</span>
+    l_pos :<span class="o">=</span> l_pos + l_amount<span class="p">;</span>
+  END LOOP<span class="p">;</span>
+  
+  <span class="nt">--</span> Close the file.
+  UTL_FILE.fclose<span class="o">(</span>l_file<span class="o">)</span><span class="p">;</span>
+  
+EXCEPTION
+  WHEN OTHERS THEN
+    <span class="nt">--</span> Close the file <span class="k">if </span>something goes wrong.
+    IF UTL_FILE.is_open<span class="o">(</span>l_file<span class="o">)</span> THEN
+      UTL_FILE.fclose<span class="o">(</span>l_file<span class="o">)</span><span class="p">;</span>
+    END IF<span class="p">;</span>
+    RAISE<span class="p">;</span>
+END blob_to_file<span class="p">;</span>
+/
+
+SQL&gt;DECLARE
+  l_blob  BLOB<span class="p">;</span>
+BEGIN
+  <span class="nt">--</span> Get LOB locator
+  <span class="k">select </span>CERTTAR
+  INTO   l_blob
+  from scm.CERTIFICATES 
+  where <span class="nv">CERTIFICATE_ID</span><span class="o">=</span>1546340689<span class="p">;</span>
+
+  blob_to_file<span class="o">(</span>p_blob     <span class="o">=&gt;</span> l_blob,
+               p_dir      <span class="o">=&gt;</span> <span class="s1">'BLOBS'</span>,
+               p_filename <span class="o">=&gt;</span> <span class="s1">'cmca.tar.gz'</span><span class="o">)</span><span class="p">;</span>
+END<span class="p">;</span>
+/
+
+SQL&gt;exit
+</code></pre></div></div>
+
+<ul>
+  <li>Open SSH terminal for Oracle server and copy file ‘cmca.tar.gz’ to CM server.</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp /home/oracle/blobs/cmca.tar.gz root@cb01.ecs.ycloud.com:~
+</code></pre></div></div>
+
+<ul>
+  <li>Open SSH terminal for CM server and unzip files into the target directory <code class="language-plaintext highlighter-rouge">/var/lib/cloudera-scm-server/certmanager</code>.</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> /var/lib/cloudera-scm-server/certmanager
+<span class="nb">tar </span>zxvf ~/cmca.tar.gz <span class="nt">-C</span> /var/lib/cloudera-scm-server/certmanager
+</code></pre></div></div>
+
+<h2 id="decode-password-for-ca_keypem">Decode password for ca_key.pem</h2>
+
+<ul>
+  <li>The private key (ca-key.pem) is under directory /var/lib/cloudera-scm-server/certmanager/CMCA/private.</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ll /var/lib/cloudera-scm-server/certmanager</span>
+total 24
+drwx------ 4 cloudera-scm cloudera-scm 4096 Aug 10 23:26 CMCA
+<span class="nt">-rw-r-----</span> 1 cloudera-scm cloudera-scm  107 Aug 10 23:26 frozen_config.ini
+<span class="nt">-rwxr-xr-x</span> 1 cloudera-scm cloudera-scm  140 Aug 10 23:26 generate_host_cert
+drwx------ 3 cloudera-scm cloudera-scm 4096 Aug 10 23:26 hosts-key-store
+drwx------ 2 cloudera-scm cloudera-scm 4096 Aug 10 23:26 private
+drwxr-xr-x 2 cloudera-scm cloudera-scm 4096 Aug 10 23:26 trust-store
+</code></pre></div></div>
+
+<ul>
+  <li>Get obfuscated password from file .ca_key_password</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># cat /var/lib/cloudera-scm-server/certmanager/CMCA/private/.ca_key_password</span>
+
+e298a3f09f92a3e298a0 1 Zglpbged7QHSzeJnPveIjclBk7l7nR1uAqOXXNoPpZ2 //k2XHb3l26V5eSYWbeWdBIC0nqWmaR1fUOOn6tJNTPRxyVoHQPjAycEYA<span class="o">==</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Prepare python script for decoding password. Note: please paste the above content for the variable <code class="language-plaintext highlighter-rouge">obfuscated_password</code>.</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> tmp.py  <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+import hashlib
+from subprocess import Popen, PIPE, STDOUT
+def hex_str(byteArr):
+ return ''.join(format(ord(x), '02x') for x in byteArr)
+obfuscated_password ='e298a3f09f92a3e298a0 1 Zglpbged7QHSzeJnPveIjclBk7l7nR1uAqOXXNoPpZ2 //k2XHb3l26V5eSYWbeWdBIC0nqWmaR1fUOOn6tJNTPRxyVoHQPjAycEYA=='
+hdr, version, random, enc = obfuscated_password.split()
+OBFUSCATION_SECRET="f09f998ff09f93bff09fa49e"
+OBFUSCATION_HEADER="e298a3f09f92a3e298a0"
+m=hashlib.sha512()
+m.update(random)
+m.update(OBFUSCATION_SECRET)
+m2 = m.copy()
+m.update("IV")
+iv = m.digest()[:16] # 128 bits for IV
+m2.update("KEY")
+key = m2.digest()[:32] # 256 bits for key
+p = Popen(["openssl", "enc", "-d", "-aes-256-ofb",
+ "-K", hex_str(key),
+ "-iv", hex_str(iv),
+ "-a", "-A",
+ ],
+ stdin=PIPE, stdout=PIPE, stderr=PIPE)
+stdout, stderr = p.communicate(enc)
+print (stdout)
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<h2 id="generate-csr-for-ml-workspace-and-sign-it-with-autotls-managed-ca">Generate CSR for ML workspace and sign it with AutoTLS managed CA</h2>
+
+<ul>
+  <li>Get the certificate URL of ML workspace from your browser. In this case <code class="language-plaintext highlighter-rouge">https://ml-47e0ade8-e0a.apps.ecs-lb.ecs.openstack.com/</code></li>
+</ul>
+
+<p><img src="../../assets/images/addcml04.png" alt="" /></p>
+
+<ul>
+  <li>Open SSH terminal for CM server and create a CSR(Certificate Signing Request).</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">host</span><span class="o">=</span>ml-47e0ade8-e0a.apps.ecs-lb.ecs.openstack.com
+openssl req <span class="nt">-new</span> <span class="nt">-newkey</span> rsa:3072 <span class="nt">-nodes</span> <span class="nt">-keyout</span> <span class="k">${</span><span class="nv">host</span><span class="k">}</span>.key <span class="nt">-subj</span> <span class="s2">"/CN=</span><span class="k">${</span><span class="nv">host</span><span class="k">}</span><span class="s2">/OU=PS/O=Cloudera, Inc./ST=CA/C=US"</span> <span class="nt">-out</span> <span class="k">${</span><span class="nv">host</span><span class="k">}</span>.csr
+openssl req <span class="nt">-in</span> <span class="k">${</span><span class="nv">host</span><span class="k">}</span>.csr <span class="nt">-text</span> <span class="nt">-verify</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Sign CSR</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"[default]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = *.</span><span class="k">${</span><span class="nv">host</span><span class="k">}</span><span class="s2">
+DNS.2 = </span><span class="k">${</span><span class="nv">host</span><span class="k">}</span><span class="s2">"</span> <span class="o">&gt;</span> cml.ext
+
+openssl x509 <span class="nt">-req</span> <span class="nt">-extfile</span> cml.ext <span class="nt">-days</span> 365 <span class="nt">-in</span> <span class="k">${</span><span class="nv">host</span><span class="k">}</span>.csr <span class="nt">-CA</span> /var/lib/cloudera-scm-agent/agent-cert/cm-auto-in_cluster_ca_cert.pem <span class="nt">-CAkey</span> /var/lib/cloudera-scm-server/certmanager/CMCA/private/ca_key.pem <span class="nt">-CAcreateserial</span> <span class="nt">-out</span> <span class="k">${</span><span class="nv">host</span><span class="k">}</span>.crt <span class="nt">-passin</span> pass:<span class="si">$(</span>python tmp.py<span class="si">)</span>
+openssl x509 <span class="nt">-in</span> <span class="k">${</span><span class="nv">host</span><span class="k">}</span>.crt <span class="nt">-text</span> <span class="nt">-noout</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Copy to ECS server node (copy the signed cert (.crt), the key file (.key))</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># scp ${host}.crt ${host}.key cloudera@ds01.ecs.openstack.com:~</span>
+ml-47e0ade8-e0a.apps.ecs-lb.ecs.openstack.com 100% 1749   795.9KB/s   00:00
+ml-47e0ade8-e0a.apps.ecs-lb.ecs.openstack.com 100% 2484     1.9MB/s   00:00
+</code></pre></div></div>
+
+<h2 id="upload-certificate-into-cml-workspace">Upload certificate into CML workspace</h2>
+
+<ul>
+  <li>Open SSH terminal for ECS server node and create a Kubernetes secret inside the previously provisioned ML workspace namespace, and name the secret cml-tls-secret.</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># export host=ml-47e0ade8-e0a.apps.ecs-lb.ecs.openstack.com</span>
+<span class="c"># mv /home/cloudera/$host.* ~/</span>
+
+<span class="c"># kubectl delete secret/cml-tls-secret -n cml01</span>
+<span class="c"># kubectl create secret tls cml-tls-secret --cert=${host}.crt --key=${host}.key -o yaml --dry-run | kubectl -n cml01 create -f -</span>
+</code></pre></div></div>
+
+<ul>
+  <li>In Site Administration &gt; Security &gt; Root CA configuration, paste the root CA certificate (/var/lib/cloudera-scm-agent/agent-cert/cm-auto-in_cluster_ca_cert.pem) to the workspace.</li>
+</ul>
+
+<p><img src="../../assets/images/addcml05.png" alt="" /></p>
+
+
+            
+          </div>
+           <div class="chrome:sidebar">
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:ansible foundry"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_collapsed"
+        onclick="toggleAccordian('sidebar_item:ansible foundry')"
+      >
+        <span class="chrome:sidebar_item_text">Ansible Foundry</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:ansible foundry:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_collapsed">
+        
+          
+          
+          
+          <a href="/docs/content/ansible_intro/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Introduction
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_developers/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Goal-oriented Guides
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_info/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            References
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_troubleshoot/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Operations
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:cdp pvc data services"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_expanded"
+        onclick="toggleAccordian('sidebar_item:cdp pvc data services')"
+      >
+        <span class="chrome:sidebar_item_text">CDP PvC Data Services</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:cdp pvc data services:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_expanded">
+        
+          
+          
+          
+          <a href="/docs/content/ecs_env/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: Client
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_lvm/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: LVM
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_gpu/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: GPU
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_addnode/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: Add ECS Node
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_removenode/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: Remove Node
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ocp_gpu/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            OCP: GPU
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ocp_cdwdisk/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            OCP: CDW Disk
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/cml_autotls/" class="chrome:sidebar_item text-sm chrome:active_sidebar_item chrome:sidebar_item_child">
+            CML: CSR with AutoTLS
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <a href="/docs/development/" class="chrome:sidebar_item ">
+        <span class="chrome:sidebar_item_text">Coming Soon</span>
+      </a>
+      
+    
+  
+</div>
+ 
+        </div>
+        <footer class="chrome:footer"><div class="chrome:footer_item">
+    <span class="text-lg"
+      >Updated: 2022-11-21 15:51</span
+    >
+  </div>
+</footer>
+
+      </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        let theme = "forest";
+        mermaid.initialize({ startOnLoad: true, theme });
+        window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    </script>
+    
+  </body>
+</html>

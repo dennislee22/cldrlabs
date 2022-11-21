@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>CDW Disk in Openshift</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/style.css"
+    />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link
+      rel="stylesheet"
+      href="/assets/css/rouge.css"
+    />
+    <script src="/assets/js/accordian.js"></script>
+    <script src="/assets/js/heading_links.js"></script>
+    
+    <script src="/assets/js/vendor/lunr.min.js"></script>
+    <script src="/assets/js/search.js"></script>
+    
+  </head>
+
+  <body>
+    <div class="chrome">
+      <div class="chrome:nav">
+      <img src="/assets/images/cloudera_logo_WHITE.png" alt="Link to GitHub Repository">
+  
+</div>
+
+      <div class="chrome:body">
+        <header class="chrome:header">
+  <div class="chrome:header_title">
+    <a href="/" class="text-grey-800 no-underline hover:no-underline focus:no-underline">
+      <span class="text-3xl">Cloudera Labs</span>
+    </a>
+  </div>
+   <div class="chrome:header_item">
+  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" focusable="false" viewBox="0 0 26 26">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+    <circle cx="11" cy="11" r="7"/>
+    <path d="M16 16l6 6"/>
+  </g>
+</svg>
+
+  <form id="search">
+    <input
+      type="text"
+      id="search_input"
+      name="search_query"
+      class="search_input"
+      placeholder="Search Cloudera Labs"
+      autocomplete="off"
+    />
+  </form>
+</div>
+ 
+</header>
+
+        <div class="chrome:content">
+          <div class="chrome:main">
+            
+            
+            <h1 id="cdw-disk-in-openshift">CDW Disk in Openshift</h1>
+            
+            
+            
+<p>This article describes the steps to deploy and scale the direct attached disk(s) in each Openshift worker node for CDW by using the <code class="language-plaintext highlighter-rouge">Local Storage Operator</code> in Openshift platform.
+Please note that the sizing of the direct attached disk for CDW illustrated in this demo does not match the production requirements. For production requirements, please refer to this <a href="https://docs.cloudera.com/data-warehouse/1.3.4/private-cloud-getting-started/topics/dw-private-cloud-openshift-get-started-requirements.html">link</a>.</p>
+
+<ul id="markdown-toc">
+  <li><a href="#deploy-cdw-disk-in-openshift" id="markdown-toc-deploy-cdw-disk-in-openshift">Deploy CDW Disk in Openshift</a></li>
+  <li><a href="#scale-cdw-disk-in-openshift" id="markdown-toc-scale-cdw-disk-in-openshift">Scale CDW Disk in Openshift</a></li>
+</ul>
+
+<hr />
+
+<h2 id="deploy-cdw-disk-in-openshift">Deploy CDW Disk in Openshift</h2>
+
+<ol>
+  <li>
+    <p>Install the <code class="language-plaintext highlighter-rouge">Local Storage Operator</code> based on the published procedure in this <a href="https://docs.openshift.com/container-platform/4.7/storage/persistent_storage/persistent-storage-local.html">link</a>.</p>
+  </li>
+  <li>
+    <p>In Openshift dashboard, navigate to <code class="language-plaintext highlighter-rouge">Operators</code> &gt; <code class="language-plaintext highlighter-rouge">Installed Operators</code> &gt; <code class="language-plaintext highlighter-rouge">Local Storage Operator</code> &gt; <code class="language-plaintext highlighter-rouge">All Instances</code>. Click <code class="language-plaintext highlighter-rouge">Create New</code> &gt; <code class="language-plaintext highlighter-rouge">Local Volume</code>.</p>
+
+    <p><img src="../../assets/images/ocp4/ocplocaldiskcdw1.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Enter the fields based on the identical device path of the direct attached disk for each Openshift worker node. In this demo, the device path is <code class="language-plaintext highlighter-rouge">/dev/vdc</code>.</p>
+
+    <p><img src="../../assets/images/ocp4/ocplocaldiskcdw2.png" alt="" /></p>
+
+    <p><img src="../../assets/images/ocp4/ocplocaldiskcdw3.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Successful implementation will produce the following local persistent volumes automatically. In this demo, each Openshift worker node has a single 400Gi direct attached SSD.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">[</span>root@ocpbastion ~]# oc get pv | <span class="nb">head</span> <span class="nt">-1</span><span class="p">;</span> oc get pv | <span class="nb">grep local
+ </span>NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                                                                                          STORAGECLASS                  REASON   AGE
+ local-pv-12e7ab5                           400Gi      RWO            Delete           Available                                                                                                  cdw-disk                               2m33s
+ local-pv-17bf8fbc                          300Gi      RWO            Delete           Bound       openshift-storage/ocs-deviceset-vdb-0-data-2slfmj                                            vdb                                    24h
+ local-pv-33a6a00a                          400Gi      RWO            Delete           Available                                                                                                  cdw-disk                               2m34s
+ local-pv-62cdcca                           300Gi      RWO            Delete           Bound       openshift-storage/ocs-deviceset-vdb-0-data-06dblw                                            vdb                                    24h   
+ local-pv-abb1e063                          400Gi      RWO            Delete           Available                                                                                                 cdw-disk                               2m34s
+ local-pv-aca516bf                          300Gi      RWO            Delete           Bound       openshift-storage/ocs-deviceset-vdb-0-data-1t74g8                                            vdb                                    24h
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Successful implememtation also creates a new storageClass <code class="language-plaintext highlighter-rouge">cdw-disk</code> ready to be consumed by CDW.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">[</span>root@ocpbastion ~]# oc get sc | <span class="nb">head</span> <span class="nt">-1</span><span class="p">;</span> oc get sc | <span class="nb">grep </span>cdw
+ NAME                                    PROVISIONER                             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+ cdw-disk                                kubernetes.io/no-provisioner            Delete          WaitForFirstConsumer   <span class="nb">false                  </span>2m9s
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="scale-cdw-disk-in-openshift">Scale CDW Disk in Openshift</h2>
+
+<ol>
+  <li>
+    <p>A new 200Gi disk has been added in each Openshift worker node and the device path is <code class="language-plaintext highlighter-rouge">/dev/vdd</code>.</p>
+  </li>
+  <li>
+    <p>In Openshift dashboard, navigate to <code class="language-plaintext highlighter-rouge">Operators</code> &gt; <code class="language-plaintext highlighter-rouge">Installed Operators</code> &gt; <code class="language-plaintext highlighter-rouge">Local Storage Operator</code> &gt; <code class="language-plaintext highlighter-rouge">All Instances</code> &gt; <code class="language-plaintext highlighter-rouge">cdw-localdisk-each-worker</code> &gt; <code class="language-plaintext highlighter-rouge">YAML</code>. Edit the YAML file by adding <code class="language-plaintext highlighter-rouge">- /dev/vdd</code> under the <code class="language-plaintext highlighter-rouge">devicePaths</code> category. Click <code class="language-plaintext highlighter-rouge">Save</code> button.</p>
+
+    <p><img src="../../assets/images/ocp4/ocplocaldiskcdw4.png" alt="" /></p>
+
+    <p><img src="../../assets/images/ocp4/ocplocaldiskcdw5.png" alt="" /></p>
+  </li>
+  <li>
+    <p>Successful implementation will produce the new local persistent volumes with 200Gi SSD automatically.</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="o">[</span>root@ocpbastion ~]# oc get pv | <span class="nb">head</span> <span class="nt">-1</span><span class="p">;</span> oc get pv | <span class="nb">grep local
+ </span>NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                                                                                          STORAGECLASS                  REASON   AGE
+ local-pv-12e7ab5                           400Gi      RWO            Delete           Available                                                                                                cdw-disk                               5m59s
+ local-pv-17bf8fbc                          300Gi      RWO            Delete           Bound       openshift-storage/ocs-deviceset-vdb-0-data-2slfmj                                            vdb                                    25h
+ local-pv-33a6a00a                          400Gi      RWO            Delete           Available                                                                                                cdw-disk                              6m40s
+ local-pv-62cdcca                           300Gi      RWO            Delete           Bound       openshift-storage/ocs-deviceset-vdb-0-data-06dblw                                            vdb                                    25h
+ local-pv-abb1e063                          400Gi      RWO            Delete           Available                                                                                                cdw-disk                               6m10s
+ local-pv-aca516bf                          300Gi      RWO            Delete           Bound       openshift-storage/ocs-deviceset-vdb-0-data-1t74g8                                            vdb                                    25h
+ local-pv-c8fe6eea                          200Gi      RWO            Delete           Available                                                                                                cdw-disk                               85s
+ local-pv-d30bd8ac                          200Gi      RWO            Delete           Available                                                                                                cdw-disk                               77s
+ local-pv-dc533915                          200Gi      RWO            Delete           Available                                                                                                cdw-disk                               66s
+
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+            
+          </div>
+           <div class="chrome:sidebar">
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:ansible foundry"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_collapsed"
+        onclick="toggleAccordian('sidebar_item:ansible foundry')"
+      >
+        <span class="chrome:sidebar_item_text">Ansible Foundry</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:ansible foundry:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_collapsed">
+        
+          
+          
+          
+          <a href="/docs/content/ansible_intro/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Introduction
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_developers/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Goal-oriented Guides
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_info/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            References
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ansible_troubleshoot/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            Operations
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <button
+        id="sidebar_item:cdp pvc data services"
+        class="chrome:sidebar_item chrome:sidebar_item_collapsible chrome:sidebar_item_expanded"
+        onclick="toggleAccordian('sidebar_item:cdp pvc data services')"
+      >
+        <span class="chrome:sidebar_item_text">CDP PvC Data Services</span>
+        <div class="chrome:collapsible_sub_nav_item_icon">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    focusable="false"
+    role="presentation"
+  >
+    <path
+      fill="currentColor"
+      d="M1.646 3.646a.5.5 0 01.638-.057l.07.057L6 7.293l3.646-3.647a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4a.5.5 0 01-.638.057l-.07-.057-4-4a.5.5 0 010-.708z"
+    ></path>
+  </svg>
+</div>
+
+      </button>
+      <div id="sidebar_item:cdp pvc data services:accordian"
+        class="chrome:sidebar_item_accordian chrome:sidebar_item_accordian_expanded">
+        
+          
+          
+          
+          <a href="/docs/content/ecs_env/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: Client
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_lvm/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: LVM
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_gpu/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: GPU
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_addnode/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: Add ECS Node
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ecs_removenode/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            ECS: Remove Node
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ocp_gpu/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            OCP: GPU
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/ocp_cdwdisk/" class="chrome:sidebar_item text-sm chrome:active_sidebar_item chrome:sidebar_item_child">
+            OCP: CDW Disk
+          </a>
+          
+        
+          
+          
+          
+          <a href="/docs/content/cml_autotls/" class="chrome:sidebar_item text-sm  chrome:sidebar_item_child">
+            CML: CSR with AutoTLS
+          </a>
+          
+        
+      </div>
+    
+  
+    
+      
+      
+      
+      <a href="/docs/development/" class="chrome:sidebar_item ">
+        <span class="chrome:sidebar_item_text">Coming Soon</span>
+      </a>
+      
+    
+  
+</div>
+ 
+        </div>
+        <footer class="chrome:footer"><div class="chrome:footer_item">
+    <span class="text-lg"
+      >Updated: 2022-11-21 15:51</span
+    >
+  </div>
+</footer>
+
+      </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        let theme = "forest";
+        mermaid.initialize({ startOnLoad: true, theme });
+        window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+    </script>
+    
+  </body>
+</html>

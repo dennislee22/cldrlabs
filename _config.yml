@@ -19,7 +19,13 @@ sidebar:
   - label: CDP PvC Data Services
     children:
       - ecs_env
+      - ecs_lvm
       - ecs_gpu
+      - ecs_addnode
+      - ecs_removenode
+      - ocp_gpu
+      - ocp_cdwdisk
+      - cml_autotls
   - development
 
 highlighter: rouge
